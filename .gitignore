@@ -1,0 +1,70 @@
+# =============== #
+# Unity generated #
+# =============== #
+*/[Tt]emp/
+*/[Oo]bj/
+*/*BuildOutput*/
+*/[Bb]uild
+*/[Ll]ibrary/
+*/[Ll]ogs/
+*/Assets/[Aa]ddressablesBackups*
+*/UserSettings/
+sysinfo.txt
+*Unity/[Ll]ogs/
+*Unity/*.csproj
+*Unity/*.sln*
+*.stackdump
+ 
+# ===================================== #
+# Visual Studio / MonoDevelop generated #
+# ===================================== #
+[Ee]xported[Oo]bj/
+.vs/
+.vscode/
+*.userprefs
+*.pidb
+*.suo
+*.user
+*.unityproj
+*.booproj
+# NuGet packages. Ignores subdirectories only so Unity/Packages/manifest.json and packages-lock.json aren't ignored
+packages/*/
+
+# =================== #
+# Other IDE generated #
+# =================== #
+*.DotSettings
+*.sublime-project
+*.sublime-workspace
+ 
+# ============ #
+# OS generated #
+# ============ #
+.DS_Store*
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+ehthumbs.db.meta
+[Tt]humbs.db
+[Tt]humbs.db.meta
+/.idea/
+/Documentation/
+/output.log
+/*.log
+/.vs/
+
+# ===================================== #
+# Python generated 						#
+# ===================================== #
+*.py[cod]
+__pycache__/
+
+# ===================================== #
+# Miscellaneous 						#
+# ===================================== #
+/cookies
+.idea/
+/log.txt
+bin
+/notes
