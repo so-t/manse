@@ -28,7 +28,8 @@ public class TeleType : MonoBehaviour
     {
         string display = "";
 
-        foreach (char c in str){
+        foreach (char c in str)
+        {
             display = display + c;
             textMeshPro.text = display;
 

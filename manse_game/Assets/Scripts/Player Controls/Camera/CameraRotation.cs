@@ -20,7 +20,7 @@ public class CameraRotation : MonoBehaviour
 
     public void returnToLookTarget()
     {
-        // Currently Returning to the forward before LookAt was prompted jerks the camera very fast. 
+        // Currently Returning to the forward before LookAt was prompted jerks the camera very fast.
         // Need to slow this down.
         this.HasTarget = true;
         targetPosition = prevLookTarget;
