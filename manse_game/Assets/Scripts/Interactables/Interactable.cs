@@ -9,7 +9,8 @@ public class Interactable : MonoBehaviour
     protected enum InteractableState 
     {
         primed,
-        firing,
+        triggered,
+        post,
         finished
     }
 
@@ -28,12 +29,16 @@ public class Interactable : MonoBehaviour
 
     public virtual void fireEvent(){}
 
+    public virtual void firePostEvent(){}
+
     void Start()
     {
         Player = GameObject.Find("Player");
         TextField = Player.GetComponentInChildren<TMPro.TextMeshProUGUI>();
         if (Application.isEditor)
-            gameObject.transform.GetChild(0).localScale = new Vector3(Cutoff, Cutoff, Cutoff) * 2f;
+            gameObject.transform.GetChild(0).localScale = new Vector3(gameObject.transform.localScale.x + Cutoff, 
+                                                                        gameObject.transform.localScale.y + Cutoff, 
+                                                                        gameObject.transform.localScale.z + Cutoff);
     }
 
     void Update()
@@ -43,8 +48,11 @@ public class Interactable : MonoBehaviour
             case InteractableState.primed:
                 checkTrigger();
                 break;
-            case InteractableState.firing:
+            case InteractableState.triggered:
                 fireEvent();
+                break;
+            case InteractableState.post:
+                firePostEvent();
                 break;
             case InteractableState.finished:
                 break;

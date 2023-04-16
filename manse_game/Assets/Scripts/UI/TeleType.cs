@@ -6,12 +6,14 @@ using TMPro;
 public class TeleType : MonoBehaviour
 {
     public TMP_Text textMeshPro;
+    public float delay;
     public string str;
 
-    public TeleType(TMP_Text textMeshPro, string str)
+    public TeleType(TMP_Text textMeshPro, string str, float delay=0.05f)
     {
         this.textMeshPro = textMeshPro;
         this.str = str;
+        this.delay = delay;
     }
 
     public void Clear()
@@ -33,7 +35,7 @@ public class TeleType : MonoBehaviour
             display = display + c;
             textMeshPro.text = display;
 
-            yield return new WaitForSeconds(0.05f);
+            yield return new WaitForSeconds(delay);
         }
     }
 }

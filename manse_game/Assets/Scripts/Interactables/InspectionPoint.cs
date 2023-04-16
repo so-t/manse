@@ -15,7 +15,7 @@ class InspectionPoint : Interactable
         {
             Player.GetComponent<PlayerController>().State = new Interacting(Player);
             Player.GetComponentInChildren<CameraRotation>().LookAt(transform);
-            state = InteractableState.firing;
+            state = InteractableState.triggered;
         }
     }
 
@@ -35,10 +35,19 @@ class InspectionPoint : Interactable
             if (t != null && t.HasFinished())
             {   
                 t.Clear();
-                Player.GetComponent<PlayerController>().State = new BaseState(Player);
+                Player.GetComponentInChildren<CameraRotation>().returnToLookTarget();
                 fired = false;
-                state = InteractableState.finished;
+                state = InteractableState.post;
             }
+        }
+    }
+
+    public override void firePostEvent()
+    {
+        if (!Player.GetComponentInChildren<CameraRotation>().HasTarget)
+        {
+            Player.GetComponent<PlayerController>().State = new BaseState(Player);
+            state = InteractableState.finished;
         }
     }
 }

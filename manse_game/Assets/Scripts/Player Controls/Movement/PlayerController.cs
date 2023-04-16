@@ -21,4 +21,22 @@ public class PlayerController : MonoBehaviour
     {
         State.HandlePlayerInput();
     }
+
+    void FixedUpdate()
+    {
+        if (Input.GetAxis("Horizontal") != 0.0f || Input.GetAxis("Vertical") != 0.0f)
+        {
+            if(!gameObject.GetComponent<AudioSource>().isPlaying)
+            {
+                gameObject.GetComponent<AudioSource>().Play();
+            }
+        }
+        else
+        {
+            if(gameObject.GetComponent<AudioSource>().isPlaying)
+            {
+                gameObject.GetComponent<AudioSource>().Pause();
+            }
+        }
+    }
 }

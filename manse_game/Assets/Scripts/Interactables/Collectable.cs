@@ -15,7 +15,7 @@ public class Collectable : Interactable
         {
             Player.GetComponent<PlayerController>().State = new Interacting(Player);
             Player.GetComponentInChildren<CameraRotation>().LookAt(transform);
-            state = InteractableState.firing;
+            state = InteractableState.triggered;
         }
     }
 
@@ -35,10 +35,21 @@ public class Collectable : Interactable
             if (t != null && t.HasFinished())
             {   
                 t.Clear();
-                Player.GetComponent<PlayerController>().State = new BaseState(Player);
+                Player.GetComponentInChildren<Inventory>().AddToInventory(this);
+                Player.GetComponentInChildren<CameraRotation>().returnToLookTarget();
                 fired = false;
-                state = InteractableState.finished;
+                gameObject.GetComponent<MeshRenderer>().enabled = false;
+                state = InteractableState.post;
             }
+        }
+    }
+    
+    public override void firePostEvent()
+    {
+        if (!Player.GetComponentInChildren<CameraRotation>().HasTarget)
+        {
+            Player.GetComponent<PlayerController>().State = new BaseState(Player);
+            state = InteractableState.finished;
         }
     }
 }
