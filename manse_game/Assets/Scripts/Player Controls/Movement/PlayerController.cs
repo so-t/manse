@@ -13,29 +13,30 @@ public class PlayerController : MonoBehaviour
 
     void Awake()
     {
-        State = new BaseState(gameObject);
+        State = new Playing(gameObject);
         TextField = gameObject.GetComponentInChildren<TMP_Text>();
     }
-    
+
+    public bool isPaused() 
+    {
+        return (State.GetType() == typeof(Paused));
+    }
+
     void Update()
     {
         State.HandlePlayerInput();
-    }
 
-    void FixedUpdate()
-    {
-        if (Input.GetAxis("Horizontal") != 0.0f || Input.GetAxis("Vertical") != 0.0f)
+        if (Input.GetKeyDown("escape"))
         {
-            if(!gameObject.GetComponent<AudioSource>().isPlaying)
+            if (State.GetType() == typeof(Playing))
             {
-                gameObject.GetComponent<AudioSource>().Play();
+                State = new Paused(gameObject);
+                Time.timeScale = 0;
             }
-        }
-        else
-        {
-            if(gameObject.GetComponent<AudioSource>().isPlaying)
+            else if (isPaused())
             {
-                gameObject.GetComponent<AudioSource>().Pause();
+                State = new Playing(gameObject);
+                Time.timeScale = 1;
             }
         }
     }

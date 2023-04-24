@@ -46,7 +46,7 @@ class InspectionPoint : Interactable
     {
         if (!Player.GetComponentInChildren<CameraRotation>().HasTarget)
         {
-            Player.GetComponent<PlayerController>().State = new BaseState(Player);
+            Player.GetComponent<PlayerController>().State = new Playing(Player);
             state = InteractableState.finished;
         }
     }
