@@ -10,13 +10,12 @@ public class Collectable : Interactable
 
     TeleType t;
 
-    public override void checkTrigger(){
-        if (PlayerInRange(Cutoff) && Input.GetButtonDown("Interact"))
-        {
-            Player.GetComponent<PlayerController>().State = new Interacting(Player);
-            Player.GetComponentInChildren<CameraRotation>().LookAt(transform);
-            state = InteractableState.triggered;
-        }
+    public override void checkTrigger()
+    {
+        if (PlayerInRange(Cutoff) 
+            && Input.GetButtonDown("Interact") 
+            && (Player.GetComponent<PlayerController>().Interact(transform))) 
+                state = InteractableState.triggered;
     }
 
     public override void fireEvent()

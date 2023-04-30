@@ -40,14 +40,14 @@
      <Compile Include="Assets\Scripts\UI\TeleType.cs" />
      <Compile Include="Assets\Scripts\Player Controls\PlayerState\PlayerState.cs" />
      <Compile Include="Assets\Scripts\Player Controls\PlayerState\Interacting.cs" />
+     <Compile Include="Assets\Scripts\Player Controls\PlayerState\Playing.cs" />
      <Compile Include="Assets\Scripts\Interactables\Interactable.cs" />
+     <Compile Include="Assets\Scripts\Player Controls\PlayerState\Paused.cs" />
      <Compile Include="Assets\Scripts\Player Controls\Camera\CameraRotation.cs" />
      <Compile Include="Assets\Scripts\Interactables\InspectionPoint.cs" />
      <Compile Include="Assets\Scripts\Player Controls\Camera\CameraHeadBob.cs" />
      <Compile Include="Assets\Scripts\Interactables\Collectable.cs" />
-     <Compile Include="Assets\Scripts\Player Controls\Movement\PlayerController.cs" />
-     <Compile Include="Assets\Scripts\Player Controls\PlayerState\Playing.cs" />
-     <Compile Include="Assets\Scripts\Player Controls\PlayerState\Paused.cs" />
+     <Compile Include="Assets\Scripts\Player Controls\PlayerController.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
