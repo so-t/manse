@@ -235,10 +235,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e915d431dc429af41999c37da4e17600, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Speed: 10
-  TurnSpeed: 125
-  TextField: {fileID: 2120578237}
-  CamRotation: {fileID: 0}
+  speed: 10
+  turnSpeed: 125
+  textField: {fileID: 2120578237}
+  camRotation: {fileID: 0}
 --- !u!114 &17754009
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -456,9 +456,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ccad2e94a30baa4aa8e875a6df2641c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Player: {fileID: 17754003}
-  TextField: {fileID: 2120578237}
-  Cutoff: 5
+  player: {fileID: 0}
+  textField: {fileID: 0}
+  cutoff: 10
   str: This is a sphere. That's all.
 --- !u!1 &655445830
 GameObject:
@@ -950,11 +950,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae3efcefc2940814ab35c2da0de7b885, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RotationLimit: 88
-  Player: {fileID: 17754003}
-  UserSpeed: 2
-  EventSpeed: 0.25
-  HasTarget: 0
+  rotationLimit: 88
+  player: {fileID: 17754003}
+  userSpeed: 2
+  eventSpeed: 0.5
+  hasTarget: 0
 --- !u!114 &963194231
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1064,9 +1064,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ccad2e94a30baa4aa8e875a6df2641c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Player: {fileID: 17754003}
-  TextField: {fileID: 2120578237}
-  Cutoff: 5
+  player: {fileID: 0}
+  textField: {fileID: 0}
+  cutoff: 10
   str: Woah! Little!
 --- !u!65 &983608655
 BoxCollider:
@@ -1177,9 +1177,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9068b76e4c2fa0340918367820648cfc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Player: {fileID: 17754003}
-  TextField: {fileID: 2120578237}
-  Cutoff: 10
+  player: {fileID: 0}
+  textField: {fileID: 0}
+  cutoff: 10
   str: Take this cube?
 --- !u!65 &1055096249
 BoxCollider:
