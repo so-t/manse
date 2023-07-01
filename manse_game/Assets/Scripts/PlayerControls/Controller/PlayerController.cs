@@ -1,6 +1,5 @@
 using UnityEngine;
 using TMPro;
-using UnityEngine.Serialization;
 using PlayerControls.Camera;
 using PlayerControls.PlayerState;
 
@@ -8,12 +7,12 @@ namespace PlayerControls.Controller
 {
     public class PlayerController : MonoBehaviour
     {   
-        [FormerlySerializedAs("Speed")] public float speed = 10f;
-        [FormerlySerializedAs("TurnSpeed")] public float turnSpeed = 125f;
+        public float speed = 10f;
+        public float turnSpeed = 125f;
         
         public PlayerState.PlayerState State;
-        [FormerlySerializedAs("TextField")] public TMP_Text textField;
-        [FormerlySerializedAs("CamRotation")] public CameraRotation camRotation;
+        public TMP_Text textField;
+        public CameraRotation camRotation;
 
 
         private void Awake()
@@ -48,18 +47,17 @@ namespace PlayerControls.Controller
         {
             State.HandlePlayerInput();
 
-            if (Input.GetKeyDown("escape"))
+            if (!Input.GetKeyDown("escape")) return;
+            
+            if (State.GetType() == typeof(Playing))
             {
-                if (State.GetType() == typeof(Playing))
-                {
-                    State = new Paused(gameObject);
-                    Time.timeScale = 0;
-                }
-                else if (IsPaused())
-                {
-                    ReturnToPlayState();
-                    Time.timeScale = 1;
-                }
+                State = new Paused(gameObject);
+                Time.timeScale = 0;
+            }
+            else if (IsPaused())
+            {
+                ReturnToPlayState();
+                Time.timeScale = 1;
             }
         }
     }

@@ -1,6 +1,5 @@
 using UnityEngine;
 using PlayerControls.PlayerState;
-using UnityEngine.Serialization;
 using PlayerControls.Controller;
 
 namespace  PlayerControls.Camera
