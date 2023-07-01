@@ -1,52 +1,53 @@
-using System.Collections;
-using System.Collections.Generic;
+using PlayerControls.Camera;
+using PlayerControls.Controller;
+using PlayerControls.PlayerState;
+using UI;
 using UnityEngine;
 
-class InspectionPoint : Interactable
+namespace Interactables
 {
-    public string str = "";
-    
-    bool fired = false;
-
-    TeleType t;
-
-    public override void checkTrigger()
+    internal class InspectionPoint : Interactable
     {
-        if (PlayerInRange(Cutoff) 
-            && Input.GetButtonDown("Interact") 
-            && (Player.GetComponent<PlayerController>().Interact(transform))) 
-                state = InteractableState.triggered;
-    }
+        public string str = "";
+    
+        private bool _fired;
 
-    public override void fireEvent()
-    {   
-        if (!Player.GetComponentInChildren<CameraRotation>().HasTarget && !fired)
+        private TeleType _t;
+
+        protected override void CheckTrigger()
         {
-            t = Player.GetComponent<PlayerController>().TextField.gameObject.AddComponent<TeleType>();
-            t.enabled = false;
-            t.str = this.str;
-            t.textMeshPro = Player.GetComponent<PlayerController>().TextField;
-            t.enabled = true;
-            fired = true;
+            if (PlayerInRange(cutoff) 
+                && Input.GetButtonDown("Interact") 
+                && player.GetComponent<PlayerController>().Interact(transform)) 
+                State = InteractableState.Triggered;
         }
-        else if (!Player.GetComponentInChildren<CameraRotation>().HasTarget && Input.GetButtonDown("Interact"))
-        {
-            if (t != null && t.HasFinished())
-            {   
-                t.Clear();
-                Player.GetComponentInChildren<CameraRotation>().returnToLookTarget();
-                fired = false;
-                state = InteractableState.post;
+
+        protected override void FireEvent()
+        {   
+            if (!player.GetComponentInChildren<CameraRotation>().hasTarget && !_fired)
+            {
+                _t = player.GetComponent<PlayerController>().textField.gameObject.AddComponent<TeleType>();
+                _t.enabled = false;
+                _t.str = this.str;
+                _t.textMeshPro = player.GetComponent<PlayerController>().textField;
+                _t.enabled = true;
+                _fired = true;
+            }
+            else if (!player.GetComponentInChildren<CameraRotation>().hasTarget && Input.GetButtonDown("Interact"))
+            {
+                if (_t == null || !_t.HasFinished()) return;
+                _t.Clear();
+                player.GetComponentInChildren<CameraRotation>().ReturnToLookTarget();
+                _fired = false;
+                State = InteractableState.Post;
             }
         }
-    }
 
-    public override void firePostEvent()
-    {
-        if (!Player.GetComponentInChildren<CameraRotation>().HasTarget)
+        protected override void FirePostEvent()
         {
-            Player.GetComponent<PlayerController>().State = new Playing(Player);
-            state = InteractableState.finished;
+            if (player.GetComponentInChildren<CameraRotation>().hasTarget) return;
+            player.GetComponent<PlayerController>().State = new Playing(player);
+            State = InteractableState.Finished;
         }
     }
 }

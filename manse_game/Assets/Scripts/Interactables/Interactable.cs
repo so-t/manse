@@ -1,63 +1,67 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
-public class Interactable : MonoBehaviour
+namespace Interactables
 {
-    protected InteractableState state = InteractableState.primed;
-
-    protected enum InteractableState 
+    public class Interactable : MonoBehaviour
     {
-        primed,
-        triggered,
-        post,
-        finished
-    }
+        protected InteractableState State = InteractableState.Primed;
 
-    public GameObject Player;
-    public TMPro.TextMeshProUGUI TextField;
-    public float Cutoff = 10f;
-    
-    protected bool PlayerInRange(float cutoff)
-    {
-        Vector3 adjustedPosition = transform.position;
-        adjustedPosition.y = Player.transform.position.y;
-        return Vector3.Distance(Player.transform.position, adjustedPosition) < cutoff;
-    }
-
-    public virtual void checkTrigger(){}
-
-    public virtual void fireEvent(){}
-
-    public virtual void firePostEvent(){}
-
-    void Start()
-    {
-        Player = GameObject.Find("Player");
-        TextField = Player.GetComponentInChildren<TMPro.TextMeshProUGUI>();
-        if (Application.isEditor)
-            gameObject.transform.GetChild(0).localScale = new Vector3(gameObject.transform.localScale.x + Cutoff, 
-                                                                        gameObject.transform.localScale.y + Cutoff, 
-                                                                        gameObject.transform.localScale.z + Cutoff);
-    }
-
-    void Update()
-    {
-        switch (state)
+        protected enum InteractableState 
         {
-            case InteractableState.primed:
-                checkTrigger();
-                break;
-            case InteractableState.triggered:
-                fireEvent();
-                break;
-            case InteractableState.post:
-                firePostEvent();
-                break;
-            case InteractableState.finished:
-                break;
-            default:
-                break;
+            Primed,
+            Triggered,
+            Post,
+            Finished
+        }
+
+        public GameObject player;
+        public TMPro.TextMeshProUGUI textField;
+        public float cutoff = 10f;
+    
+        protected bool PlayerInRange(float range)
+        {
+            Vector3 adjustedPosition = transform.position;
+            var position = player.transform.position;
+            adjustedPosition.y = position.y;
+            return Vector3.Distance(position, adjustedPosition) < range;
+        }
+
+        protected virtual void CheckTrigger(){}
+
+        protected virtual void FireEvent(){}
+
+        protected virtual void FirePostEvent(){}
+
+        private void Start()
+        {
+            player = GameObject.Find("Player");
+            textField = player.GetComponentInChildren<TMPro.TextMeshProUGUI>();
+            if (Application.isEditor)
+            {
+                var localScale = gameObject.transform.localScale;
+                gameObject.transform.GetChild(0).localScale = new Vector3(localScale.x + cutoff, 
+                    localScale.y + cutoff, 
+                    localScale.z + cutoff);
+            }
+        }
+
+        private void Update()
+        {
+            switch (State)
+            {
+                case InteractableState.Primed:
+                    CheckTrigger();
+                    break;
+                case InteractableState.Triggered:
+                    FireEvent();
+                    break;
+                case InteractableState.Post:
+                    FirePostEvent();
+                    break;
+                case InteractableState.Finished:
+                    break;
+            }
         }
     }
 }
