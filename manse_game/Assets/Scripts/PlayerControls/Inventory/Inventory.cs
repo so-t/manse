@@ -1,12 +1,13 @@
 using System.Collections.Generic;
 using Interactables;
+using Items;
 using UnityEngine;
 
 namespace PlayerControls.Inventory
 {
     public class Inventory : MonoBehaviour
     {
-        private List<string> _inventory = new List<string>{"test"};
+        private List<Item> _inventory = new List<Item>{};
 
         public void AddToInventory(Interactable target)
         {
