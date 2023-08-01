@@ -6,7 +6,7 @@ namespace PlayerControls.Inventory
 {
     public class Inventory : MonoBehaviour
     {
-        private List<string> _inventory = new List<string>(){"test"};
+        private List<string> _inventory = new List<string>{"test"};
 
         public void AddToInventory(Interactable target)
         {

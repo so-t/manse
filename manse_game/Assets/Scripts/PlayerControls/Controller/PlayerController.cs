@@ -24,18 +24,16 @@ namespace PlayerControls.Controller
 
         private bool IsPaused() 
         {
-            return (State.GetType() == typeof(Paused));
+            return State.GetType() == typeof(Paused);
         }
 
         public bool Interact(Transform lookAtTarget=null)
         {
-            if (State.GetType() == typeof(Playing))
-            {
-                State = new Interacting(gameObject);
-                if (lookAtTarget != null) camRotation.LookAt(lookAtTarget);
-                return true;
-            } 
-            else return false;
+            if (State.GetType() != typeof(Playing)) return false;
+            
+            State = new Interacting(gameObject);
+            if (lookAtTarget != null) camRotation.LookAt(lookAtTarget);
+            return true;
         }
 
         private void ReturnToPlayState()
