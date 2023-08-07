@@ -14,15 +14,17 @@ namespace PlayerControls.Controller
         public TMP_Text textField;
         public CameraRotation camRotation;
 
+        private Inventory.Inventory _inventory;
 
         private void Awake()
         {
             State = new Playing(gameObject);
+            _inventory = new Inventory.Inventory();
             textField = gameObject.GetComponentInChildren<TMP_Text>();
             camRotation = gameObject.GetComponentInChildren<CameraRotation>();
         }
 
-        private bool IsPaused() 
+        private bool IsPaused()
         {
             return State.GetType() == typeof(Paused);
         }
@@ -45,8 +47,8 @@ namespace PlayerControls.Controller
         {
             State.HandlePlayerInput();
 
+            // TODO: Move this to individual PlayerStates rather than putting it here
             if (!Input.GetKeyDown("escape")) return;
-            
             if (State.GetType() == typeof(Playing))
             {
                 State = new Paused(gameObject);
