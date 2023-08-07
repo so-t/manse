@@ -5,14 +5,10 @@ using UnityEngine;
 
 namespace PlayerControls.Inventory
 {
-    public class Inventory : MonoBehaviour
+    public class Inventory
     {
-        private List<Item> _inventory = new List<Item>{};
+        private List<Item> _inventory = new List<Item>();
 
-        public void AddToInventory(Interactable target)
-        {
-            Debug.Log(target.gameObject.name);
-            Debug.Log(_inventory[0]);
-        }
+        public void Add(Item item) { _inventory.Add(item); }
     }
 }
