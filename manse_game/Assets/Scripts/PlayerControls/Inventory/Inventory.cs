@@ -1,7 +1,5 @@
 using System.Collections.Generic;
-using Interactables;
 using Items;
-using UnityEngine;
 
 namespace PlayerControls.Inventory
 {
@@ -10,5 +8,8 @@ namespace PlayerControls.Inventory
         private List<Item> _inventory = new List<Item>();
 
         public void Add(Item item) { _inventory.Add(item); }
+
+        public bool Remove(Item item) { return _inventory.Remove(item); }
+        
     }
 }
