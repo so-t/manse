@@ -1,3 +1,4 @@
+using Items;
 using PlayerControls.Controller;
 using PlayerControls.Camera;
 using PlayerControls.PlayerState;
@@ -14,6 +15,13 @@ namespace Interactables
         private bool _fired;
 
         private TeleType _t;
+
+        private Item _item;
+        
+        private void Awake()
+        {
+            _item = gameObject.GetComponent<Item>();
+        }
 
         protected override void CheckTrigger()
         {
@@ -39,7 +47,7 @@ namespace Interactables
                 if (_t == null || !_t.HasFinished()) return;
             
                 _t.Clear();
-                player.GetComponentInChildren<Inventory>().AddToInventory(this);
+                player.GetComponentInChildren<Inventory>().Add(_item);
                 player.GetComponentInChildren<CameraRotation>().ReturnToLookTarget();
                 _fired = false;
                 gameObject.GetComponent<MeshRenderer>().enabled = false;
