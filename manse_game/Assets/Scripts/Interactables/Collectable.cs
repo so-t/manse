@@ -1,8 +1,5 @@
 using Items;
-using PlayerControls.Controller;
-using PlayerControls.Camera;
 using PlayerControls.PlayerState;
-using PlayerControls.Inventory;
 using UI;
 using UnityEngine;
 
@@ -27,41 +24,39 @@ namespace Interactables
         {
             if (PlayerInRange(cutoff) 
                 && Input.GetButtonDown("Interact") 
-                && player.GetComponent<PlayerController>().Interact(transform))
+                && playerController.Interact(transform))
                 State = InteractableState.Triggered;
         }
 
         protected override void FireEvent()
-        {   
-            if (!player.GetComponentInChildren<CameraRotation>().hasTarget && !_fired)
+        {
+            switch (playerCamera.hasTarget)
             {
-                _t = player.GetComponent<PlayerController>().textField.gameObject.AddComponent<TeleType>();
-                _t.enabled = false;
-                _t.str = this.str;
-                _t.textMeshPro = player.GetComponent<PlayerController>().textField;
-                _t.enabled = true;
-                _fired = true;
-            }
-            else if (!player.GetComponentInChildren<CameraRotation>().hasTarget && Input.GetButtonDown("Interact"))
-            {
-                if (_t == null || !_t.HasFinished()) return;
+                case false when !_fired:
+                    _t = playerController.CreateTeleType(str);
+                    _fired = true;
+                    break;
+                case false when Input.GetButtonDown("Interact"):
+                {
+                    if (_t == null || !_t.HasFinished()) return;
             
-                _t.Clear();
-                player.GetComponentInChildren<Inventory>().Add(_item);
-                player.GetComponentInChildren<CameraRotation>().ReturnToLookTarget();
-                _fired = false;
-                gameObject.GetComponent<MeshRenderer>().enabled = false;
-                State = InteractableState.Post;
+                    _t.Clear();
+                    playerCamera.ReturnToLookTarget();
+                    _fired = false;
+                    gameObject.GetComponent<MeshRenderer>().enabled = false;
+                    playerController.AddToInventory(_item);
+                    State = InteractableState.Post;
+                    break;
+                }
             }
         }
 
         protected override void FirePostEvent()
         {
-            if (!player.GetComponentInChildren<CameraRotation>().hasTarget)
-            {
-                player.GetComponent<PlayerController>().State = new Playing(player);
-                State = InteractableState.Finished;
-            }
+            if (playerCamera.hasTarget) return;
+            
+            playerController.State = new Playing(playerController);
+            State = InteractableState.Finished;
         }
     }
 }

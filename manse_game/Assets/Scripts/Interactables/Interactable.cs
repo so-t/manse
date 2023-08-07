@@ -1,3 +1,5 @@
+using PlayerControls.Camera;
+using PlayerControls.Controller;
 using UnityEngine;
 
 namespace Interactables
@@ -15,6 +17,8 @@ namespace Interactables
         }
 
         public GameObject player;
+        public PlayerController playerController;
+        public CameraRotation playerCamera;
         public TMPro.TextMeshProUGUI textField;
         public float cutoff = 10f;
     
@@ -36,13 +40,15 @@ namespace Interactables
         {
             player = GameObject.Find("Player");
             textField = player.GetComponentInChildren<TMPro.TextMeshProUGUI>();
-            if (Application.isEditor)
-            {
-                var localScale = gameObject.transform.localScale;
-                gameObject.transform.GetChild(0).localScale = new Vector3(localScale.x + cutoff, 
-                    localScale.y + cutoff, 
-                    localScale.z + cutoff);
-            }
+            playerController = player.GetComponentInChildren<PlayerController>();
+            playerCamera = player.GetComponentInChildren<CameraRotation>();
+            
+            if (!Application.isEditor) return;
+            
+            var localScale = gameObject.transform.localScale;
+            gameObject.transform.GetChild(0).localScale = new Vector3(localScale.x + cutoff, 
+                localScale.y + cutoff, 
+                localScale.z + cutoff);
         }
 
         private void Update()

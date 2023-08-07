@@ -1,5 +1,3 @@
-using PlayerControls.Camera;
-using PlayerControls.Controller;
 using PlayerControls.PlayerState;
 using UI;
 using UnityEngine;
@@ -18,26 +16,23 @@ namespace Interactables
         {
             if (PlayerInRange(cutoff) 
                 && Input.GetButtonDown("Interact") 
-                && player.GetComponent<PlayerController>().Interact(transform)) 
+                && playerController.Interact(transform)) 
                 State = InteractableState.Triggered;
         }
 
         protected override void FireEvent()
         {   
-            if (!player.GetComponentInChildren<CameraRotation>().hasTarget && !_fired)
+            if (!playerCamera.hasTarget && !_fired)
             {
-                _t = player.GetComponent<PlayerController>().textField.gameObject.AddComponent<TeleType>();
-                _t.enabled = false;
-                _t.str = this.str;
-                _t.textMeshPro = player.GetComponent<PlayerController>().textField;
-                _t.enabled = true;
+                _t = playerController.CreateTeleType(str);
                 _fired = true;
             }
-            else if (!player.GetComponentInChildren<CameraRotation>().hasTarget && Input.GetButtonDown("Interact"))
+            else if (!playerCamera.hasTarget 
+                     && Input.GetButtonDown("Interact"))
             {
                 if (_t == null || !_t.HasFinished()) return;
                 _t.Clear();
-                player.GetComponentInChildren<CameraRotation>().ReturnToLookTarget();
+                playerCamera.ReturnToLookTarget();
                 _fired = false;
                 State = InteractableState.Post;
             }
@@ -45,8 +40,9 @@ namespace Interactables
 
         protected override void FirePostEvent()
         {
-            if (player.GetComponentInChildren<CameraRotation>().hasTarget) return;
-            player.GetComponent<PlayerController>().State = new Playing(player);
+            if (playerCamera.hasTarget) return;
+            
+            playerController.State = new Playing(playerController);
             State = InteractableState.Finished;
         }
     }

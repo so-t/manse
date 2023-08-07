@@ -5,9 +5,9 @@ namespace PlayerControls.PlayerState
 {
     public class Interacting : PlayerState
     {
-        public Interacting(GameObject playerObject)
+        public Interacting(PlayerController playerController)
         {
-            Player = playerObject.GetComponent<PlayerController>();
+            Player = playerController;
         }
     }
 }

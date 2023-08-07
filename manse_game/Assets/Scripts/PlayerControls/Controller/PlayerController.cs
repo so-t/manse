@@ -1,7 +1,9 @@
+using Items;
 using UnityEngine;
 using TMPro;
 using PlayerControls.Camera;
 using PlayerControls.PlayerState;
+using UI;
 
 namespace PlayerControls.Controller
 {
@@ -14,12 +16,11 @@ namespace PlayerControls.Controller
         public TMP_Text textField;
         public CameraRotation camRotation;
 
-        private Inventory.Inventory _inventory;
+        private Inventory.Inventory _inventory = new Inventory.Inventory();
 
         private void Awake()
         {
-            State = new Playing(gameObject);
-            _inventory = new Inventory.Inventory();
+            State = new Playing(this);
             textField = gameObject.GetComponentInChildren<TMP_Text>();
             camRotation = gameObject.GetComponentInChildren<CameraRotation>();
         }
@@ -33,14 +34,39 @@ namespace PlayerControls.Controller
         {
             if (State.GetType() != typeof(Playing)) return false;
             
-            State = new Interacting(gameObject);
-            if (lookAtTarget != null) camRotation.LookAt(lookAtTarget);
+            State = new Interacting(this);
+            camRotation.LookAt(lookAtTarget);
             return true;
         }
 
         private void ReturnToPlayState()
         {
-            State = new Playing(gameObject);
+            State = new Playing(this);
+        }
+
+        public bool CameraHasTarget()
+        {
+            return camRotation.hasTarget;
+        }
+
+        public void AddToInventory(Item item)
+        {
+            _inventory.Add(item);
+        }
+
+        public void RemoveFromInventory(Item item)
+        {
+            _inventory.Remove(item);
+        }
+        
+        public TeleType CreateTeleType(string str)
+        {
+            TeleType t = textField.gameObject.AddComponent<TeleType>();
+            t.enabled = false;
+            t.str = str;
+            t.textMeshPro = textField;
+            t.enabled = true;
+            return t;
         }
 
         private void Update()
@@ -51,7 +77,7 @@ namespace PlayerControls.Controller
             if (!Input.GetKeyDown("escape")) return;
             if (State.GetType() == typeof(Playing))
             {
-                State = new Paused(gameObject);
+                State = new Paused(this);
                 Time.timeScale = 0;
             }
             else if (IsPaused())

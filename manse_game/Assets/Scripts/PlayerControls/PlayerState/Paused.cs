@@ -5,9 +5,9 @@ namespace PlayerControls.PlayerState
 {
     public class Paused : PlayerState
     {
-        public Paused(GameObject playerObject)
+        public Paused(PlayerController playerController)
         {
-            Player = playerObject.GetComponent<PlayerController>();
+            Player = playerController;
         }
     }
 }

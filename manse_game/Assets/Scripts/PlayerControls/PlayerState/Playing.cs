@@ -5,9 +5,9 @@ namespace PlayerControls.PlayerState
 {
     public class Playing : PlayerState
     {
-        public Playing(GameObject playerObject)
+        public Playing(PlayerController playerController)
         {
-            Player = playerObject.GetComponent<PlayerController>();
+            Player = playerController;
         }
 
         public override void HandlePlayerInput()

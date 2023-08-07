@@ -7,8 +7,8 @@ namespace PlayerControls.Camera
         public float walkingBobbingSpeed = 14f;
         public float bobbingAmount = 0.05f;
 
-        private float _defaultPosY = 0;
-        private float _timer = 0;
+        private float _defaultPosY;
+        private float _timer;
 
         // Start is called before the first frame update
         private void Awake()

@@ -20,6 +20,13 @@ namespace  PlayerControls.Camera
         private Vector3 _targetPosition;
         private Vector3 _prevLookTarget;
 
+        public PlayerController playerController;
+
+        public void Awake()
+        {
+            playerController = gameObject.GetComponentInChildren<PlayerController>();
+        }
+
         public void ReturnToLookTarget()
         {
             // Currently Returning to the forward before LookAt was prompted jerks the camera very fast.
@@ -41,13 +48,14 @@ namespace  PlayerControls.Camera
             var transformCopy = transform;
             Vector3 forward = transformCopy.forward;
             Quaternion toRotation = Quaternion.LookRotation(target - transformCopy.position);
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, eventSpeed * Time.time);
-            if(forward == transform.forward) this.hasTarget = false;
+            transform.rotation = Quaternion.RotateTowards(
+                transform.rotation, toRotation, eventSpeed * Time.time);
+            if(forward == transform.forward) hasTarget = false;
         }
 
         private void Update()
         {
-            if (player.GetComponent<PlayerController>().State.GetType() != typeof(Interacting))
+            if (playerController.State.GetType() != typeof(Interacting))
             {
                 if (Input.GetAxis("Camera Horizontal") != 0.0f || Input.GetAxis("Camera Vertical") != 0.0f)
                 {
@@ -58,9 +66,11 @@ namespace  PlayerControls.Camera
                 }
                 else
                 {
-                    _rotation.x += Mathf.Sign(_rotation.x + -Mathf.Sign(_rotation.x) * eventSpeed) == Mathf.Sign(_rotation.x) ? 
+                    _rotation.x += 
+                        Mathf.Sign(_rotation.x + -Mathf.Sign(_rotation.x) * eventSpeed) == Mathf.Sign(_rotation.x) ? 
                                     -Mathf.Sign(_rotation.x) * eventSpeed : 0.0f;
-                    _rotation.y += Mathf.Sign(_rotation.y + -Mathf.Sign(_rotation.y) * eventSpeed) == Mathf.Sign(_rotation.y) ? 
+                    _rotation.y += 
+                        Mathf.Sign(_rotation.y + -Mathf.Sign(_rotation.y) * eventSpeed) == Mathf.Sign(_rotation.y) ? 
                                     -Mathf.Sign(_rotation.y) * eventSpeed : 0.0f;
                 }
                 var xQuaternion = Quaternion.AngleAxis(_rotation.x, Vector3.up);
