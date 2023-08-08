@@ -634,12 +634,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ccad2e94a30baa4aa8e875a6df2641c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  playerController: {fileID: 0}
-  playerCamera: {fileID: 0}
-  textField: {fileID: 0}
-  cutoff: 10
-  str: This is a sphere. That's all.
+  cutoffDistance: 10
+  requiresInteraction: 1
+  lookTarget: {fileID: 96941384}
+  displayText: This is a sphere. That's all.
 --- !u!1 &135727571
 GameObject:
   m_ObjectHideFlags: 0
@@ -1720,12 +1718,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ccad2e94a30baa4aa8e875a6df2641c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  playerController: {fileID: 0}
-  playerCamera: {fileID: 0}
-  textField: {fileID: 0}
-  cutoff: 10
-  str: Woah! Little!
+  cutoffDistance: 10
+  requiresInteraction: 1
+  lookTarget: {fileID: 983608658}
+  displayText: Woah! Little!
 --- !u!65 &983608655
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1930,12 +1926,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9068b76e4c2fa0340918367820648cfc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  playerController: {fileID: 0}
-  playerCamera: {fileID: 0}
-  textField: {fileID: 0}
-  cutoff: 10
-  str: Take this cube?
+  cutoffDistance: 10
+  requiresInteraction: 1
+  lookTarget: {fileID: 1055096252}
+  displayText: Take this cube?
 --- !u!65 &1055096249
 BoxCollider:
   m_ObjectHideFlags: 0
