@@ -66,8 +66,7 @@ namespace PlayerControls.Controller
         public void DisplayMessage(string str)
         {
             if (str == "") return;
-            _teleType.str = str;
-            StartCoroutine(_teleType.DisplayMessage());
+            StartCoroutine(_teleType.DisplayMessage(str));
         }
         
         public void ClearMessage()

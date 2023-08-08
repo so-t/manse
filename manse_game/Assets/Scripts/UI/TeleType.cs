@@ -6,37 +6,29 @@ namespace UI
 {
     public class TeleType : MonoBehaviour
     {
-        public TMP_Text textMeshPro;
-        public float delay;
-        public string str;
+        private const float Delay = 0.05f;
+        private TMP_Text _textMeshPro;
 
-        public TeleType(TMP_Text textMeshPro, string str, float delay=0.05f)
+        private void Awake()
         {
-            this.textMeshPro = textMeshPro;
-            this.str = str;
-            this.delay = delay;
+            _textMeshPro = GetComponent<TextMeshProUGUI>();
         }
 
         public void Clear()
         {
-            textMeshPro.text = "";
+            _textMeshPro.text = "";
         }
 
-        public bool HasFinished()
-        {
-            return textMeshPro.text.Length == str.Length;
-        }
-
-        public IEnumerator DisplayMessage()
+        public IEnumerator DisplayMessage(string str)
         {
             var display = "";
 
             foreach (var c in str)
             {
-                display = display + c;
-                textMeshPro.text = display;
+                display += c;
+                _textMeshPro.text = display;
 
-                yield return new WaitForSeconds(delay);
+                yield return new WaitForSeconds(Delay);
             }
         }
     }

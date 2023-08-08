@@ -3097,6 +3097,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e88b17a258a2b4441b2cbfda7e78f2c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textMeshPro: {fileID: 2120578237}
-  delay: 0
-  str: 

@@ -60,8 +60,8 @@ namespace Interactables
         }
         
         protected virtual void Action(){}
-        
-        protected virtual bool ExitCondition(){ return false; }
+
+        protected virtual bool ExitCondition() { return true; }
         
         protected virtual void Exit(){}
 
@@ -84,7 +84,7 @@ namespace Interactables
             return false;
         }
 
-        protected virtual void FirePostAction(){}
+        protected virtual bool FirePostAction() { return true; }
 
         private void Update()
         {
@@ -99,9 +99,11 @@ namespace Interactables
                         State = InteractableState.Post;
                     break;
                 case InteractableState.Post when !PlayerCamera.hasTarget:
-                    FirePostAction();
-                    PlayerController.ReturnToPlayState();
-                    State = InteractableState.Finished;
+                    if (FirePostAction()) 
+                    {
+                        PlayerController.ReturnToPlayState();
+                        State = InteractableState.Finished;
+                    }
                     break;
                 case InteractableState.Finished:
                     break;
