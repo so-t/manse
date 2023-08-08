@@ -24,19 +24,21 @@ namespace  PlayerControls.Camera
 
         public void Awake()
         {
-            playerController = gameObject.GetComponentInChildren<PlayerController>();
+            playerController = player.GetComponentInChildren<PlayerController>();
         }
 
         public void ReturnToLookTarget()
         {
-            // Currently Returning to the forward before LookAt was prompted jerks the camera very fast.
-            // Need to slow this down.
+            //TODO: Need to slow this down.
+            //Currently Returning to the forward before LookAt was prompted jerks the camera very fast.
             hasTarget = true;
             _targetPosition = _prevLookTarget;
         }
 
-        public void LookAt(Transform target)
+        public void LookAt(Transform target=null)
         {
+            if (!target) return;
+            
             hasTarget = true;
             _targetPosition = target.position;
             var transform1 = transform;

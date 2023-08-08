@@ -1,6 +1,5 @@
 using Items;
 using PlayerControls.PlayerState;
-using UI;
 using UnityEngine;
 
 namespace Interactables
@@ -8,55 +7,36 @@ namespace Interactables
     public class Collectable : Interactable
     {
         public string str = "";
-
-        private bool _fired;
-
-        private TeleType _t;
-
         private Item _item;
-        
-        private void Awake()
+
+        protected override void Awake()
         {
+            base.Awake();
+            cameraTarget = transform;
             _item = gameObject.GetComponent<Item>();
         }
-
-        protected override void CheckTrigger()
+        
+        protected override void Action()
         {
-            if (PlayerInRange(cutoff) 
-                && Input.GetButtonDown("Interact") 
-                && playerController.Interact(transform))
-                State = InteractableState.Triggered;
+            TeleType = playerController.CreateTeleType(str);
+        }
+        
+        protected override bool ExitCondition(){ 
+            return Fired && !playerCamera.hasTarget 
+                          && Input.GetButtonDown("Interact")
+                          && TeleType.HasFinished(); 
         }
 
-        protected override void FireEvent()
+        protected override void ActionExit()
         {
-            switch (playerCamera.hasTarget)
-            {
-                case false when !_fired:
-                    _t = playerController.CreateTeleType(str);
-                    _fired = true;
-                    break;
-                case false when Input.GetButtonDown("Interact"):
-                {
-                    if (_t == null || !_t.HasFinished()) return;
-            
-                    _t.Clear();
-                    playerCamera.ReturnToLookTarget();
-                    _fired = false;
-                    gameObject.GetComponent<MeshRenderer>().enabled = false;
-                    playerController.AddToInventory(_item);
-                    State = InteractableState.Post;
-                    break;
-                }
-            }
+            TeleType.Clear();
+            gameObject.GetComponent<MeshRenderer>().enabled = false;
+            playerController.AddToInventory(_item);
         }
 
-        protected override void FirePostEvent()
+        protected override void FirePostAction()
         {
-            if (playerCamera.hasTarget) return;
-            
             playerController.State = new Playing(playerController);
-            State = InteractableState.Finished;
         }
     }
 }

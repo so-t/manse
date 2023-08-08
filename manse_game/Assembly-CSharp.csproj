@@ -65,8 +65,8 @@
      <Compile Include="Assets\Scripts\PlayerControls\Camera\CameraHeadBob.cs" />
      <Compile Include="Assets\Scripts\Interactables\Collectable.cs" />
      <Compile Include="Assets\Scripts\PlayerControls\Controller\PlayerController.cs" />
-     <Compile Include="Assets\Scripts\Interactables\EventListener.cs" />
-     <Compile Include="Assets\Scripts\Events\EventOutcome.cs" />
+     <Compile Include="Assets\Scripts\Interactables\AutomataTrigger.cs" />
+     <Compile Include="Assets\Scripts\Automata\BaseAutomata.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />

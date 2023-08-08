@@ -1,5 +1,7 @@
+using System;
 using PlayerControls.Camera;
 using PlayerControls.Controller;
+using UI;
 using UnityEngine;
 
 namespace Interactables
@@ -7,6 +9,7 @@ namespace Interactables
     public class Interactable : MonoBehaviour
     {
         protected InteractableState State = InteractableState.Primed;
+        protected TeleType TeleType;
 
         protected enum InteractableState 
         {
@@ -15,31 +18,19 @@ namespace Interactables
             Post,
             Finished
         }
+        protected bool Fired;
+
+        public Transform cameraTarget;
+        public bool requiresInteraction = true;
 
         public GameObject player;
         public PlayerController playerController;
         public CameraRotation playerCamera;
-        public TMPro.TextMeshProUGUI textField;
         public float cutoff = 10f;
-    
-        protected bool PlayerInRange(float range)
-        {
-            Vector3 adjustedPosition = transform.position;
-            var position = player.transform.position;
-            adjustedPosition.y = position.y;
-            return Vector3.Distance(position, adjustedPosition) < range;
-        }
 
-        protected virtual void CheckTrigger(){}
-
-        protected virtual void FireEvent(){}
-
-        protected virtual void FirePostEvent(){}
-
-        private void Start()
+        protected virtual void Awake()
         {
             player = GameObject.Find("Player");
-            textField = player.GetComponentInChildren<TMPro.TextMeshProUGUI>();
             playerController = player.GetComponentInChildren<PlayerController>();
             playerCamera = player.GetComponentInChildren<CameraRotation>();
             
@@ -50,22 +41,71 @@ namespace Interactables
                 localScale.y + cutoff, 
                 localScale.z + cutoff);
         }
+    
+        protected bool PlayerInRange(float range)
+        {
+            Vector3 adjustedPosition = transform.position;
+            var position = player.transform.position;
+            adjustedPosition.y = position.y;
+            return Vector3.Distance(position, adjustedPosition) < range;
+        }
+
+        protected virtual bool StartCondition()
+        {
+            return requiresInteraction switch
+            {
+                true when !Input.GetButtonDown("Interact") => false,
+                _ => PlayerInRange(cutoff) && !playerCamera.hasTarget && Input.GetButtonDown("Interact")
+            };
+        }
+        
+        protected virtual void Action(){}
+        
+        protected virtual bool ExitCondition(){ return false; }
+        
+        protected virtual void ActionExit(){}
+
+        protected virtual bool FireAction(){
+            if (!Fired)
+            {
+                Action();
+                Fired = true;
+            }
+            else if (ExitCondition())
+            {
+                ActionExit();
+                Fired = false;
+                return true;
+            }
+
+            return false;
+        }
+
+        protected virtual void FirePostAction(){}
 
         private void Update()
         {
             switch (State)
             {
                 case InteractableState.Primed:
-                    CheckTrigger();
+                    if (StartCondition() && playerController.Interact(cameraTarget))
+                        State = InteractableState.Triggered;
                     break;
                 case InteractableState.Triggered:
-                    FireEvent();
+                    if (FireAction())
+                    {
+                        if (cameraTarget) playerCamera.ReturnToLookTarget();
+                        State = InteractableState.Post;
+                    }
                     break;
-                case InteractableState.Post:
-                    FirePostEvent();
+                case InteractableState.Post when !playerCamera.hasTarget:
+                    FirePostAction();
+                    State = InteractableState.Finished;
                     break;
                 case InteractableState.Finished:
                     break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
         }
     }

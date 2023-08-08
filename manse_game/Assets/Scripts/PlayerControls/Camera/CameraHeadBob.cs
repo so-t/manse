@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace PlayerControls.Camera
@@ -16,7 +17,7 @@ namespace PlayerControls.Camera
             _defaultPosY = transform.localPosition.y;
         }
 
-        public void HeadBob()
+        private void HeadBob()
         {
             if(Input.GetAxis("Vertical") != 0.0f)
             {
@@ -38,6 +39,11 @@ namespace PlayerControls.Camera
                                                         localPosition.z);
                 transform.localPosition = localPosition;
             }
+        }
+
+        private void Update()
+        {
+            HeadBob();
         }
     }
 }

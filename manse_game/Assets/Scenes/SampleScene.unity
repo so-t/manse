@@ -238,6 +238,7 @@ MonoBehaviour:
   turnSpeed: 125
   textField: {fileID: 2120578237}
   camRotation: {fileID: 0}
+  footstepAudioSource: {fileID: 0}
 --- !u!82 &17754010
 AudioSource:
   m_ObjectHideFlags: 0

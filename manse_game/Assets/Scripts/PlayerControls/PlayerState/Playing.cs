@@ -1,3 +1,4 @@
+using PlayerControls.Camera;
 using PlayerControls.Controller;
 using UnityEngine;
 
@@ -5,9 +6,13 @@ namespace PlayerControls.PlayerState
 {
     public class Playing : PlayerState
     {
+
+        private AudioSource _audioSource;
+        
         public Playing(PlayerController playerController)
         {
             Player = playerController;
+            _audioSource = Player.footstepAudioSource;
         }
 
         public override void HandlePlayerInput()
@@ -30,21 +35,19 @@ namespace PlayerControls.PlayerState
                 }
 
                 // Play footstep sfx if not already playing
-                if(!Player.gameObject.GetComponent<AudioSource>().isPlaying)
+                if(!_audioSource.isPlaying)
                 {
-                    Player.gameObject.GetComponent<AudioSource>().Play();
+                    _audioSource.Play();
                 }
             }
             else
             {
                 // Stop footstep sfx if playing
-                if(Player.gameObject.GetComponent<AudioSource>().isPlaying)
+                if(_audioSource.isPlaying)
                 {
-                    Player.gameObject.GetComponent<AudioSource>().Pause();
+                    _audioSource.Pause();
                 }
             }
-
-            Player.gameObject.BroadcastMessage("HeadBob");
         }
     }
 }

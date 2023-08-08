@@ -15,11 +15,13 @@ namespace PlayerControls.Controller
         public PlayerState.PlayerState State;
         public TMP_Text textField;
         public CameraRotation camRotation;
+        public AudioSource footstepAudioSource;
 
         private Inventory.Inventory _inventory = new Inventory.Inventory();
 
         private void Awake()
         {
+            footstepAudioSource = gameObject.GetComponent<AudioSource>();
             State = new Playing(this);
             textField = gameObject.GetComponentInChildren<TMP_Text>();
             camRotation = gameObject.GetComponentInChildren<CameraRotation>();

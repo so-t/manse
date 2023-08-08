@@ -1,5 +1,4 @@
 using PlayerControls.PlayerState;
-using UI;
 using UnityEngine;
 
 namespace Interactables
@@ -7,43 +6,32 @@ namespace Interactables
     internal class InspectionPoint : Interactable
     {
         public string str = "";
-    
-        private bool _fired;
 
-        private TeleType _t;
-
-        protected override void CheckTrigger()
+        protected override void Awake()
         {
-            if (PlayerInRange(cutoff) 
-                && Input.GetButtonDown("Interact") 
-                && playerController.Interact(transform)) 
-                State = InteractableState.Triggered;
+            base.Awake();
+            cameraTarget = transform;
+        }
+        
+        protected override void Action()
+        {
+            TeleType = playerController.CreateTeleType(str);
+        }
+        
+        protected override bool ExitCondition(){ 
+            return Fired && !playerCamera.hasTarget 
+                         && Input.GetButtonDown("Interact")
+                         && TeleType.HasFinished(); 
         }
 
-        protected override void FireEvent()
-        {   
-            if (!playerCamera.hasTarget && !_fired)
-            {
-                _t = playerController.CreateTeleType(str);
-                _fired = true;
-            }
-            else if (!playerCamera.hasTarget 
-                     && Input.GetButtonDown("Interact"))
-            {
-                if (_t == null || !_t.HasFinished()) return;
-                _t.Clear();
-                playerCamera.ReturnToLookTarget();
-                _fired = false;
-                State = InteractableState.Post;
-            }
+        protected override void ActionExit()
+        {
+            TeleType.Clear();
         }
 
-        protected override void FirePostEvent()
+        protected override void FirePostAction()
         {
-            if (playerCamera.hasTarget) return;
-            
             playerController.State = new Playing(playerController);
-            State = InteractableState.Finished;
         }
     }
 }
