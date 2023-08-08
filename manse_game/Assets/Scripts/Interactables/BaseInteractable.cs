@@ -1,3 +1,4 @@
+using System;
 using PlayerControls.Camera;
 using PlayerControls.Controller;
 using UI;
@@ -107,6 +108,9 @@ namespace Interactables
                     State = InteractableState.Finished;
                     break;
                 case InteractableState.Finished:
+                    break;
+                default:
+                    Debug.Log("Interactable Update Switch found State out of range: " + State);
                     break;
             }
         }
