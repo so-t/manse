@@ -2,7 +2,7 @@
 
 namespace Automata
 {
-    public class BaseAutomata : MonoBehaviour
+    public class BaseAutomaton : MonoBehaviour
     {
         public bool RequiresCameraFocus { get; protected set; }
         public bool RequiresPlayerInteraction { get; protected set; }

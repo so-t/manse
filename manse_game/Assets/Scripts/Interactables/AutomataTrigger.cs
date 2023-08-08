@@ -7,7 +7,7 @@ namespace Interactables
 {
     public class AutomataTrigger : BaseInteractable
     {
-        public List<BaseAutomata> automata;
+        public List<BaseAutomaton> automata;
 
         protected override void Action()
         {
