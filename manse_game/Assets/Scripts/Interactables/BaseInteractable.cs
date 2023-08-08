@@ -108,9 +108,6 @@ namespace Interactables
                     break;
                 case InteractableState.Finished:
                     break;
-                default:
-                    Debug.Log("Interactable Update Switch found State out of range: " + State);
-                    break;
             }
         }
     }
