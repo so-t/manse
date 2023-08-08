@@ -7,7 +7,10 @@ namespace Interactables
 {
     public class BaseInteractable : MonoBehaviour
     {
-        private GameObject _player;
+        public float cutoffDistance = 10f;
+        public bool requiresInteraction = true;
+        public Transform lookTarget;
+        public string displayText = "";
         
         protected bool Fired;
         protected InteractableState State = InteractableState.Primed;
@@ -15,10 +18,7 @@ namespace Interactables
         protected PlayerController PlayerController;
         protected CameraRotation PlayerCamera;
         
-        public float cutoffDistance = 10f;
-        public bool requiresInteraction = true;
-        public Transform lookTarget;
-        public string displayText = "";
+        private GameObject _player;
 
         protected enum InteractableState 
         {
