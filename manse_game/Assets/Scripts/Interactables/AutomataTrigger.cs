@@ -7,7 +7,7 @@ namespace Interactables
 {
     public class AutomataTrigger : BaseInteractable
     {
-        [FormerlySerializedAs("Automata")] public List<BaseAutomata> automata;
+        public List<BaseAutomata> automata;
 
         protected override void Action()
         {
