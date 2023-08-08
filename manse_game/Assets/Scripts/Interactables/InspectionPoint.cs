@@ -3,23 +3,23 @@ using UnityEngine;
 
 namespace Interactables
 {
-    internal class InspectionPoint : Interactable
+    internal class InspectionPoint : BaseInteractable
     {
         public string str = "";
 
         protected override void Awake()
         {
             base.Awake();
-            cameraTarget = transform;
+            lookTarget = transform;
         }
         
         protected override void Action()
         {
-            TeleType = playerController.CreateTeleType(str);
+            TeleType = PlayerController.CreateTeleType(str);
         }
         
         protected override bool ExitCondition(){ 
-            return Fired && !playerCamera.hasTarget 
+            return Fired && !PlayerCamera.hasTarget 
                          && Input.GetButtonDown("Interact")
                          && TeleType.HasFinished(); 
         }
@@ -31,7 +31,7 @@ namespace Interactables
 
         protected override void FirePostAction()
         {
-            playerController.State = new Playing(playerController);
+            PlayerController.State = new Playing(PlayerController);
         }
     }
 }

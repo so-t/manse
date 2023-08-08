@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Interactables
 {
-    public class Collectable : Interactable
+    public class Collectable : BaseInteractable
     {
         public string str = "";
         private Item _item;
@@ -12,17 +12,17 @@ namespace Interactables
         protected override void Awake()
         {
             base.Awake();
-            cameraTarget = transform;
+            lookTarget = transform;
             _item = gameObject.GetComponent<Item>();
         }
         
         protected override void Action()
         {
-            TeleType = playerController.CreateTeleType(str);
+            TeleType = PlayerController.CreateTeleType(str);
         }
         
         protected override bool ExitCondition(){ 
-            return Fired && !playerCamera.hasTarget 
+            return Fired && !PlayerCamera.hasTarget 
                           && Input.GetButtonDown("Interact")
                           && TeleType.HasFinished(); 
         }
@@ -31,12 +31,12 @@ namespace Interactables
         {
             TeleType.Clear();
             gameObject.GetComponent<MeshRenderer>().enabled = false;
-            playerController.AddToInventory(_item);
+            PlayerController.AddToInventory(_item);
         }
 
         protected override void FirePostAction()
         {
-            playerController.State = new Playing(playerController);
+            PlayerController.State = new Playing(PlayerController);
         }
     }
 }

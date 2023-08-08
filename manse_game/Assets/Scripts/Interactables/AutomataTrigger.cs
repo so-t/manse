@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Interactables
 {
-    public class AutomataTrigger : Interactable
+    public class AutomataTrigger : BaseInteractable
     {
         [SerializeField] private BaseAutomata automata;
 

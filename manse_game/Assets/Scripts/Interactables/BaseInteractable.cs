@@ -1,4 +1,3 @@
-using System;
 using PlayerControls.Camera;
 using PlayerControls.Controller;
 using UI;
@@ -6,10 +5,19 @@ using UnityEngine;
 
 namespace Interactables
 {
-    public class Interactable : MonoBehaviour
+    public class BaseInteractable : MonoBehaviour
     {
+        private GameObject _player;
+        
+        protected bool Fired;
         protected InteractableState State = InteractableState.Primed;
         protected TeleType TeleType;
+        protected PlayerController PlayerController;
+        protected CameraRotation PlayerCamera;
+        
+        public bool requiresInteraction = true;
+        public float cutoff = 10f;
+        public Transform lookTarget;
 
         protected enum InteractableState 
         {
@@ -18,21 +26,12 @@ namespace Interactables
             Post,
             Finished
         }
-        protected bool Fired;
-
-        public Transform cameraTarget;
-        public bool requiresInteraction = true;
-
-        public GameObject player;
-        public PlayerController playerController;
-        public CameraRotation playerCamera;
-        public float cutoff = 10f;
 
         protected virtual void Awake()
         {
-            player = GameObject.Find("Player");
-            playerController = player.GetComponentInChildren<PlayerController>();
-            playerCamera = player.GetComponentInChildren<CameraRotation>();
+            _player = GameObject.Find("Player");
+            PlayerController = _player.GetComponentInChildren<PlayerController>();
+            PlayerCamera = _player.GetComponentInChildren<CameraRotation>();
             
             if (!Application.isEditor) return;
             
@@ -45,7 +44,7 @@ namespace Interactables
         private bool PlayerInRange(float range)
         {
             Vector3 adjustedPosition = transform.position;
-            var position = player.transform.position;
+            var position = _player.transform.position;
             adjustedPosition.y = position.y;
             return Vector3.Distance(position, adjustedPosition) < range;
         }
@@ -55,7 +54,7 @@ namespace Interactables
             return requiresInteraction switch
             {
                 true when !Input.GetButtonDown("Interact") => false,
-                _ => PlayerInRange(cutoff) && !playerCamera.hasTarget && Input.GetButtonDown("Interact")
+                _ => PlayerInRange(cutoff) && !PlayerCamera.hasTarget && Input.GetButtonDown("Interact")
             };
         }
         
@@ -88,24 +87,22 @@ namespace Interactables
             switch (State)
             {
                 case InteractableState.Primed:
-                    if (StartCondition() && playerController.Interact(cameraTarget))
+                    if (StartCondition() && PlayerController.Interact(lookTarget))
                         State = InteractableState.Triggered;
                     break;
                 case InteractableState.Triggered:
                     if (FireAction())
                     {
-                        if (cameraTarget) playerCamera.ReturnToLookTarget();
+                        if (lookTarget) PlayerCamera.ReturnToLookTarget();
                         State = InteractableState.Post;
                     }
                     break;
-                case InteractableState.Post when !playerCamera.hasTarget:
+                case InteractableState.Post when !PlayerCamera.hasTarget:
                     FirePostAction();
                     State = InteractableState.Finished;
                     break;
                 case InteractableState.Finished:
                     break;
-                default:
-                    throw new ArgumentOutOfRangeException();
             }
         }
     }

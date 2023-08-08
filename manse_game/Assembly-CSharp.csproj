@@ -58,7 +58,7 @@
      <Compile Include="Assets\Scripts\PlayerControls\PlayerState\Interacting.cs" />
      <Compile Include="Assets\Scripts\Items\Item.cs" />
      <Compile Include="Assets\Scripts\PlayerControls\PlayerState\Playing.cs" />
-     <Compile Include="Assets\Scripts\Interactables\Interactable.cs" />
+     <Compile Include="Assets\Scripts\Interactables\BaseInteractable.cs" />
      <Compile Include="Assets\Scripts\PlayerControls\PlayerState\Paused.cs" />
      <Compile Include="Assets\Scripts\PlayerControls\Camera\CameraRotation.cs" />
      <Compile Include="Assets\Scripts\Interactables\InspectionPoint.cs" />
