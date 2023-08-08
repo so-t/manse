@@ -15,9 +15,10 @@ namespace Interactables
         protected PlayerController PlayerController;
         protected CameraRotation PlayerCamera;
         
+        public float cutoffDistance = 10f;
         public bool requiresInteraction = true;
-        public float cutoff = 10f;
         public Transform lookTarget;
+        public string displayText = "";
 
         protected enum InteractableState 
         {
@@ -36,9 +37,11 @@ namespace Interactables
             if (!Application.isEditor) return;
             
             var localScale = gameObject.transform.localScale;
-            gameObject.transform.GetChild(0).localScale = new Vector3(localScale.x + cutoff, 
-                localScale.y + cutoff, 
-                localScale.z + cutoff);
+            gameObject.transform.GetChild(0).localScale = new Vector3(
+                localScale.x + cutoffDistance, 
+                localScale.y + cutoffDistance, 
+                localScale.z + cutoffDistance
+                );
         }
 
         private bool PlayerInRange(float range)
@@ -54,7 +57,7 @@ namespace Interactables
             return requiresInteraction switch
             {
                 true when !Input.GetButtonDown("Interact") => false,
-                _ => PlayerInRange(cutoff) && !PlayerCamera.hasTarget && Input.GetButtonDown("Interact")
+                _ => PlayerInRange(cutoffDistance) && !PlayerCamera.hasTarget && Input.GetButtonDown("Interact")
             };
         }
         
@@ -68,11 +71,13 @@ namespace Interactables
             if (!Fired)
             {
                 Action();
+                if (displayText != "") TeleType = PlayerController.CreateTeleType(displayText);
                 Fired = true;
             }
             else if (ExitCondition())
             {
                 Exit();
+                if (displayText != "") TeleType.Clear();
                 Fired = false;
                 return true;
             }

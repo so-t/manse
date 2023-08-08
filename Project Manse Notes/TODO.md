@@ -7,9 +7,7 @@
 
 - Experiment with removing/adjusting camera snapback
 
-- Implement 'event runner' interactable
-
-- Implement 'event' class
+- Make footstep sounds dynamic by adding sound sources to floor objects rather than the player
 
 
 
