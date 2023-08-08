@@ -1,4 +1,3 @@
-using System;
 using PlayerControls.Camera;
 using PlayerControls.Controller;
 using UI;
