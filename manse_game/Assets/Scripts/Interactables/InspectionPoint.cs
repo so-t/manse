@@ -1,4 +1,3 @@
-using PlayerControls.PlayerState;
 using UnityEngine;
 
 namespace Interactables
@@ -7,13 +6,7 @@ namespace Interactables
     {
         protected override bool ExitCondition(){ 
             return Fired && !PlayerCamera.hasTarget 
-                         && Input.GetButtonDown("Interact")
-                         && TeleType.HasFinished(); 
-        }
-
-        protected override void FirePostAction()
-        {
-            PlayerController.State = new Playing(PlayerController);
+                         && Input.GetButtonDown("Interact"); 
         }
     }
 }

@@ -27,11 +27,11 @@ namespace UI
             return textMeshPro.text.Length == str.Length;
         }
 
-        private IEnumerator Start()
+        public IEnumerator DisplayMessage()
         {
-            string display = "";
+            var display = "";
 
-            foreach (char c in str)
+            foreach (var c in str)
             {
                 display = display + c;
                 textMeshPro.text = display;

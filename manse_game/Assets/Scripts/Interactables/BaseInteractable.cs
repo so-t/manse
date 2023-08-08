@@ -1,6 +1,5 @@
 using PlayerControls.Camera;
 using PlayerControls.Controller;
-using UI;
 using UnityEngine;
 
 namespace Interactables
@@ -14,7 +13,6 @@ namespace Interactables
         
         protected bool Fired;
         protected InteractableState State = InteractableState.Primed;
-        protected TeleType TeleType;
         protected PlayerController PlayerController;
         protected CameraRotation PlayerCamera;
         
@@ -68,16 +66,17 @@ namespace Interactables
         protected virtual void Exit(){}
 
         protected virtual bool FireAction(){
-            if (!Fired)
+            if (!Fired && !PlayerCamera.hasTarget)
             {
                 Action();
-                if (displayText != "") TeleType = PlayerController.CreateTeleType(displayText);
+                PlayerController.DisplayMessage(displayText);
                 Fired = true;
             }
             else if (ExitCondition())
             {
                 Exit();
-                if (displayText != "") TeleType.Clear();
+                PlayerController.ClearMessage();
+                if (lookTarget) PlayerCamera.ReturnToLookTarget();
                 Fired = false;
                 return true;
             }
@@ -97,13 +96,11 @@ namespace Interactables
                     break;
                 case InteractableState.Triggered:
                     if (FireAction())
-                    {
-                        if (lookTarget) PlayerCamera.ReturnToLookTarget();
                         State = InteractableState.Post;
-                    }
                     break;
                 case InteractableState.Post when !PlayerCamera.hasTarget:
                     FirePostAction();
+                    PlayerController.ReturnToPlayState();
                     State = InteractableState.Finished;
                     break;
                 case InteractableState.Finished:

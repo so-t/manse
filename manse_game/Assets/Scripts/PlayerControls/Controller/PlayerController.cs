@@ -18,13 +18,15 @@ namespace PlayerControls.Controller
         public AudioSource footstepAudioSource;
 
         private Inventory.Inventory _inventory = new Inventory.Inventory();
+        private TeleType _teleType;
 
         private void Awake()
         {
-            footstepAudioSource = gameObject.GetComponent<AudioSource>();
+            footstepAudioSource = GetComponent<AudioSource>();
             State = new Playing(this);
-            textField = gameObject.GetComponentInChildren<TMP_Text>();
-            camRotation = gameObject.GetComponentInChildren<CameraRotation>();
+            textField = GetComponentInChildren<TMP_Text>();
+            camRotation = GetComponentInChildren<CameraRotation>();
+            _teleType = GetComponentInChildren<TeleType>();
         }
 
         private bool IsPaused()
@@ -41,7 +43,7 @@ namespace PlayerControls.Controller
             return true;
         }
 
-        private void ReturnToPlayState()
+        public void ReturnToPlayState()
         {
             State = new Playing(this);
         }
@@ -61,16 +63,18 @@ namespace PlayerControls.Controller
             _inventory.Remove(item);
         }
         
-        public TeleType CreateTeleType(string str)
+        public void DisplayMessage(string str)
         {
-            TeleType t = textField.gameObject.AddComponent<TeleType>();
-            t.enabled = false;
-            t.str = str;
-            t.textMeshPro = textField;
-            t.enabled = true;
-            return t;
+            if (str == "") return;
+            _teleType.str = str;
+            StartCoroutine(_teleType.DisplayMessage());
         }
-
+        
+        public void ClearMessage()
+        {
+            _teleType.Clear();
+        }
+        
         private void Update()
         {
             State.HandlePlayerInput();
