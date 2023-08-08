@@ -54,8 +54,8 @@ namespace Interactables
         {
             return requiresInteraction switch
             {
-                true when !Input.GetButtonDown("Interact") => false,
-                _ => PlayerInRange(cutoffDistance) && !PlayerCamera.hasTarget && Input.GetButtonDown("Interact")
+                true when !Input.GetButtonDown("Interact") && PlayerInRange(cutoffDistance) && !PlayerCamera.hasTarget => false,
+                _ => PlayerInRange(cutoffDistance) && !PlayerCamera.hasTarget
             };
         }
         
