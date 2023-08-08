@@ -41,8 +41,8 @@ namespace Interactables
                 localScale.y + cutoff, 
                 localScale.z + cutoff);
         }
-    
-        protected bool PlayerInRange(float range)
+
+        private bool PlayerInRange(float range)
         {
             Vector3 adjustedPosition = transform.position;
             var position = player.transform.position;
@@ -63,7 +63,7 @@ namespace Interactables
         
         protected virtual bool ExitCondition(){ return false; }
         
-        protected virtual void ActionExit(){}
+        protected virtual void Exit(){}
 
         protected virtual bool FireAction(){
             if (!Fired)
@@ -73,7 +73,7 @@ namespace Interactables
             }
             else if (ExitCondition())
             {
-                ActionExit();
+                Exit();
                 Fired = false;
                 return true;
             }

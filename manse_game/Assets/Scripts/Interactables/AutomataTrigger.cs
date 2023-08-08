@@ -11,6 +11,6 @@ namespace Interactables
 
         protected override bool ExitCondition() => automata.HasFinished();
 
-        protected override void ActionExit() => automata.Exit();
+        protected override void Exit() => automata.Exit();
     }
 }

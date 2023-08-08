@@ -24,7 +24,7 @@ namespace Interactables
                          && TeleType.HasFinished(); 
         }
 
-        protected override void ActionExit()
+        protected override void Exit()
         {
             TeleType.Clear();
         }
