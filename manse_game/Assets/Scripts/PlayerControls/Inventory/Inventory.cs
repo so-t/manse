@@ -1,15 +1,20 @@
 using System.Collections.Generic;
+using System.Linq;
 using Items;
+using UnityEngine;
 
 namespace PlayerControls.Inventory
 {
-    public class Inventory
+    public class Inventory : MonoBehaviour
     {
-        private List<Item> _inventory = new List<Item>();
+        [SerializeField]
+        private List<Item> inventory = new List<Item>();
 
-        public void Add(Item item) { _inventory.Add(item); }
+        public void Add(Item item) { inventory.Add(item); }
 
-        public bool Remove(Item item) { return _inventory.Remove(item); }
-        
+        public bool Remove(Item item) { return inventory.Remove(item); }
+
+        public bool Contains(string itemName) { return inventory.Any(item => itemName == item.itemName); }
+
     }
 }

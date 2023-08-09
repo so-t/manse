@@ -21,8 +21,7 @@ namespace PlayerControls.Controller
         public Vector3 Velocity;
 
         private Rigidbody _rigidbody;
-        private Vector3 _velocity;
-        private Inventory.Inventory _inventory = new Inventory.Inventory();
+        private Inventory.Inventory _inventory;
         private TeleType _teleType;
 
         private void Awake()
@@ -32,6 +31,7 @@ namespace PlayerControls.Controller
             textField = GetComponentInChildren<TMP_Text>();
             camRotation = GetComponentInChildren<CameraRotation>();
             _rigidbody = GetComponent<Rigidbody>();
+            _inventory = GetComponent<Inventory.Inventory>();
             _teleType = GetComponentInChildren<TeleType>();
         }
 
