@@ -99,9 +99,9 @@ namespace PlayerControls.Controller
         {
             var t = transform;
             var rotation = _velocity.y * turnSpeed * Time.fixedDeltaTime;
-            var forward = t.forward * (_velocity.z * speed * Time.fixedDeltaTime);
+            var velocity = _velocity.z * speed * Time.fixedDeltaTime;
             transform.Rotate(t.up * rotation);
-            _rigidbody.MovePosition(_rigidbody.position + forward);
+            _rigidbody.MovePosition(_rigidbody.position + t.forward * velocity);
         }
     }
 }
