@@ -1,4 +1,3 @@
-- Give play object collision physics
 
 - Implement Inventory Screen
 

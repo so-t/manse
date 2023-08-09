@@ -6,12 +6,14 @@ namespace Interactables
     public class Collectable : BaseInteractable
     {
         private Item _item;
-        private MeshRenderer _objectMesh;
+        private MeshRenderer _mesh;
+        private Collider _collider;
 
         protected override void Awake()
         {
             base.Awake();
-            _objectMesh = gameObject.GetComponent<MeshRenderer>();
+            _mesh = gameObject.GetComponent<MeshRenderer>();
+            _collider = gameObject.GetComponent<Collider>();
             _item = gameObject.GetComponent<Item>();
         }
         
@@ -23,7 +25,8 @@ namespace Interactables
 
         protected override void Exit()
         {
-            _objectMesh.enabled = false;
+            _mesh.enabled = false;
+            _collider.enabled = false;
             PlayerController.AddToInventory(_item);
         }
     }

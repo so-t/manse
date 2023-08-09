@@ -16,7 +16,9 @@ namespace PlayerControls.Controller
         public TMP_Text textField;
         public CameraRotation camRotation;
         public AudioSource footstepAudioSource;
-
+        
+        private Rigidbody _rigidbody;
+        private Vector3 _velocity;
         private Inventory.Inventory _inventory = new Inventory.Inventory();
         private TeleType _teleType;
 
@@ -26,6 +28,7 @@ namespace PlayerControls.Controller
             State = new Playing(this);
             textField = GetComponentInChildren<TMP_Text>();
             camRotation = GetComponentInChildren<CameraRotation>();
+            _rigidbody = GetComponent<Rigidbody>();
             _teleType = GetComponentInChildren<TeleType>();
         }
 
@@ -76,7 +79,7 @@ namespace PlayerControls.Controller
         
         private void Update()
         {
-            State.HandlePlayerInput();
+            _velocity = State.HandlePlayerInput();
 
             // TODO: Move this to individual PlayerStates rather than putting it here
             if (!Input.GetKeyDown("escape")) return;
@@ -90,6 +93,15 @@ namespace PlayerControls.Controller
                 ReturnToPlayState();
                 Time.timeScale = 1;
             }
+        }
+
+        private void FixedUpdate()
+        {
+            var t = transform;
+            var rotation = _velocity.y * turnSpeed * Time.fixedDeltaTime;
+            var forward = t.forward * (_velocity.z * speed * Time.fixedDeltaTime);
+            transform.Rotate(t.up * rotation);
+            _rigidbody.MovePosition(_rigidbody.position + forward);
         }
     }
 }

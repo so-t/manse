@@ -35,11 +35,12 @@ namespace Interactables
             if (!Application.isEditor) return;
             
             var localScale = gameObject.transform.localScale;
-            gameObject.transform.GetChild(0).localScale = new Vector3(
-                localScale.x + cutoffDistance, 
-                localScale.y + cutoffDistance, 
-                localScale.z + cutoffDistance
-                );
+            gameObject.transform.GetChild(0).localScale = 
+                new Vector3(
+                    localScale.x + cutoffDistance, 
+                    localScale.y + cutoffDistance, 
+                    localScale.z + cutoffDistance
+                    );
         }
 
         private bool PlayerInRange(float range)

@@ -1,4 +1,3 @@
-using PlayerControls.Camera;
 using PlayerControls.Controller;
 using UnityEngine;
 
@@ -6,48 +5,35 @@ namespace PlayerControls.PlayerState
 {
     public class Playing : PlayerState
     {
-
-        private AudioSource _audioSource;
-        
         public Playing(PlayerController playerController)
         {
             Player = playerController;
-            _audioSource = Player.footstepAudioSource;
         }
 
-        public override void HandlePlayerInput()
+        public override Vector3 HandlePlayerInput()
         {
-        
+            var velocity = Vector3.zero;
             if (Input.GetAxis("Horizontal") != 0.0f || Input.GetAxis("Vertical") != 0.0f)
-            {  
-                // Handle Forward/Backwards Movement
-                if (Input.GetAxis("Vertical") != 0.0f)
-                {
-                    Velocity = new Vector3(0.0f, 0.0f, Player.speed * Input.GetAxisRaw("Vertical"));
-                    Player.transform.Translate(Velocity * Time.deltaTime);
-                }
-
-                // Handle Turning
-                if (Input.GetAxis("Horizontal") != 0.0f)
-                {
-                    Velocity = new Vector3(0.0f, Player.turnSpeed * Input.GetAxisRaw("Horizontal"), 0.0f);
-                    Player.transform.Rotate(Velocity * Time.deltaTime);
-                }
+            {
+                velocity.y = Input.GetAxisRaw("Horizontal");
+                velocity.z = Input.GetAxisRaw("Vertical");
 
                 // Play footstep sfx if not already playing
-                if(!_audioSource.isPlaying)
+                if(!Player.footstepAudioSource.isPlaying)
                 {
-                    _audioSource.Play();
+                    Player.footstepAudioSource.Play();
                 }
             }
             else
             {
                 // Stop footstep sfx if playing
-                if(_audioSource.isPlaying)
+                if(Player.footstepAudioSource.isPlaying)
                 {
-                    _audioSource.Pause();
+                    Player.footstepAudioSource.Pause();
                 }
             }
+
+            return velocity;
         }
     }
 }
