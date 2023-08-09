@@ -10,7 +10,7 @@ namespace PlayerControls.PlayerState
             Player = playerController;
         }
 
-        public override Vector3 HandlePlayerInput()
+        public override void HandlePlayerInput()
         {
             var velocity = Vector3.zero;
             if (Input.GetAxis("Horizontal") != 0.0f || Input.GetAxis("Vertical") != 0.0f)
@@ -32,8 +32,12 @@ namespace PlayerControls.PlayerState
                     Player.footstepAudioSource.Pause();
                 }
             }
-
-            return velocity;
+            Player.Velocity = velocity;
+            
+            if (Input.GetKeyDown("escape"))
+            {
+                Player.Pause();
+            }
         }
     }
 }

@@ -9,5 +9,13 @@ namespace PlayerControls.PlayerState
         {
             Player = playerController;
         }
+
+        public override void HandlePlayerInput()
+        {
+            if (Input.GetKeyDown("escape"))
+            {
+                Player.Resume();
+            }
+        }
     }
 }

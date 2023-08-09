@@ -1,3 +1,4 @@
+using System;
 using Items;
 using UnityEngine;
 using TMPro;
@@ -16,7 +17,9 @@ namespace PlayerControls.Controller
         public TMP_Text textField;
         public CameraRotation camRotation;
         public AudioSource footstepAudioSource;
-        
+        [NonSerialized]
+        public Vector3 Velocity;
+
         private Rigidbody _rigidbody;
         private Vector3 _velocity;
         private Inventory.Inventory _inventory = new Inventory.Inventory();
@@ -32,6 +35,18 @@ namespace PlayerControls.Controller
             _teleType = GetComponentInChildren<TeleType>();
         }
 
+        public void Pause()
+        {
+            State = new Paused(this);
+            Time.timeScale = 0;
+        }
+
+        public void Resume()
+        {
+            State = new Playing(this);
+            Time.timeScale = 1;
+        }
+
         private bool IsPaused()
         {
             return State.GetType() == typeof(Paused);
@@ -45,17 +60,7 @@ namespace PlayerControls.Controller
             camRotation.LookAt(lookAtTarget);
             return true;
         }
-
-        public void ReturnToPlayState()
-        {
-            State = new Playing(this);
-        }
-
-        public bool CameraHasTarget()
-        {
-            return camRotation.hasTarget;
-        }
-
+        
         public void AddToInventory(Item item)
         {
             _inventory.Add(item);
@@ -79,27 +84,14 @@ namespace PlayerControls.Controller
         
         private void Update()
         {
-            _velocity = State.HandlePlayerInput();
-
-            // TODO: Move this to individual PlayerStates rather than putting it here
-            if (!Input.GetKeyDown("escape")) return;
-            if (State.GetType() == typeof(Playing))
-            {
-                State = new Paused(this);
-                Time.timeScale = 0;
-            }
-            else if (IsPaused())
-            {
-                ReturnToPlayState();
-                Time.timeScale = 1;
-            }
+            State.HandlePlayerInput();
         }
 
         private void FixedUpdate()
         {
             var t = transform;
-            var rotation = _velocity.y * turnSpeed * Time.fixedDeltaTime;
-            var velocity = _velocity.z * speed * Time.fixedDeltaTime;
+            var rotation = this.Velocity.y * turnSpeed * Time.fixedDeltaTime;
+            var velocity = this.Velocity.z * speed * Time.fixedDeltaTime;
             transform.Rotate(t.up * rotation);
             _rigidbody.MovePosition(_rigidbody.position + t.forward * velocity);
         }

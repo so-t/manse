@@ -7,6 +7,6 @@ namespace PlayerControls.PlayerState
     {
         protected PlayerController Player;
 
-        public virtual Vector3 HandlePlayerInput(){ return Vector3.zero; }
+        public virtual void HandlePlayerInput(){}
     }
 }
