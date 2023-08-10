@@ -1,7 +1,6 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using Items;
+using UnityEditor.PackageManager;
 using UnityEngine;
 
 namespace PlayerControls.Inventory
@@ -11,20 +10,31 @@ namespace PlayerControls.Inventory
         [SerializeField]
         private UnityEngine.Camera displayCamera;
         [SerializeField]
-        private List<Item> inventory = new List<Item>();
+        private List<GameObject> inventory = new List<GameObject>();
         private int _displayIndex = 1;
 
         private InventoryDisplay _display;
         
-        public void Add(Item item) { inventory.Add(item); }
+        private int _itemCount = 2; // TODO: Remove 
+        
+        public void Add(GameObject obj) { inventory.Add(obj); }
 
-        public bool Remove(Item item) { return inventory.Remove(item); }
+        public bool Remove(GameObject obj) { return inventory.Remove(obj); }
 
-        public bool Contains(string itemName) { return inventory.Any(item => itemName == item.itemName); }
+        public bool Contains(string itemName) { return inventory.Any(item => itemName == item.name); }
+
+        public GameObject GetDisplayedObject()
+        {
+            return inventory[_displayIndex];
+        }
 
         public void CreateDisplay()
         {
-            _display = new InventoryDisplay(inventory.Count, displayCamera);
+            _display = new InventoryDisplay(
+                itemCount: _itemCount, // TODO: Change this to `inventory.Count`
+                parentObject: displayCamera.gameObject
+                );
+            _itemCount++; // TODO: Remove 
         }
 
         public void DestroyDisplay()
@@ -33,20 +43,15 @@ namespace PlayerControls.Inventory
             _display = null;
         }
 
-        private void Update()
+        public void Rotate(float direction)
         {
-            if (_display == null || Input.GetAxisRaw("Horizontal") == 0.0f || _display.IsRotating()) return;
+            if (_display == null || _display.IsRotating() || direction == 0.0f) return;
             
-            var direction = Input.GetAxisRaw("Horizontal") < 0.0f ? 
-                InventoryDisplay.RotatingLeft 
-                : InventoryDisplay.RotatingRight;
             _display.SetRotationDirection(direction);
-                
-            _displayIndex = direction switch
+            _displayIndex = (direction > 0.0f) switch
             {
-                -1 => _displayIndex - 1 < 1 ? inventory.Count - 1 : _displayIndex - 1,
-                1 => _displayIndex + 1 >= inventory.Count - 1 ? 1 : _displayIndex + 1,
-                _ => throw new ArgumentOutOfRangeException()
+                true => _displayIndex + 1 >= inventory.Count - 1 ? 1 : _displayIndex + 1,
+                false => _displayIndex - 1 < 1 ? inventory.Count - 1 : _displayIndex - 1
             };
         }
 
@@ -54,7 +59,7 @@ namespace PlayerControls.Inventory
         {
             if (_display == null || !_display.IsRotating()) return;
 
-            if (_display.HasFinishedRotating()) 
+            if (_display.HasFinishedRotating())
                 _display.StopRotating();
             else
                 _display.Rotate();

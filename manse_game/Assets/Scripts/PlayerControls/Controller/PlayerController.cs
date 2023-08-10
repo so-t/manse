@@ -1,5 +1,4 @@
 using System;
-using Items;
 using UnityEngine;
 using TMPro;
 using PlayerControls.Camera;
@@ -48,15 +47,8 @@ namespace PlayerControls.Controller
 
         public void OpenInventory()
         {
-            State = new ViewingInventory(this);
+            State = new ViewingInventory(this, _inventory);
             Velocity = Vector3.zero;
-            _inventory.CreateDisplay();
-        }
-
-        public void CloseInventory()
-        {
-            State = new Playing(this);
-            _inventory.DestroyDisplay();
         }
 
         private bool IsPaused()
@@ -73,14 +65,14 @@ namespace PlayerControls.Controller
             return true;
         }
         
-        public void AddToInventory(Item item)
+        public void AddToInventory(GameObject obj)
         {
-            _inventory.Add(item);
+            _inventory.Add(obj);
         }
 
-        public void RemoveFromInventory(Item item)
+        public void RemoveFromInventory(GameObject obj)
         {
-            _inventory.Remove(item);
+            _inventory.Remove(obj);
         }
         
         public void DisplayMessage(string str)

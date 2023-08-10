@@ -1,11 +1,9 @@
-using Items;
 using UnityEngine;
 
 namespace Interactables
 {
     public class Collectable : BaseInteractable
     {
-        private Item _item;
         private MeshRenderer _mesh;
         private Collider _collider;
 
@@ -14,7 +12,6 @@ namespace Interactables
             base.Awake();
             _mesh = gameObject.GetComponent<MeshRenderer>();
             _collider = gameObject.GetComponent<Collider>();
-            _item = gameObject.GetComponent<Item>();
         }
         
         protected override bool ExitCondition(){ 
@@ -27,7 +24,7 @@ namespace Interactables
         {
             _mesh.enabled = false;
             _collider.enabled = false;
-            PlayerController.AddToInventory(_item);
+            PlayerController.AddToInventory(gameObject);
         }
     }
 }

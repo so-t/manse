@@ -56,7 +56,6 @@
      <Compile Include="Assets\Scripts\UI\TeleType.cs" />
      <Compile Include="Assets\Scripts\PlayerControls\PlayerState\PlayerState.cs" />
      <Compile Include="Assets\Scripts\PlayerControls\PlayerState\Interacting.cs" />
-     <Compile Include="Assets\Scripts\Items\Item.cs" />
      <Compile Include="Assets\Scripts\Interactables\AutomataTrigger.cs" />
      <Compile Include="Assets\Scripts\PlayerControls\PlayerState\Playing.cs" />
      <Compile Include="Assets\Scripts\Interactables\BaseInteractable.cs" />

@@ -8,29 +8,30 @@ namespace PlayerControls.Inventory
 {
     public class InventoryDisplay
         {
-            public const int RotatingLeft = 1;
-            public const int RotatingRight = -1;
-            
             private const int CenterIndex = 0;
-            private const float RadiusLength = 0.5f;
+            private const int RotatingLeft = 1;
+            private const int RotatingRight = -1;
             private const int NotRotating = 0;
             
-            private readonly UnityEngine.Camera _camera;
+            private const float RotationTimeSeconds = 0.5f;
+            
+            private readonly float _rotationAngle;
+            private readonly float _rotationSpeed;
+            
             private readonly GameObject _object;
             private readonly List<GameObject> _itemDisplays = new List<GameObject>(); 
             private readonly Mesh _mesh;
-            private readonly float _rotationAngle;
             
-            private Vector3 _previousUpVector;
             private int _rotationDirection;
-            
-            public InventoryDisplay(int itemCount, UnityEngine.Camera camera)
+            private Vector3 _previousUpVector;
+
+            public InventoryDisplay(int itemCount, GameObject parentObject, float radiusLength=0.5f)
             {
-                _camera = camera;
-                // TODO stop hard coding this, replace with itemCount
-                _mesh = CreateMesh(itemCount);
-                _object = CreateObject(_mesh);
-                _rotationAngle = AngleBetweenItems(_mesh);
+                _mesh = CreateMesh(itemCount, radiusLength);
+                _object = CreateObject(_mesh, parentObject);
+                
+                _rotationAngle = RotationAngleFromMesh(_mesh);
+                _rotationSpeed = _rotationAngle / RotationTimeSeconds;
                 _previousUpVector = _object.transform.up;
             }
             
@@ -40,7 +41,7 @@ namespace PlayerControls.Inventory
                 Object.Destroy(_object);
             }
 
-            private static Mesh CreateMesh(int itemCount)
+            private static Mesh CreateMesh(int itemCount, float radiusLength)
             {
                 if (itemCount < 2) itemCount = 2;
 
@@ -54,7 +55,7 @@ namespace PlayerControls.Inventory
                 // Create the center of the circle, and first triangle
                 var center = new Vector3(0.0f, 0.0f, 0.0f);
                 circleVertices.Add(center);
-                circleVertices.Add(new Vector3(0.0f, RadiusLength, 0.0f));
+                circleVertices.Add(new Vector3(0.0f, radiusLength, 0.0f));
                 circleVertices.Add(quaternion * circleVertices[1]);
                 triangleVertices.Add(0);
                 triangleVertices.Add(1);
@@ -77,7 +78,7 @@ namespace PlayerControls.Inventory
                 };
             }
             
-            private GameObject CreateObject(Mesh mesh)
+            private GameObject CreateObject(Mesh mesh, GameObject parentObject)
             {
                 var obj = new GameObject("Empty")
                 {
@@ -102,15 +103,15 @@ namespace PlayerControls.Inventory
                     _itemDisplays.Add(marker);
                 }
                 
-                PositionObject(obj);
+                PositionObject(obj,parentObject);
                 return obj;
             }
             
-            private void PositionObject(GameObject obj)
+            private void PositionObject(GameObject obj, GameObject parentObj)
             {
-                obj.transform.SetParent(_camera.gameObject.transform);
+                obj.transform.SetParent( parentObj.transform);
             
-                var position = 1.25f * _camera.gameObject.transform.forward;
+                var position = 1.25f *  parentObj.transform.forward;
                 obj.transform.localPosition = position;
 
                 // Ensure facing: towards player camera, with the circle oriented
@@ -126,7 +127,7 @@ namespace PlayerControls.Inventory
                 obj.transform.rotation = tilt;
             }
 
-            private static float AngleBetweenItems(Mesh mesh)
+            private static float RotationAngleFromMesh(Mesh mesh)
             {
                 var side1 = mesh.vertices[1] - mesh.vertices[CenterIndex];
                 var side2 = mesh.vertices[2] - mesh.vertices[CenterIndex];
@@ -140,20 +141,21 @@ namespace PlayerControls.Inventory
             public bool HasFinishedRotating()
             {
                 var ang = Vector3.Angle(_object.transform.up, _previousUpVector);
-                return Math.Abs(ang - Math.Abs(_rotationAngle)) < 0.9f;
+                return Math.Abs(ang - Math.Abs(_rotationAngle)) < 0.6f;
             }
 
-            public void SetRotationDirection(int direction)
+            public void SetRotationDirection(float direction)
             {
-                _rotationDirection = direction;
+                if (direction == 0.0f) _rotationDirection = NotRotating;
+                else _rotationDirection = direction > 0.0f? RotatingLeft : RotatingRight;
             }
 
             public void Rotate()
             {
                 _object.transform.RotateAround(
                     _object.transform.position, 
-                    _rotationDirection * _object.transform.forward, 
-                    100 * Time.fixedDeltaTime
+                    _rotationDirection * _object.transform.forward,
+                    _rotationSpeed * Time.fixedDeltaTime
                 );
             }
 
