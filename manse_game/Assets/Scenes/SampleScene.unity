@@ -315,7 +315,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inventory: []
-  Camera: {fileID: 1766327570}
+  displayCamera: {fileID: 1766327570}
 --- !u!1 &65282704
 GameObject:
   m_ObjectHideFlags: 0

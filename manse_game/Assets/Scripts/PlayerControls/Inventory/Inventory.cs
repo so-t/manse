@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using Items;
 using UnityEditor;
 using UnityEngine;
@@ -10,8 +9,8 @@ namespace PlayerControls.Inventory
 {
     public class Inventory : MonoBehaviour
     {
-        const int CenterIndex = 0;
-        const float RadiusLength = 0.5f;
+        private const int CenterIndex = 0;
+        private const float RadiusLength = 0.5f;
         
         [SerializeField]
         private List<Item> inventory = new List<Item>();

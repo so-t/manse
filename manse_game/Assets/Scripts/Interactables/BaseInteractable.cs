@@ -15,8 +15,8 @@ namespace Interactables
         protected InteractableState State = InteractableState.Primed;
         protected PlayerController PlayerController;
         protected CameraRotation PlayerCamera;
-        
-        protected GameObject _player;
+
+        private GameObject _player;
 
         protected enum InteractableState 
         {

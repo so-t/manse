@@ -29,8 +29,8 @@ namespace  PlayerControls.Camera
 
         public void ReturnToLookTarget()
         {
-            //TODO: Need to slow this down.
-            //Currently Returning to the forward before LookAt was prompted jerks the camera very fast.
+            // TODO: Need to slow this down.
+            // Currently Returning to the forward before LookAt was prompted jerks the camera very fast.
             hasTarget = true;
             _targetPosition = _prevLookTarget;
         }
