@@ -38,6 +38,10 @@ namespace PlayerControls.PlayerState
             {
                 Player.Pause();
             }
+            else if (Input.GetKeyDown("i"))
+            {
+                Player.OpenInventory();
+            }
         }
     }
 }

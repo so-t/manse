@@ -39,10 +39,21 @@ namespace PlayerControls.Controller
         {
             State = new Paused(this);
             Velocity = Vector3.zero;
-            _inventory.Display();
         }
 
         public void Resume()
+        {
+            State = new Playing(this);
+        }
+
+        public void OpenInventory()
+        {
+            State = new ViewingInventory(this);
+            Velocity = Vector3.zero;
+            _inventory.CreateDisplay();
+        }
+
+        public void CloseInventory()
         {
             State = new Playing(this);
             _inventory.DestroyDisplay();

@@ -67,6 +67,8 @@
      <Compile Include="Assets\Scripts\PlayerControls\Camera\CameraHeadBob.cs" />
      <Compile Include="Assets\Scripts\Interactables\Collectable.cs" />
      <Compile Include="Assets\Scripts\PlayerControls\Controller\PlayerController.cs" />
+     <Compile Include="Assets\Scripts\PlayerControls\Inventory\InventoryDisplay.cs" />
+     <Compile Include="Assets\Scripts\PlayerControls\PlayerState\ViewingInventory.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
