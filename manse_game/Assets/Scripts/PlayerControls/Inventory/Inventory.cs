@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using Items;
 using UnityEditor;
 using UnityEngine;
@@ -21,7 +22,7 @@ namespace PlayerControls.Inventory
         private Vector3 _previousUp;
         private int _displayIndex = 1;
         [SerializeField]
-        private UnityEngine.Camera Camera;
+        private UnityEngine.Camera displayCamera;
         
         public void Add(Item item) { inventory.Add(item); }
 
@@ -89,24 +90,26 @@ namespace PlayerControls.Inventory
             var meshFilter = _displayObject.AddComponent<MeshFilter>();
             meshFilter.mesh = _displayMesh;
             
-            if (Application.isEditor)
+            meshRenderer.enabled = false;
+            if (!Application.isEditor) return;
+            
+            foreach (var vertex in _displayMesh.vertices)
             {
+                if (vertex == _displayMesh.vertices[0]) continue;
+                    
                 meshRenderer.material = AssetDatabase.GetBuiltinExtraResource<Material>("Default-Material.mat");
                 var marker = GameObject.CreatePrimitive(PrimitiveType.Sphere);
                 marker.transform.SetParent(_displayObject.transform);
-                marker.transform.position = _displayMesh.vertices[1];
+                marker.transform.position = vertex;
                 marker.transform.localScale /= 10;
-
             }
-            else
-                meshRenderer.enabled = false;
         }
         
         private void PositionInventoryLayout(GameObject obj)
         {
-            obj.transform.SetParent(Camera.gameObject.transform);
+            obj.transform.SetParent(displayCamera.gameObject.transform);
             
-            var position = 1.25f * Camera.gameObject.transform.forward;
+            var position = 1.25f * displayCamera.gameObject.transform.forward;
             obj.transform.localPosition = position;
 
             // Ensure facing: towards player camera, with the circle oriented
@@ -155,7 +158,7 @@ namespace PlayerControls.Inventory
             if (!_displayObject || !IsRotating()) return;
 
             var ang = Vector3.Angle(_displayObject.transform.up, _previousUp);
-            if (Math.Abs(ang - _targetRotation) < 1.0f)
+            if (Math.Abs(ang - Math.Abs(_targetRotation)) < 0.5f)
             {
                 _targetRotation = 0.0f;
                 _previousUp = _displayObject.transform.up;
@@ -163,8 +166,8 @@ namespace PlayerControls.Inventory
             else
             {
                 _displayObject.transform.RotateAround(
-                    _displayObject.transform.position, 
-                    _displayObject.transform.forward, 
+                     _displayObject.transform.position, 
+                    _targetRotation > 0 ? _displayObject.transform.forward : -1 * _displayObject.transform.forward, 
                     100 * Time.fixedDeltaTime
                     );
             }
