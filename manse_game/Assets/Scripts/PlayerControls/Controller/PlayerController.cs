@@ -38,13 +38,14 @@ namespace PlayerControls.Controller
         public void Pause()
         {
             State = new Paused(this);
-            Time.timeScale = 0;
+            Velocity = Vector3.zero;
+            _inventory.Display();
         }
 
         public void Resume()
         {
             State = new Playing(this);
-            Time.timeScale = 1;
+            _inventory.DestroyDisplay();
         }
 
         private bool IsPaused()
@@ -90,8 +91,8 @@ namespace PlayerControls.Controller
         private void FixedUpdate()
         {
             var t = transform;
-            var rotation = this.Velocity.y * turnSpeed * Time.fixedDeltaTime;
-            var velocity = this.Velocity.z * speed * Time.fixedDeltaTime;
+            var rotation = Velocity.y * turnSpeed * Time.fixedDeltaTime;
+            var velocity = Velocity.z * speed * Time.fixedDeltaTime;
             transform.Rotate(t.up * rotation);
             _rigidbody.MovePosition(_rigidbody.position + t.forward * velocity);
         }
