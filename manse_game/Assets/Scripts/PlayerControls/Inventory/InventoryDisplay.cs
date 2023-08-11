@@ -96,14 +96,14 @@ namespace PlayerControls.Inventory
 
             // Add the game objects from _itemList as children of obj
             // Position one at each boundary point around the edge of the circle
-            //    
-            // i = 1 as mesh.vertices[0] is the center vertex of the circle
-            for (var i = 1; i < _itemList.Count; i++)
+            for (var i = 0; i < _itemList.Count; i++)
             {
                 var item = _itemList[i];
                 item.transform.rotation = Quaternion.identity;
                 item.transform.SetParent(obj.transform);
-                item.transform.position = mesh.vertices[i]; 
+                
+                // i = 1 as mesh.vertices[0] is the center vertex of the circle
+                item.transform.position = mesh.vertices[i + 1]; 
                 
                 // The parent object's 'up' is pointing away from it's parent
                 // Rotate the display items so that they face the parent's parent
