@@ -14,7 +14,8 @@ namespace Interactables
             _collider = gameObject.GetComponent<Collider>();
         }
         
-        protected override bool ExitCondition(){ 
+        protected override bool ExitCondition()
+        { 
             return Fired && !PlayerCamera.hasTarget 
                           && Input.GetButtonDown("Interact")
                           && PlayerController.textField.text == displayText; 

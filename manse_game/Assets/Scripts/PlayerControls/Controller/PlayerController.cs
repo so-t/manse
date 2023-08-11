@@ -58,6 +58,15 @@ namespace PlayerControls.Controller
 
         public bool IsMoving() => Velocity != Vector3.zero;
 
+        public bool CanSeeObject(GameObject obj)
+        {
+            var viewPosition = camRotation.gameObject.transform.position;
+            var direction = (obj.transform.position - viewPosition).normalized;
+            if (!Physics.Raycast(viewPosition, direction, out var hitInfo)) return false;
+            
+            return hitInfo.collider.gameObject.name == obj.name;
+        }
+
         public bool Interact(Transform lookAtTarget=null)
         {
             if (State.GetType() != typeof(Playing)) return false;

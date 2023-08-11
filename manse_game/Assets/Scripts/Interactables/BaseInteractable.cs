@@ -1,3 +1,4 @@
+using System;
 using PlayerControls.Camera;
 using PlayerControls.Controller;
 using UnityEngine;
@@ -8,6 +9,8 @@ namespace Interactables
     {
         public float cutoffDistance = 10f;
         public bool requiresInteraction = true;
+        public bool requiresPlayerInRange = true;
+        public bool requiresLineOfSight = true;
         public Transform lookTarget;
         public string displayText = "";
         
@@ -52,11 +55,9 @@ namespace Interactables
 
         protected virtual bool StartCondition()
         {
-            return requiresInteraction switch
-            {
-                true when !Input.GetButtonDown("Interact") && PlayerInRange(cutoffDistance) && !PlayerCamera.hasTarget => false,
-                _ => PlayerInRange(cutoffDistance) && !PlayerCamera.hasTarget
-            };
+            return !((requiresPlayerInRange && !PlayerInRange(cutoffDistance))
+                     || (requiresInteraction && !Input.GetButtonDown("Interact"))
+                     || (requiresLineOfSight && !PlayerController.CanSeeObject(gameObject)));
         }
         
         protected virtual void Action(){}

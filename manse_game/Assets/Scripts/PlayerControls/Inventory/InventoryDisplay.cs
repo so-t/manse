@@ -126,7 +126,7 @@ namespace PlayerControls.Inventory
             return obj;
         }
         
-        private void PositionObject(GameObject obj, GameObject parentObj, bool tiltObject=true)
+        private void PositionObject(GameObject obj, GameObject parentObj)
         {
             obj.transform.SetParent( parentObj.transform);
         
@@ -140,8 +140,6 @@ namespace PlayerControls.Inventory
                 ? Quaternion.Euler(0, 180, 0)
                 : Quaternion.Euler(0, 180, 360.0f / itemCount / 2);
             obj.transform.rotation = rotation;
-
-            if (!tiltObject) return;
             
             // Tilt the circle to give it an oblique appearance
             var tilt = Quaternion.Euler(-100, 0, 0);
