@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -37,6 +38,8 @@ namespace PlayerControls.Inventory
         
         public void Close()
         {
+            // Disable renderers and remove parents from gameObjects in _itemList
+            // so they do not get destroyed along with _object
             foreach (var item in _itemList)
             {
                 item.GetComponent<MeshRenderer>().enabled = false;
@@ -47,7 +50,7 @@ namespace PlayerControls.Inventory
 
         private static Mesh CreateMesh(int itemCount, float radiusLength)
         {
-            if (itemCount < 2) itemCount = 2;
+            if (itemCount < 2) itemCount = 2; // TODO: Code specific case for 1
 
             var circleVertices = new List<Vector3>();
             var triangleVertices = new List<int>();
@@ -91,14 +94,25 @@ namespace PlayerControls.Inventory
             var meshFilter = obj.AddComponent<MeshFilter>();
             meshFilter.mesh = mesh;
 
-            for (var i = 0; i < _itemList.Count; i++)
+            // Add the game objects from _itemList as children of obj
+            // Position one at each boundary point around the edge of the circle
+            //    
+            // i = 1 as mesh.vertices[0] is the center vertex of the circle
+            for (var i = 1; i < _itemList.Count; i++)
             {
                 var item = _itemList[i];
-                
-                item.transform.SetParent(obj.transform);
-                item.transform.position = mesh.vertices[i + 1]; // +1 as mesh.vertices[0] is the center vertex of the circle
                 item.transform.rotation = Quaternion.identity;
-                item.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+                item.transform.SetParent(obj.transform);
+                item.transform.position = mesh.vertices[i]; 
+                
+                // The parent object's 'up' is pointing away from it's parent
+                // Rotate the display items so that they face the parent's parent
+                item.transform.RotateAround(item.transform.position, obj.transform.right, 90); 
+                var localScale = item.transform.localScale;
+                var maxDimension = new[] {localScale.x, localScale.y, localScale.z }.Max();
+                var ratio = 0.1f/maxDimension;
+                localScale *= ratio;
+                item.transform.localScale = localScale;
                 item.GetComponent<MeshRenderer>().enabled = true;
             }
             
@@ -107,7 +121,7 @@ namespace PlayerControls.Inventory
             return obj;
         }
         
-        private void PositionObject(GameObject obj, GameObject parentObj)
+        private void PositionObject(GameObject obj, GameObject parentObj, bool tiltObject=true)
         {
             obj.transform.SetParent( parentObj.transform);
         
@@ -121,7 +135,9 @@ namespace PlayerControls.Inventory
                 ? Quaternion.Euler(0, 180, 0)
                 : Quaternion.Euler(0, 180, 360.0f / itemCount / 2);
             obj.transform.rotation = rotation;
-        
+
+            if (!tiltObject) return;
+            
             // Tilt the circle to give it an oblique appearance
             var tilt = Quaternion.Euler(-100, 0, 0);
             obj.transform.rotation = tilt;
@@ -165,14 +181,13 @@ namespace PlayerControls.Inventory
             _previousUpVector = _object.transform.up;
         }
         
-
-        public void RotateDisplayObject(GameObject obj)
+        public static void RotateDisplayObject(GameObject obj)
         {
-            obj.transform.RotateAround(
-                obj.transform.position,
-                obj.transform.forward,
-                100 * Time.fixedDeltaTime
-            );
+            // obj.transform.RotateAround(
+            //     obj.transform.position,
+            //     obj.transform.up,
+            //     100 * Time.fixedDeltaTime
+            // );
         }
     }
 }

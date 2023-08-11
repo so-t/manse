@@ -77,9 +77,11 @@
             "id": "8f1c585f59aebed1",
             "type": "leaf",
             "state": {
-              "type": "image",
+              "type": "markdown",
               "state": {
-                "file": "LVhgFsm.jpg"
+                "file": "TODO and BUGS.md",
+                "mode": "source",
+                "source": false
               }
             }
           }
@@ -158,7 +160,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "LVhgFsm.jpg",
+                "file": "TODO and BUGS.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -175,7 +177,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "LVhgFsm.jpg",
+                "file": "TODO and BUGS.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -198,7 +200,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "LVhgFsm.jpg"
+                "file": "TODO and BUGS.md"
               }
             }
           }
@@ -221,8 +223,8 @@
   },
   "active": "8f1c585f59aebed1",
   "lastOpenFiles": [
-    "Idea Dump.md",
     "LVhgFsm.jpg",
+    "Idea Dump.md",
     "TODO and BUGS.md",
     "Visuals/PSX Style Graphics.md",
     "Visuals/35pwf24x.bmp",

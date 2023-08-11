@@ -65,7 +65,7 @@ namespace PlayerControls.Inventory
             }
             else
             {
-                _display.RotateDisplayObject(itemList[_displayedItemIndex]);
+                InventoryDisplay.RotateDisplayObject(itemList[_displayedItemIndex]);
             }
         }
     }

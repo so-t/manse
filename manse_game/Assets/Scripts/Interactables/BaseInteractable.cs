@@ -44,7 +44,7 @@ namespace Interactables
 
         private bool PlayerInRange(float range)
         {
-            Vector3 adjustedPosition = transform.position;
+            var adjustedPosition = transform.position;
             var position = _player.transform.position;
             adjustedPosition.y = position.y;
             return Vector3.Distance(position, adjustedPosition) < range;
