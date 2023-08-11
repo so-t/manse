@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor.PackageManager;
 using UnityEngine;
 
 namespace PlayerControls.Inventory
@@ -9,60 +8,65 @@ namespace PlayerControls.Inventory
     {
         [SerializeField]
         private UnityEngine.Camera displayCamera;
+        
         [SerializeField]
-        private List<GameObject> inventory = new List<GameObject>();
-        private int _displayIndex = 1;
-
+        private List<GameObject> itemList = new List<GameObject>();
+        
         private InventoryDisplay _display;
         
-        private int _itemCount = 2; // TODO: Remove 
+        private int _displayedItemIndex;
         
-        public void Add(GameObject obj) { inventory.Add(obj); }
+        public void Add(GameObject obj) { itemList.Add(obj); }
 
-        public bool Remove(GameObject obj) { return inventory.Remove(obj); }
+        public bool Remove(GameObject obj) { return itemList.Remove(obj); }
 
-        public bool Contains(string itemName) { return inventory.Any(item => itemName == item.name); }
-
-        public GameObject GetDisplayedObject()
-        {
-            return inventory[_displayIndex];
-        }
+        public bool Contains(string itemName) { return itemList.Any(item => itemName == item.name); }
 
         public void CreateDisplay()
         {
+            if (_display != null) DestroyDisplay();
+            
             _display = new InventoryDisplay(
-                itemCount: _itemCount, // TODO: Change this to `inventory.Count`
+                itemList,
                 parentObject: displayCamera.gameObject
                 );
-            _itemCount++; // TODO: Remove 
         }
 
         public void DestroyDisplay()
         {
             _display.Close();
             _display = null;
+            _displayedItemIndex = 0;
         }
 
-        public void Rotate(float direction)
+        public GameObject GetDisplayedObject() { return itemList[_displayedItemIndex]; }
+
+        public void RotateDisplay(float direction)
         {
             if (_display == null || _display.IsRotating() || direction == 0.0f) return;
             
             _display.SetRotationDirection(direction);
-            _displayIndex = (direction > 0.0f) switch
+            _displayedItemIndex = (direction < 0.0f) switch
             {
-                true => _displayIndex + 1 >= inventory.Count - 1 ? 1 : _displayIndex + 1,
-                false => _displayIndex - 1 < 1 ? inventory.Count - 1 : _displayIndex - 1
+                true => _displayedItemIndex + 1 >= itemList.Count ? 0 : _displayedItemIndex + 1,
+                false => _displayedItemIndex - 1 < 0 ? itemList.Count - 1 : _displayedItemIndex - 1
             };
         }
 
         private void FixedUpdate()
         {
-            if (_display == null || !_display.IsRotating()) return;
+            if (_display == null) return;
 
-            if (_display.HasFinishedRotating())
-                _display.StopRotating();
+            if (_display.IsRotating()){
+                if (_display.HasFinishedRotating())
+                    _display.StopRotating();
+                else
+                    _display.Rotate();
+            }
             else
-                _display.Rotate();
+            {
+                _display.RotateDisplayObject(itemList[_displayedItemIndex]);
+            }
         }
     }
 }

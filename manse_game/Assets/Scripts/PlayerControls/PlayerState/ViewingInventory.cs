@@ -5,7 +5,7 @@ namespace PlayerControls.PlayerState
 {
     public class ViewingInventory : PlayerState
     {
-        private Inventory.Inventory _inventory;
+        private readonly Inventory.Inventory _inventory;
         
         public ViewingInventory(PlayerController playerController, Inventory.Inventory inventory)
         {
@@ -23,7 +23,11 @@ namespace PlayerControls.PlayerState
             }
             else if (Input.GetAxisRaw("Horizontal") != 0.0f)
             {
-                _inventory.Rotate(Input.GetAxisRaw("Horizontal"));
+                _inventory.RotateDisplay(Input.GetAxisRaw("Horizontal"));
+            }
+            else if (Input.GetButtonDown("Interact"))
+            {
+                Debug.Log(_inventory.GetDisplayedObject().name);
             }
         }
     }
