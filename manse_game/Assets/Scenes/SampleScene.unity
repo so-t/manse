@@ -213,7 +213,7 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 17754003}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 401c16bf58ec17146ab834abea569be0, type: 3}
@@ -319,7 +319,6 @@ MonoBehaviour:
   - {fileID: 1055096247}
   - {fileID: 426612231}
   - {fileID: 233265262}
-  - {fileID: 94159003}
 --- !u!1 &65282704
 GameObject:
   m_ObjectHideFlags: 0
@@ -825,7 +824,7 @@ Transform:
   m_GameObject: {fileID: 233265262}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 2, y: 0.5, z: -9}
-  m_LocalScale: {x: 1, y: 1, z: 2}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1704954593}
   m_Father: {fileID: 0}
@@ -1209,7 +1208,7 @@ Transform:
   m_GameObject: {fileID: 426612231}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0.5, z: -9}
-  m_LocalScale: {x: 1, y: 2, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 307161414}
   m_Father: {fileID: 0}
@@ -1951,6 +1950,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   walkingBobbingSpeed: 10
   bobbingAmount: 0.2
+  playerController: {fileID: 0}
 --- !u!114 &963194230
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2393,7 +2393,7 @@ Transform:
   m_GameObject: {fileID: 1055096247}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 4, y: 0.5, z: -9}
-  m_LocalScale: {x: 2, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 655445831}
   m_Father: {fileID: 0}

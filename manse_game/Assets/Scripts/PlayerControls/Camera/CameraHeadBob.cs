@@ -1,3 +1,5 @@
+using PlayerControls.Controller;
+using PlayerControls.PlayerState;
 using UnityEngine;
 
 namespace PlayerControls.Camera
@@ -9,11 +11,13 @@ namespace PlayerControls.Camera
 
         private float _defaultPosY;
         private float _timer;
+        public PlayerController playerController;
 
         // Start is called before the first frame update
         private void Awake()
         {
             _defaultPosY = transform.localPosition.y;
+            playerController = gameObject.GetComponentInParent<PlayerController>();
         }
 
         private void HeadBob()
@@ -42,7 +46,7 @@ namespace PlayerControls.Camera
 
         private void Update()
         {
-            HeadBob();
+            if (playerController.State.GetType() == typeof(Playing)) HeadBob();
         }
     }
 }

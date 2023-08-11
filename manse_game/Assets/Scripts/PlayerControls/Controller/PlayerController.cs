@@ -51,10 +51,12 @@ namespace PlayerControls.Controller
             Velocity = Vector3.zero;
         }
 
-        private bool IsPaused()
+        public bool IsPaused()
         {
             return State.GetType() == typeof(Paused);
         }
+
+        public bool IsMoving() => Velocity != Vector3.zero;
 
         public bool Interact(Transform lookAtTarget=null)
         {
