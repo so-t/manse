@@ -49,10 +49,10 @@ namespace  PlayerControls.Camera
         {
             var transformCopy = transform;
             Vector3 forward = transformCopy.forward;
-            Quaternion toRotation = Quaternion.LookRotation(target - transformCopy.position);
+            var toRotation = Quaternion.LookRotation(target - transformCopy.position);
             transform.rotation = Quaternion.RotateTowards(
-                transform.rotation, toRotation, eventSpeed * Time.time);
-            if(forward == transform.forward) hasTarget = false;
+                 transform.rotation, toRotation, eventSpeed * Time.time);
+             if(forward == transform.forward) hasTarget = false;
         }
 
         private void Update()
@@ -69,10 +69,14 @@ namespace  PlayerControls.Camera
                 else
                 {
                     _rotation.x += 
-                        Mathf.Sign(_rotation.x + -Mathf.Sign(_rotation.x) * eventSpeed) == Mathf.Sign(_rotation.x) ? 
+                        Math.Abs(
+                            Mathf.Sign(_rotation.x + -Mathf.Sign(_rotation.x) * eventSpeed) 
+                            - Mathf.Sign(_rotation.x)) < 0.5f ? 
                                     -Mathf.Sign(_rotation.x) * eventSpeed : 0.0f;
                     _rotation.y += 
-                        Mathf.Sign(_rotation.y + -Mathf.Sign(_rotation.y) * eventSpeed) == Mathf.Sign(_rotation.y) ? 
+                        Math.Abs(
+                            Mathf.Sign(_rotation.y + -Mathf.Sign(_rotation.y) * eventSpeed) 
+                                 - Mathf.Sign(_rotation.y)) < 0.5f ? 
                                     -Mathf.Sign(_rotation.y) * eventSpeed : 0.0f;
                 }
                 var xQuaternion = Quaternion.AngleAxis(_rotation.x, Vector3.up);
