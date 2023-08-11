@@ -87,6 +87,7 @@ namespace PlayerControls.Inventory
         
         private GameObject CreateObject(Mesh mesh, GameObject parentObject)
         {
+            // Create parent object and apply layout mesh
             var obj = new GameObject("Empty")
             {
                 name = "Inventory Display"
@@ -108,11 +109,15 @@ namespace PlayerControls.Inventory
                 // The parent object's 'up' is pointing away from it's parent
                 // Rotate the display items so that they face the parent's parent
                 item.transform.RotateAround(item.transform.position, obj.transform.right, 90); 
+                
+                // Adjust the items scale to be uniform with other display items
                 var localScale = item.transform.localScale;
                 var maxDimension = new[] {localScale.x, localScale.y, localScale.z }.Max();
                 var ratio = 0.1f/maxDimension;
                 localScale *= ratio;
                 item.transform.localScale = localScale;
+                
+                // Re-enable the objects mesh renderer
                 item.GetComponent<MeshRenderer>().enabled = true;
             }
             
@@ -183,11 +188,11 @@ namespace PlayerControls.Inventory
         
         public static void RotateDisplayObject(GameObject obj)
         {
-            // obj.transform.RotateAround(
-            //     obj.transform.position,
-            //     obj.transform.up,
-            //     100 * Time.fixedDeltaTime
-            // );
+            obj.transform.RotateAround(
+                obj.transform.position,
+                obj.transform.up,
+                100 * Time.fixedDeltaTime
+            );
         }
     }
 }
