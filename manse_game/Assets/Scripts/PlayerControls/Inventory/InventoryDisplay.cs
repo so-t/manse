@@ -8,7 +8,6 @@ namespace PlayerControls.Inventory
 {
     public class InventoryDisplay
     {
-        private const int CenterIndex = 0;
         private const int RotatingLeft = 1;
         private const int RotatingRight = -1;
         private const int NotRotating = 0;
@@ -19,8 +18,8 @@ namespace PlayerControls.Inventory
         private readonly float _rotationSpeed;
         
         private readonly GameObject _object;
-        private readonly Mesh _mesh;
         private readonly List<GameObject> _itemList;
+        private List<Vector3> BoundaryPoints { get; }
 
         private int _rotationDirection;
         private Vector3 _previousUpVector;
@@ -28,10 +27,13 @@ namespace PlayerControls.Inventory
         public InventoryDisplay(List<GameObject> itemList, GameObject parentObject, float radiusLength=0.5f)
         {
             _itemList = itemList;
-            _mesh = CreateMesh(_itemList.Count, radiusLength);
-            _object = CreateObject(_mesh, parentObject);
             
-            _rotationAngle = RotationAngleFromMesh(_mesh);
+            _rotationAngle = 360.0f / itemList.Count;
+            
+            BoundaryPoints = FindBoundaryPoints(_itemList.Count, radiusLength);
+            _rotationAngle = GetRotationAngle(BoundaryPoints);
+            
+            _object = CreateObject(BoundaryPoints, parentObject);
             _rotationSpeed = _rotationAngle / RotationTimeSeconds;
             _previousUpVector = _object.transform.up;
         }
@@ -47,53 +49,38 @@ namespace PlayerControls.Inventory
             }
             Object.Destroy(_object);
         }
-
-        private static Mesh CreateMesh(int itemCount, float radiusLength)
+        
+        private static List<Vector3> FindBoundaryPoints(int itemCount, float radiusLength)
         {
             if (itemCount < 2) itemCount = 2; // TODO: Code specific case for 1
-
-            var circleVertices = new List<Vector3>();
-            var triangleVertices = new List<int>();
+            
+            var boundaryPoints = new List<Vector3>();
             var arcBetweenPoints = 360.0f / itemCount;
         
             // Quaternion representing the rotation between two points on the circles circumference
             var quaternion = Quaternion.Euler(0.0f, 0.0f, arcBetweenPoints);
 
-            // Create the center of the circle, and first triangle
-            var center = new Vector3(0.0f, 0.0f, 0.0f);
-            circleVertices.Add(center);
-            circleVertices.Add(new Vector3(0.0f, radiusLength, 0.0f));
-            circleVertices.Add(quaternion * circleVertices[1]);
-            triangleVertices.Add(0);
-            triangleVertices.Add(1);
-            triangleVertices.Add(2);
+            boundaryPoints.Add(new Vector3(0.0f, radiusLength, 0.0f));
         
             // Create the rest of the points/triangles
             for (var i = 0; i < itemCount - 1; i++)
             {
-                triangleVertices.Add(CenterIndex);
-                triangleVertices.Add(circleVertices.Count - 1);
-                triangleVertices.Add(circleVertices.Count);
-                circleVertices.Add(quaternion * circleVertices[circleVertices.Count - 1]);
+                boundaryPoints.Add(quaternion * boundaryPoints[boundaryPoints.Count - 1]);
             }
-        
-            return new Mesh
-            {
-                vertices = circleVertices.ToArray(),
-                triangles = triangleVertices.ToArray(),
-                name = "Inventory Mesh"
-            };
+
+            return boundaryPoints;
         }
         
-        private GameObject CreateObject(Mesh mesh, GameObject parentObject)
+        
+        private GameObject CreateObject(List<Vector3> boundaryPoints, GameObject parentObject)
         {
             // Create parent object and apply layout mesh
             var obj = new GameObject("Empty")
             {
                 name = "Inventory Display"
             };
-            var meshFilter = obj.AddComponent<MeshFilter>();
-            meshFilter.mesh = mesh;
+            //var meshFilter = obj.AddComponent<MeshFilter>();
+            //meshFilter.mesh = mesh;
 
             // Add the game objects from _itemList as children of obj
             // Position one at each boundary point around the edge of the circle
@@ -103,8 +90,7 @@ namespace PlayerControls.Inventory
                 item.transform.rotation = Quaternion.identity;
                 item.transform.SetParent(obj.transform);
                 
-                // i = 1 as mesh.vertices[0] is the center vertex of the circle
-                item.transform.position = mesh.vertices[i + 1]; 
+                item.transform.position = boundaryPoints[i]; 
                 
                 // The parent object's 'up' is pointing away from it's parent
                 // Rotate the display items so that they face the parent's parent
@@ -128,14 +114,14 @@ namespace PlayerControls.Inventory
         
         private void PositionObject(GameObject obj, GameObject parentObj)
         {
-            obj.transform.SetParent( parentObj.transform);
+            obj.transform.SetParent(parentObj.transform);
         
             var position = 1.25f *  parentObj.transform.forward;
             obj.transform.localPosition = position;
 
             // Ensure facing: towards player camera, with the circle oriented
             // so that the closest part of the circle to the camera is a boundary point
-            var itemCount = _mesh.vertices.Length / 3;
+            var itemCount = BoundaryPoints.Count / 3;
             var rotation = itemCount / 3 % 2 != 0
                 ? Quaternion.Euler(0, 180, 0)
                 : Quaternion.Euler(0, 180, 360.0f / itemCount / 2);
@@ -146,10 +132,10 @@ namespace PlayerControls.Inventory
             obj.transform.rotation = tilt;
         }
 
-        private static float RotationAngleFromMesh(Mesh mesh)
+        private static float GetRotationAngle(List<Vector3> boundaryPoints)
         {
-            var side1 = mesh.vertices[1] - mesh.vertices[CenterIndex];
-            var side2 = mesh.vertices[2] - mesh.vertices[CenterIndex];
+            var side1 = boundaryPoints[0] - new Vector3(0.0f, 0.0f, 0.0f);
+            var side2 = boundaryPoints[1] - new Vector3(0.0f, 0.0f, 0.0f);
             var angle = Vector3.Angle(side1, side2);
             
             return angle;
