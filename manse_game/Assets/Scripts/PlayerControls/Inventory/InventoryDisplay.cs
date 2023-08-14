@@ -28,12 +28,10 @@ namespace PlayerControls.Inventory
         {
             _itemList = itemList;
             
-            _rotationAngle = 360.0f / itemList.Count;
-            
             BoundaryPoints = FindBoundaryPoints(_itemList.Count, radiusLength);
-            _rotationAngle = GetRotationAngle(BoundaryPoints);
             
             _object = CreateObject(BoundaryPoints, parentObject);
+            _rotationAngle = GetRotationAngle(BoundaryPoints);
             _rotationSpeed = _rotationAngle / RotationTimeSeconds;
             _previousUpVector = _object.transform.up;
         }
