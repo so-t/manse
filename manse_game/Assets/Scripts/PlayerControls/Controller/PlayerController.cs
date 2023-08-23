@@ -27,11 +27,10 @@ namespace PlayerControls.Controller
         {
             footstepAudioSource = GetComponent<AudioSource>();
             State = new Playing(this);
-            textField = GetComponentInChildren<TMP_Text>();
             camRotation = GetComponentInChildren<CameraRotation>();
             _rigidbody = GetComponent<Rigidbody>();
             _inventory = GetComponent<Inventory.Inventory>();
-            _teleType = GetComponentInChildren<TeleType>();
+            _teleType = textField.gameObject.GetComponent<TeleType>();
         }
 
         public void Pause()
@@ -106,9 +105,9 @@ namespace PlayerControls.Controller
         {
             var t = transform;
             var rotation = Velocity.y * turnSpeed * Time.fixedDeltaTime;
-            var velocity = Velocity.z * speed * Time.fixedDeltaTime;
+            var velocity = Velocity.z * speed;
             transform.Rotate(t.up * rotation);
-            _rigidbody.MovePosition(_rigidbody.position + t.forward * velocity);
+            _rigidbody.velocity = t.forward * velocity;
         }
     }
 }

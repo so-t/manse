@@ -7,7 +7,7 @@
 
 - ~~investigate whether or not the main circle/game object of an inventory display needs a mesh filter like it does not need a material, or if even the circle is unnecessary of all we care about is
 
-- Implement automaton script that moves an object 
+- Implement automaton script that moves an objects
 
 - Implement Pause screen background and commands
 
@@ -21,6 +21,8 @@
 
 - Make footstep sounds dynamic by adding sound sources to floor objects rather than the player (UnityEvents?)
 
+- Add lighting to the PSX shader 
+
 - ~~Figure out the best way to get an image representation of an item
 
 - ~~Add game object to Item class
@@ -30,6 +32,10 @@
 - ~~Add “interact” input check for selecting highlighted item from inventory display
 
 - ~~Make highlighted item from inventory display rotate
+
+- ~~Does the circle object need to be created for the inventory display, or can we slip it and use the coords found for the items if all we care about is the boundary points
+
+
 
 # BUGS
 

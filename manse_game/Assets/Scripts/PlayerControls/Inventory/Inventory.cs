@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 
 namespace PlayerControls.Inventory
@@ -11,7 +12,8 @@ namespace PlayerControls.Inventory
         
         [SerializeField]
         private List<GameObject> itemList = new List<GameObject>();
-        
+
+        private TMP_Text _textDisplay;
         private InventoryDisplay _display;
         
         private int _displayedItemIndex;
@@ -24,22 +26,31 @@ namespace PlayerControls.Inventory
 
         public void CreateDisplay()
         {
-            if (_display != null) DestroyDisplay();
-            
+            if (itemList.Count <= 0) return;
+            DestroyDisplay();
+
             _display = new InventoryDisplay(
                 itemList,
                 parentObject: displayCamera.gameObject
-                );
+            );
+            DisplaySelectedObjectName();
         }
 
         public void DestroyDisplay()
         {
+            if (_display == null) return;
+            
             _display.Close();
             _display = null;
             _displayedItemIndex = 0;
+            ClearDisplayText();
         }
 
         public GameObject GetDisplayedObject() { return itemList[_displayedItemIndex]; }
+
+        private void DisplaySelectedObjectName() { _textDisplay.text = GetDisplayedObject().name; }
+        
+        private void ClearDisplayText() { _textDisplay.text = ""; }
 
         public void RotateDisplay(float direction)
         {
@@ -53,15 +64,27 @@ namespace PlayerControls.Inventory
             };
         }
 
+        private void Awake()
+        {
+            _textDisplay = displayCamera.GetComponentInChildren<TMP_Text>();
+        }
+
         private void FixedUpdate()
         {
             if (_display == null) return;
 
-            if (_display.IsRotating()){
+            if (_display.IsRotating())
+            {
                 if (_display.HasFinishedRotating())
+                {
                     _display.StopRotating();
+                    DisplaySelectedObjectName();
+                }
                 else
+                {
                     _display.Rotate();
+                    ClearDisplayText();
+                }
             }
             else
             {

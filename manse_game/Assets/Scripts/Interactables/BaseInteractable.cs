@@ -1,4 +1,3 @@
-using System;
 using PlayerControls.Camera;
 using PlayerControls.Controller;
 using UnityEngine;
@@ -35,14 +34,14 @@ namespace Interactables
             PlayerController = _player.GetComponentInChildren<PlayerController>();
             PlayerCamera = _player.GetComponentInChildren<CameraRotation>();
             
-            if (!Application.isEditor) return;
-            
-            gameObject.transform.GetChild(0).localScale = 
-                new Vector3(
-                    (gameObject.transform.GetChild(0).localScale.x / transform.GetChild(0).lossyScale.x) * cutoffDistance * 2, 
-                    (gameObject.transform.GetChild(0).localScale.y / transform.GetChild(0).lossyScale.y) * cutoffDistance * 2, 
-                    (gameObject.transform.GetChild(0).localScale.z / transform.GetChild(0).lossyScale.z) * cutoffDistance * 2
-                );
+            // if (!Application.isEditor) return;
+            //
+            // gameObject.transform.GetChild(0).localScale = 
+            //     new Vector3(
+            //         (gameObject.transform.GetChild(0).localScale.x / transform.GetChild(0).lossyScale.x) * cutoffDistance * 2, 
+            //         (gameObject.transform.GetChild(0).localScale.y / transform.GetChild(0).lossyScale.y) * cutoffDistance * 2, 
+            //         (gameObject.transform.GetChild(0).localScale.z / transform.GetChild(0).lossyScale.z) * cutoffDistance * 2
+            //     );
         }
 
         private bool PlayerInRange(float range)
