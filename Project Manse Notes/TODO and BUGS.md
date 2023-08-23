@@ -9,7 +9,7 @@
 
 - Implement automaton script that moves an objects
 
-- Implement Pause screen background and commands
+- Implement Pause screen ~~background and~~ commands
 
 - Implement Inventory Screen background
 
