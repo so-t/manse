@@ -91,7 +91,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Idea Dump.md",
+                "file": "TODO and BUGS.md",
                 "mode": "source",
                 "source": false
               }
@@ -172,7 +172,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Idea Dump.md",
+                "file": "TODO and BUGS.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -189,7 +189,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Idea Dump.md",
+                "file": "TODO and BUGS.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -212,7 +212,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Idea Dump.md"
+                "file": "TODO and BUGS.md"
               }
             }
           }
@@ -236,9 +236,9 @@
   },
   "active": "4c1097630a263046",
   "lastOpenFiles": [
+    "Idea Dump.md",
     "TODO and BUGS.md",
     "Affine Interpolation Resources.md",
-    "Idea Dump.md",
     "LVhgFsm.jpg",
     "Visuals/PSX Style Graphics.md",
     "Visuals/35pwf24x.bmp",

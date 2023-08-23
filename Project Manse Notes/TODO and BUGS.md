@@ -21,7 +21,7 @@
 
 - Make footstep sounds dynamic by adding sound sources to floor objects rather than the player (UnityEvents?)
 
-- Add lighting to the PSX shader 
+- ~~Add lighting to the PSX shader 
 
 - ~~Figure out the best way to get an image representation of an item
 

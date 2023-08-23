@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
+using UI;
 using UnityEngine;
 
 namespace PlayerControls.Inventory
@@ -15,6 +16,8 @@ namespace PlayerControls.Inventory
 
         private TMP_Text _textDisplay;
         private InventoryDisplay _display;
+        private TeleType _teleType;
+        private MeshRenderer _background;
         
         private int _displayedItemIndex;
         
@@ -33,6 +36,8 @@ namespace PlayerControls.Inventory
                 itemList,
                 parentObject: displayCamera.gameObject
             );
+
+            _background.enabled = true;
             DisplaySelectedObjectName();
         }
 
@@ -44,13 +49,14 @@ namespace PlayerControls.Inventory
             _display = null;
             _displayedItemIndex = 0;
             ClearDisplayText();
+            _background.enabled = false;
         }
 
         public GameObject GetDisplayedObject() { return itemList[_displayedItemIndex]; }
 
-        private void DisplaySelectedObjectName() { _textDisplay.text = GetDisplayedObject().name; }
+        private void DisplaySelectedObjectName() { _teleType.SetDisplayText(GetDisplayedObject().name); }
         
-        private void ClearDisplayText() { _textDisplay.text = ""; }
+        private void ClearDisplayText() { _teleType.SetDisplayText(""); }
 
         public void RotateDisplay(float direction)
         {
@@ -67,6 +73,11 @@ namespace PlayerControls.Inventory
         private void Awake()
         {
             _textDisplay = displayCamera.GetComponentInChildren<TMP_Text>();
+            _teleType = _textDisplay.GetComponent<TeleType>();
+            foreach (var meshRenderer in displayCamera.GetComponentsInChildren<MeshRenderer>())
+            {
+                if (meshRenderer.gameObject.name == "Transparent Background") _background = meshRenderer;
+            }
         }
 
         private void FixedUpdate()

@@ -5,7 +5,7 @@
   
 -  Figure out if it's possible to pass a get function into the inventory display so that a custom get function for the object name can be supplied at creation (delegate?)
 
-- tilted-circular inventory screen with horizontal scrolling, similar to that in Tomb Raider
+- ~~Tilted-circular inventory screen with horizontal scrolling, similar to that in Tomb Raider
 
 - Staircase that opens into the floor 
   ![[LVhgFsm.jpg]]
