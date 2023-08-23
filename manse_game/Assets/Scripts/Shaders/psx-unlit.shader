@@ -41,14 +41,13 @@
 				o.vertex.x = floor(160 * o.vertex.x) / 160; // Round x, adjusted for resolution
 				o.vertex.y = floor(120 * o.vertex.y) / 120; // Round y, adjusted for resolution
 				o.vertex.xyz *= snappedVertex.w; // convert back to projection-space
-				o.color = v.color;
-				o.color += UNITY_LIGHTMODEL_AMBIENT - 0.45;
+				o.color = v.color + UNITY_LIGHTMODEL_AMBIENT;
 
 				float distance = length(mul(UNITY_MATRIX_MV,v.vertex));
 	
 				o.uv = TRANSFORM_TEX(v.texcoord, _MainTex);
-				o.uv *= distance + o.vertex.w / distance / 2;
-				o.normal = distance + o.vertex.w / distance / 2;
+				o.uv *= distance + o.vertex.w * (UNITY_LIGHTMODEL_AMBIENT.a * 8) / distance / 2;
+				o.normal = distance + o.vertex.w * (UNITY_LIGHTMODEL_AMBIENT.a * 8) / distance / 2;
 
 				
 				float4 fogColor = unity_FogColor;

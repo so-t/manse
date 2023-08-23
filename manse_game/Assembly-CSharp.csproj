@@ -41,22 +41,22 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
-     <Compile Include="Assets\Scripts\PlayerControls\PlayerState\PlayerState.cs" />
-     <Compile Include="Assets\Scripts\Interactables\BaseInteractable.cs" />
-     <Compile Include="Assets\Scripts\PlayerControls\PlayerState\Playing.cs" />
-     <Compile Include="Assets\Scripts\Interactables\AutomataTrigger.cs" />
-     <Compile Include="Assets\Scripts\PlayerControls\PlayerState\Paused.cs" />
-     <Compile Include="Assets\Scripts\PlayerControls\Controller\PlayerController.cs" />
-     <Compile Include="Assets\Scripts\PlayerControls\Camera\CameraHeadBob.cs" />
-     <Compile Include="Assets\Scripts\Automata\BaseAutomaton.cs" />
-     <Compile Include="Assets\Scripts\PlayerControls\PlayerState\Interacting.cs" />
-     <Compile Include="Assets\Scripts\PlayerControls\Camera\CameraRotation.cs" />
-     <Compile Include="Assets\Scripts\PlayerControls\Inventory\InventoryDisplay.cs" />
-     <Compile Include="Assets\Scripts\Interactables\InspectionPoint.cs" />
-     <Compile Include="Assets\Scripts\Interactables\Collectable.cs" />
-     <Compile Include="Assets\Scripts\UI\TeleType.cs" />
      <Compile Include="Assets\Scripts\PlayerControls\Inventory\Inventory.cs" />
+     <Compile Include="Assets\Scripts\UI\TeleType.cs" />
+     <Compile Include="Assets\Scripts\PlayerControls\PlayerState\Interacting.cs" />
+     <Compile Include="Assets\Scripts\Interactables\AutomataTrigger.cs" />
+     <Compile Include="Assets\Scripts\Interactables\BaseInteractable.cs" />
+     <Compile Include="Assets\Scripts\PlayerControls\Camera\CameraRotation.cs" />
      <Compile Include="Assets\Scripts\PlayerControls\PlayerState\ViewingInventory.cs" />
+     <Compile Include="Assets\Scripts\Interactables\InspectionPoint.cs" />
+     <Compile Include="Assets\Scripts\PlayerControls\Camera\CameraHeadBob.cs" />
+     <Compile Include="Assets\Scripts\Interactables\Collectable.cs" />
+     <Compile Include="Assets\Scripts\PlayerControls\Controller\PlayerController.cs" />
+     <Compile Include="Assets\Scripts\PlayerControls\PlayerState\PlayerState.cs" />
+     <Compile Include="Assets\Scripts\PlayerControls\Inventory\InventoryDisplay.cs" />
+     <Compile Include="Assets\Scripts\PlayerControls\PlayerState\Playing.cs" />
+     <Compile Include="Assets\Scripts\PlayerControls\PlayerState\Paused.cs" />
+     <Compile Include="Assets\Scripts\Automata\BaseAutomaton.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
@@ -702,9 +702,6 @@
      <Reference Include="Unity.VSCode.Editor">
      <HintPath>C:\Personal Projects\manse\manse_game\Library\ScriptAssemblies\Unity.VSCode.Editor.dll</HintPath>
      </Reference>
-     <Reference Include="Unity.VisualScripting.Shared.Editor">
-     <HintPath>C:\Personal Projects\manse\manse_game\Library\ScriptAssemblies\Unity.VisualScripting.Shared.Editor.dll</HintPath>
-     </Reference>
      <Reference Include="Unity.TextMeshPro.Editor">
      <HintPath>C:\Personal Projects\manse\manse_game\Library\ScriptAssemblies\Unity.TextMeshPro.Editor.dll</HintPath>
      </Reference>
@@ -717,8 +714,8 @@
      <Reference Include="Unity.TestTools.CodeCoverage.Editor.OpenCover.Model">
      <HintPath>C:\Personal Projects\manse\manse_game\Library\ScriptAssemblies\Unity.TestTools.CodeCoverage.Editor.OpenCover.Model.dll</HintPath>
      </Reference>
-     <Reference Include="Unity.Timeline.Editor">
-     <HintPath>C:\Personal Projects\manse\manse_game\Library\ScriptAssemblies\Unity.Timeline.Editor.dll</HintPath>
+     <Reference Include="Unity.Sysroot.Linux_x86_64">
+     <HintPath>C:\Personal Projects\manse\manse_game\Library\ScriptAssemblies\Unity.Sysroot.Linux_x86_64.dll</HintPath>
      </Reference>
      <Reference Include="Unity.Timeline">
      <HintPath>C:\Personal Projects\manse\manse_game\Library\ScriptAssemblies\Unity.Timeline.dll</HintPath>
@@ -735,29 +732,35 @@
      <Reference Include="Unity.VisualScripting.SettingsProvider.Editor">
      <HintPath>C:\Personal Projects\manse\manse_game\Library\ScriptAssemblies\Unity.VisualScripting.SettingsProvider.Editor.dll</HintPath>
      </Reference>
+     <Reference Include="Unity.ProBuilder.AddOns.Editor">
+     <HintPath>C:\Personal Projects\manse\manse_game\Library\ScriptAssemblies\Unity.ProBuilder.AddOns.Editor.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.ProBuilder">
+     <HintPath>C:\Personal Projects\manse\manse_game\Library\ScriptAssemblies\Unity.ProBuilder.dll</HintPath>
+     </Reference>
      <Reference Include="Unity.TestTools.CodeCoverage.Editor.OpenCover.Mono.Reflection">
      <HintPath>C:\Personal Projects\manse\manse_game\Library\ScriptAssemblies\Unity.TestTools.CodeCoverage.Editor.OpenCover.Mono.Reflection.dll</HintPath>
      </Reference>
-     <Reference Include="Unity.VisualScripting.Flow">
-     <HintPath>C:\Personal Projects\manse\manse_game\Library\ScriptAssemblies\Unity.VisualScripting.Flow.dll</HintPath>
+     <Reference Include="Unity.ProBuilder.Editor">
+     <HintPath>C:\Personal Projects\manse\manse_game\Library\ScriptAssemblies\Unity.ProBuilder.Editor.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.Postprocessing.Editor">
+     <HintPath>C:\Personal Projects\manse\manse_game\Library\ScriptAssemblies\Unity.Postprocessing.Editor.dll</HintPath>
      </Reference>
      <Reference Include="UnityEditor.UI">
      <HintPath>C:\Personal Projects\manse\manse_game\Library\ScriptAssemblies\UnityEditor.UI.dll</HintPath>
      </Reference>
-     <Reference Include="Unity.PlasticSCM.Editor">
-     <HintPath>C:\Personal Projects\manse\manse_game\Library\ScriptAssemblies\Unity.PlasticSCM.Editor.dll</HintPath>
-     </Reference>
      <Reference Include="Unity.Rider.Editor">
      <HintPath>C:\Personal Projects\manse\manse_game\Library\ScriptAssemblies\Unity.Rider.Editor.dll</HintPath>
      </Reference>
-     <Reference Include="Unity.TestTools.CodeCoverage.Editor">
-     <HintPath>C:\Personal Projects\manse\manse_game\Library\ScriptAssemblies\Unity.TestTools.CodeCoverage.Editor.dll</HintPath>
+     <Reference Include="Unity.PlasticSCM.Editor">
+     <HintPath>C:\Personal Projects\manse\manse_game\Library\ScriptAssemblies\Unity.PlasticSCM.Editor.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.VisualScripting.Flow">
+     <HintPath>C:\Personal Projects\manse\manse_game\Library\ScriptAssemblies\Unity.VisualScripting.Flow.dll</HintPath>
      </Reference>
      <Reference Include="UnityEngine.UI">
      <HintPath>C:\Personal Projects\manse\manse_game\Library\ScriptAssemblies\UnityEngine.UI.dll</HintPath>
-     </Reference>
-     <Reference Include="Unity.VisualScripting.State">
-     <HintPath>C:\Personal Projects\manse\manse_game\Library\ScriptAssemblies\Unity.VisualScripting.State.dll</HintPath>
      </Reference>
      <Reference Include="Unity.VisualScripting.Core">
      <HintPath>C:\Personal Projects\manse\manse_game\Library\ScriptAssemblies\Unity.VisualScripting.Core.dll</HintPath>
@@ -765,32 +768,29 @@
      <Reference Include="Unity.EditorCoroutines.Editor">
      <HintPath>C:\Personal Projects\manse\manse_game\Library\ScriptAssemblies\Unity.EditorCoroutines.Editor.dll</HintPath>
      </Reference>
-     <Reference Include="Unity.ProBuilder">
-     <HintPath>C:\Personal Projects\manse\manse_game\Library\ScriptAssemblies\Unity.ProBuilder.dll</HintPath>
-     </Reference>
-     <Reference Include="Unity.ProBuilder.AddOns.Editor">
-     <HintPath>C:\Personal Projects\manse\manse_game\Library\ScriptAssemblies\Unity.ProBuilder.AddOns.Editor.dll</HintPath>
-     </Reference>
-     <Reference Include="Unity.ProBuilder.Editor">
-     <HintPath>C:\Personal Projects\manse\manse_game\Library\ScriptAssemblies\Unity.ProBuilder.Editor.dll</HintPath>
+     <Reference Include="Unity.Postprocessing.Runtime">
+     <HintPath>C:\Personal Projects\manse\manse_game\Library\ScriptAssemblies\Unity.Postprocessing.Runtime.dll</HintPath>
      </Reference>
      <Reference Include="Unity.ProBuilder.AssetIdRemapUtility">
      <HintPath>C:\Personal Projects\manse\manse_game\Library\ScriptAssemblies\Unity.ProBuilder.AssetIdRemapUtility.dll</HintPath>
      </Reference>
-     <Reference Include="Unity.Sysroot.Linux_x86_64">
-     <HintPath>C:\Personal Projects\manse\manse_game\Library\ScriptAssemblies\Unity.Sysroot.Linux_x86_64.dll</HintPath>
+     <Reference Include="Unity.VisualScripting.Shared.Editor">
+     <HintPath>C:\Personal Projects\manse\manse_game\Library\ScriptAssemblies\Unity.VisualScripting.Shared.Editor.dll</HintPath>
      </Reference>
      <Reference Include="Unity.Toolchain.Win-x86_64-Linux-x86_64">
      <HintPath>C:\Personal Projects\manse\manse_game\Library\ScriptAssemblies\Unity.Toolchain.Win-x86_64-Linux-x86_64.dll</HintPath>
      </Reference>
+     <Reference Include="Unity.Timeline.Editor">
+     <HintPath>C:\Personal Projects\manse\manse_game\Library\ScriptAssemblies\Unity.Timeline.Editor.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.TestTools.CodeCoverage.Editor">
+     <HintPath>C:\Personal Projects\manse\manse_game\Library\ScriptAssemblies\Unity.TestTools.CodeCoverage.Editor.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.VisualScripting.State">
+     <HintPath>C:\Personal Projects\manse\manse_game\Library\ScriptAssemblies\Unity.VisualScripting.State.dll</HintPath>
+     </Reference>
      <Reference Include="Unity.SysrootPackage.Editor">
      <HintPath>C:\Personal Projects\manse\manse_game\Library\ScriptAssemblies\Unity.SysrootPackage.Editor.dll</HintPath>
-     </Reference>
-     <Reference Include="Unity.Postprocessing.Editor">
-     <HintPath>C:\Personal Projects\manse\manse_game\Library\ScriptAssemblies\Unity.Postprocessing.Editor.dll</HintPath>
-     </Reference>
-     <Reference Include="Unity.Postprocessing.Runtime">
-     <HintPath>C:\Personal Projects\manse\manse_game\Library\ScriptAssemblies\Unity.Postprocessing.Runtime.dll</HintPath>
      </Reference>
   </ItemGroup>
   <ItemGroup>
