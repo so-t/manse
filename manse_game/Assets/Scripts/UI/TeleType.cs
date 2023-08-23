@@ -22,9 +22,9 @@ namespace UI
             DisableBackgroundRender();
         }
 
-        public void EnableBackgroundRender() { _bgMesh.enabled = true; }
+        private void EnableBackgroundRender() { _bgMesh.enabled = true; }
 
-        public void DisableBackgroundRender() { _bgMesh.enabled = false; }
+        private void DisableBackgroundRender() { _bgMesh.enabled = false; }
 
         public void SetDisplayText(string str) { _textMeshPro.text = str; }
 
