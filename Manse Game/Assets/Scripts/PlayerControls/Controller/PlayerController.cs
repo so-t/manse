@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using TMPro;
 using PlayerControls.Camera;
 using PlayerControls.PlayerState;
 using UI;
