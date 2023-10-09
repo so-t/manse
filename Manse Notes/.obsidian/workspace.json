@@ -1,0 +1,251 @@
+{
+  "main": {
+    "id": "9e15b668de8ef6b5",
+    "type": "split",
+    "children": [
+      {
+        "id": "fbb3e2ebcddd50cb",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "e5d486523887f702",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Visuals/PSX Style Graphics.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "4923d9619a570fd9",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Visuals/PSX Style Graphics.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "14b23b356791b9e5",
+            "type": "leaf",
+            "state": {
+              "type": "image",
+              "state": {
+                "file": "Visuals/35pwf24x.bmp"
+              }
+            }
+          },
+          {
+            "id": "b312d77e9f7607d5",
+            "type": "leaf",
+            "state": {
+              "type": "image",
+              "state": {
+                "file": "Visuals/cuabzpot.bmp"
+              }
+            }
+          },
+          {
+            "id": "858105a973290f69",
+            "type": "leaf",
+            "state": {
+              "type": "image",
+              "state": {
+                "file": "Visuals/ojbl3xmt.bmp"
+              }
+            }
+          },
+          {
+            "id": "107e87dc1d4e70c0",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Visuals/PSX Style Graphics.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "8f1c585f59aebed1",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "TODO and BUGS.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "4c1097630a263046",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "TODO and BUGS.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          }
+        ],
+        "currentTab": 7
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "977c1c843bebedda",
+    "type": "split",
+    "children": [
+      {
+        "id": "dd765c324739101a",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "e62599bafff925f5",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "56dc0f48588e70eb",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "a2766a06d6d6ae5a",
+            "type": "leaf",
+            "state": {
+              "type": "starred",
+              "state": {}
+            }
+          },
+          {
+            "id": "079437807e90daf3",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {}
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "8e9e22ff584e5e17",
+    "type": "split",
+    "children": [
+      {
+        "id": "3bd27d3eda90314e",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "cc885c114be2b21a",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "TODO and BUGS.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "3dd6febbc1a27ccf",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "TODO and BUGS.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "6d0032a73b947df5",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
+              }
+            }
+          },
+          {
+            "id": "c44a4ddd93dd7bf6",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "TODO and BUGS.md"
+              }
+            }
+          }
+        ],
+        "currentTab": 1
+      }
+    ],
+    "direction": "horizontal",
+    "width": 200
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false
+    }
+  },
+  "active": "4c1097630a263046",
+  "lastOpenFiles": [
+    "LVhgFsm.jpg",
+    "Idea Dump.md",
+    "Affine Interpolation Resources.md",
+    "Visuals/35pwf24x.bmp",
+    "Visuals/cuabzpot.bmp",
+    "Visuals/ojbl3xmt.bmp",
+    "Visuals/PSX Style Graphics.md",
+    "Visuals/rgz5b72y.bmp",
+    "TODO and BUGS.md",
+    "TODO",
+    "Visuals",
+    "Untitled.canvas"
+  ]
+}
