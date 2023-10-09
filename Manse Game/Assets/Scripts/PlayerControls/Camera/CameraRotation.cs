@@ -58,7 +58,7 @@ namespace  PlayerControls.Camera
 
         private void Update()
         {
-            if (playerController.State.GetType() == typeof(Playing))
+            if (playerController.state.GetType() == typeof(Playing))
             {
                 if (Input.GetAxis("Camera Horizontal") != 0.0f || Input.GetAxis("Camera Vertical") != 0.0f)
                 {

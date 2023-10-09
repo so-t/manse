@@ -19,7 +19,7 @@ namespace PlayerControls.PlayerState
             if (Input.GetKeyDown("escape") || Input.GetKeyDown("i"))
             {
                 _inventory.DestroyDisplay();
-                Player.State = new Playing(Player);
+                Player.state = new Playing(Player);
             }
             else if (Input.GetAxisRaw("Horizontal") != 0.0f)
             {

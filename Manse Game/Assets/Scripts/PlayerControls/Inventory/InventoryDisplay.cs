@@ -63,7 +63,7 @@ namespace PlayerControls.Inventory
             // Create the rest of the points/triangles
             for (var i = 0; i < itemCount - 1; i++)
             {
-                boundaryPoints.Add(quaternion * boundaryPoints[boundaryPoints.Count - 1]);
+                boundaryPoints.Add(quaternion * boundaryPoints[^1]);
             }
 
             return boundaryPoints;

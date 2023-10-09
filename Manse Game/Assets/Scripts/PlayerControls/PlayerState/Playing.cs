@@ -32,7 +32,7 @@ namespace PlayerControls.PlayerState
                     Player.footstepAudioSource.Pause();
                 }
             }
-            Player.Velocity = velocity;
+            Player.velocity = velocity;
             
             if (Input.GetKeyDown("escape"))
             {

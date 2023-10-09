@@ -57,6 +57,7 @@
      <Compile Include="Assets\Scripts\PlayerControls\PlayerState\Playing.cs" />
      <Compile Include="Assets\Scripts\PlayerControls\PlayerState\Paused.cs" />
      <Compile Include="Assets\Scripts\Automata\BaseAutomaton.cs" />
+     <Compile Include="Assets\Scripts\UI\UIUtilities.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />

@@ -9,7 +9,6 @@ namespace UI
     {
         private const float Delay = 0.05f;
         
-        [SerializeAs("TMP Text")]
         public TMP_Text tmp;
         public GameObject background;
 
@@ -19,6 +18,8 @@ namespace UI
         }
         
         public void SetText(string str) { tmp.text = str; }
+
+        public void ClearText() { tmp.text = ""; }
 
         public IEnumerator TeleTypeMessage(string str)
         {

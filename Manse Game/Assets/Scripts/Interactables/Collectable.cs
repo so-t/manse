@@ -18,7 +18,7 @@ namespace Interactables
         { 
             return Fired && !PlayerCamera.hasTarget 
                           && Input.GetButtonDown("Interact")
-                          && PlayerController.textField.text == displayText; 
+                          && MessageDisplayComplete(); 
         }
 
         protected override void Exit()

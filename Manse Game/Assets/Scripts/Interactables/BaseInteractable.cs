@@ -1,5 +1,7 @@
 using PlayerControls.Camera;
 using PlayerControls.Controller;
+using TMPro;
+using UI;
 using UnityEngine;
 
 namespace Interactables
@@ -17,7 +19,9 @@ namespace Interactables
         protected InteractableState State = InteractableState.Primed;
         protected PlayerController PlayerController;
         protected CameraRotation PlayerCamera;
+        protected UIUtilities uiUtilities;
 
+        private TMP_Text _tmp;
         private GameObject _player;
 
         protected enum InteractableState 
@@ -31,9 +35,11 @@ namespace Interactables
         protected virtual void Awake()
         {
             _player = GameObject.Find("Player");
+            uiUtilities = GameObject.Find("UI").GetComponent<UIUtilities>();
+            
             PlayerController = _player.GetComponentInChildren<PlayerController>();
             PlayerCamera = _player.GetComponentInChildren<CameraRotation>();
-            
+
             // if (!Application.isEditor) return;
             //
             // gameObject.transform.GetChild(0).localScale = 
@@ -61,6 +67,11 @@ namespace Interactables
         
         protected virtual void Action(){}
 
+        protected bool MessageDisplayComplete()
+        {
+            return _tmp.text == displayText;
+        }
+
         protected virtual bool ExitCondition() { return true; }
         
         protected virtual void Exit(){}
@@ -69,13 +80,16 @@ namespace Interactables
             if (!Fired && !PlayerCamera.hasTarget)
             {
                 Action();
-                PlayerController.DisplayMessage(displayText);
+                var subtitleDisplay = uiUtilities.CreateSubtitleDisplay();
+                _tmp = subtitleDisplay.gameObject.GetComponentInChildren<TMP_Text>();
+                StartCoroutine(subtitleDisplay.TeleTypeMessage(displayText));
+                Fired = true;
                 Fired = true;
             }
             else if (ExitCondition())
             {
                 Exit();
-                PlayerController.ClearMessage();
+                uiUtilities.DestroySubtitleDisplay();
                 if (lookTarget) PlayerCamera.ReturnToLookTarget();
                 Fired = false;
                 return true;

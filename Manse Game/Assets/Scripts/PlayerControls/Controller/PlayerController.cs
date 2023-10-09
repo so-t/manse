@@ -12,13 +12,13 @@ namespace PlayerControls.Controller
         public float speed = 10f;
         public float turnSpeed = 125f;
         
-        public PlayerState.PlayerState State;
-        public TMP_Text textField;
+        public PlayerState.PlayerState state;
         public CameraRotation camRotation;
         public AudioSource footstepAudioSource;
-        public SubtitleDisplay subtitleDisplay;
+        public UIUtilities UIUtils;
+        
         [NonSerialized]
-        public Vector3 Velocity;
+        public Vector3 velocity;
 
         private Rigidbody _rigidbody;
         private Inventory.Inventory _inventory;
@@ -26,7 +26,7 @@ namespace PlayerControls.Controller
         private void Awake()
         {
             footstepAudioSource = GetComponent<AudioSource>();
-            State = new Playing(this);
+            state = new Playing(this);
             camRotation = GetComponentInChildren<CameraRotation>();
             _rigidbody = GetComponent<Rigidbody>();
             _inventory = GetComponent<Inventory.Inventory>();
@@ -34,27 +34,27 @@ namespace PlayerControls.Controller
 
         public void Pause()
         {
-            State = new Paused(this);
-            Velocity = Vector3.zero;
+            state = new Paused(this);
+            velocity = Vector3.zero;
         }
 
         public void Resume()
         {
-            State = new Playing(this);
+            state = new Playing(this);
         }
 
         public void OpenInventory()
         {
-            State = new ViewingInventory(this, _inventory);
-            Velocity = Vector3.zero;
+            state = new ViewingInventory(this, _inventory);
+            velocity = Vector3.zero;
         }
 
         public bool IsPaused()
         {
-            return State.GetType() == typeof(Paused);
+            return state.GetType() == typeof(Paused);
         }
 
-        public bool IsMoving() => Velocity != Vector3.zero;
+        public bool IsMoving() => velocity != Vector3.zero;
 
         public bool CanSeeObject(GameObject obj)
         {
@@ -67,9 +67,9 @@ namespace PlayerControls.Controller
 
         public bool Interact(Transform lookAtTarget=null)
         {
-            if (State.GetType() != typeof(Playing)) return false;
+            if (state.GetType() != typeof(Playing)) return false;
             
-            State = new Interacting(this);
+            state = new Interacting(this);
             camRotation.LookAt(lookAtTarget);
             return true;
         }
@@ -84,29 +84,18 @@ namespace PlayerControls.Controller
             _inventory.Remove(obj);
         }
         
-        public void DisplayMessage(string str)
-        {
-            if (str == "") return;
-            StartCoroutine(subtitleDisplay.TeleTypeMessage(str));
-        }
-        
-        public void ClearMessage()
-        {
-            subtitleDisplay.Disable();
-        }
-        
         private void Update()
         {
-            State.HandlePlayerInput();
+            state.HandlePlayerInput();
         }
 
         private void FixedUpdate()
         {
             var t = transform;
-            var rotation = Velocity.y * turnSpeed * Time.fixedDeltaTime;
-            var velocity = Velocity.z * speed;
+            var rotation = velocity.y * turnSpeed * Time.fixedDeltaTime;
+            
             transform.Rotate(t.up * rotation);
-            _rigidbody.velocity = t.forward * velocity;
+            _rigidbody.velocity = t.forward * (velocity.z * speed);
         }
     }
 }

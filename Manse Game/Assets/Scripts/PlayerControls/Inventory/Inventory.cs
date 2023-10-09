@@ -3,16 +3,12 @@ using System.Linq;
 using UI;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.UI;
 
 namespace PlayerControls.Inventory
 {
     public class Inventory : MonoBehaviour
     {
-        
-        public Button leftButton;
-        public Button rightButton;
-        public SubtitleDisplay subtitleDisplay;
+        public UIUtilities uiUtilities;
         
         [SerializeField]
         private UnityEngine.Camera displayCamera;
@@ -20,7 +16,7 @@ namespace PlayerControls.Inventory
         [SerializeField]
         private List<GameObject> itemList = new List<GameObject>();
         private InventoryDisplay _display;
-        private MeshRenderer _background;
+        private SubtitleDisplay _subtitleDisplay;
         
         private int _displayedItemIndex;
 
@@ -43,10 +39,9 @@ namespace PlayerControls.Inventory
                 parentObject: displayCamera.gameObject
             );
             
-            leftButton.gameObject.SetActive(true);
-            rightButton.gameObject.SetActive(true);
-
-            _background.enabled = true;
+            uiUtilities.CreateInventoryControlsDisplay();
+            _subtitleDisplay = uiUtilities.CreateSubtitleDisplay();
+            
             DisplaySelectedObjectName();
         }
 
@@ -57,18 +52,14 @@ namespace PlayerControls.Inventory
             _display.Close();
             _display = null;
             _displayedItemIndex = 0;
-            ClearDisplayText();
-            _background.enabled = false;
             
-            leftButton.gameObject.SetActive(false);
-            rightButton.gameObject.SetActive(false);
+            uiUtilities.DestroySubtitleDisplay();
+            uiUtilities.DestroyInventoryControlsDisplay();
         }
 
-        public GameObject GetDisplayedObject() { return itemList[_displayedItemIndex]; }
+        public GameObject GetDisplayedObject() =>  itemList[_displayedItemIndex];
 
-        private void DisplaySelectedObjectName() { subtitleDisplay.SetText(GetDisplayedObject().name); }
-        
-        private void ClearDisplayText() { subtitleDisplay.SetText(""); }
+        private void DisplaySelectedObjectName() => _subtitleDisplay.SetText(GetDisplayedObject().name); 
 
         public void SetRotationDir(float direction)
         {
@@ -86,14 +77,6 @@ namespace PlayerControls.Inventory
         {
             _rotationEvent = new RotationEvent();
             _rotationEvent.AddListener(SetRotationDir);
-            
-            leftButton.gameObject.SetActive(false);
-            rightButton.gameObject.SetActive(false);
-            
-            foreach (var meshRenderer in displayCamera.GetComponentsInChildren<MeshRenderer>())
-            {
-                if (meshRenderer.gameObject.name == "Transparent Background") _background = meshRenderer;
-            }
         }
 
         private void FixedUpdate()
@@ -110,7 +93,7 @@ namespace PlayerControls.Inventory
                 else
                 {
                     _display.Rotate();
-                    ClearDisplayText();
+                    _subtitleDisplay.ClearText();
                 }
             }
             else

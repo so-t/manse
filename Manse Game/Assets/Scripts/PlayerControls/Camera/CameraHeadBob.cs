@@ -46,7 +46,7 @@ namespace PlayerControls.Camera
 
         private void Update()
         {
-            if (playerController.State.GetType() == typeof(Playing)) HeadBob();
+            if (playerController.state.GetType() == typeof(Playing)) HeadBob();
         }
     }
 }
