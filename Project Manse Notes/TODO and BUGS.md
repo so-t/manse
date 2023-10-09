@@ -9,9 +9,14 @@
 
 - Implement automaton script that moves an objects
 
+- Implement an automaton script that changes the main camera for a duration  
+
 - Implement Pause screen ~~background and~~ commands
 
 - Implement Inventory Screen background
+
+- Consider changing some implemented functionality to utilize coroutines, allowing the work to be spread over several frames (E.G. LookTo functions in camera rotation)
+	- https://docs.unity3d.com/2021.3/Documentation/Manual/Coroutines.html
 
 - Implement an interactable that takes an item from the players inventory to activate
 

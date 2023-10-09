@@ -23,7 +23,7 @@ namespace PlayerControls.PlayerState
             }
             else if (Input.GetAxisRaw("Horizontal") != 0.0f)
             {
-                _inventory.RotateDisplay(Input.GetAxisRaw("Horizontal"));
+                _inventory.SetRotationDir(Input.GetAxisRaw("Horizontal"));
             }
             else if (Input.GetButtonDown("Interact"))
             {

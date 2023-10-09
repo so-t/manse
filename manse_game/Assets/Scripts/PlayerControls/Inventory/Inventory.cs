@@ -1,26 +1,32 @@
 using System.Collections.Generic;
 using System.Linq;
-using TMPro;
 using UI;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.UI;
 
 namespace PlayerControls.Inventory
 {
     public class Inventory : MonoBehaviour
     {
+        
+        public Button leftButton;
+        public Button rightButton;
+        public SubtitleDisplay subtitleDisplay;
+        
         [SerializeField]
         private UnityEngine.Camera displayCamera;
         
         [SerializeField]
         private List<GameObject> itemList = new List<GameObject>();
-
-        private TMP_Text _textDisplay;
         private InventoryDisplay _display;
-        private TeleType _teleType;
         private MeshRenderer _background;
         
         private int _displayedItemIndex;
-        
+
+        private class RotationEvent : UnityEvent<float> {};
+        private RotationEvent _rotationEvent;
+
         public void Add(GameObject obj) { itemList.Add(obj); }
 
         public bool Remove(GameObject obj) { return itemList.Remove(obj); }
@@ -36,6 +42,9 @@ namespace PlayerControls.Inventory
                 itemList,
                 parentObject: displayCamera.gameObject
             );
+            
+            leftButton.gameObject.SetActive(true);
+            rightButton.gameObject.SetActive(true);
 
             _background.enabled = true;
             DisplaySelectedObjectName();
@@ -50,15 +59,18 @@ namespace PlayerControls.Inventory
             _displayedItemIndex = 0;
             ClearDisplayText();
             _background.enabled = false;
+            
+            leftButton.gameObject.SetActive(false);
+            rightButton.gameObject.SetActive(false);
         }
 
         public GameObject GetDisplayedObject() { return itemList[_displayedItemIndex]; }
 
-        private void DisplaySelectedObjectName() { _teleType.SetDisplayText(GetDisplayedObject().name); }
+        private void DisplaySelectedObjectName() { subtitleDisplay.SetText(GetDisplayedObject().name); }
         
-        private void ClearDisplayText() { _teleType.SetDisplayText(""); }
+        private void ClearDisplayText() { subtitleDisplay.SetText(""); }
 
-        public void RotateDisplay(float direction)
+        public void SetRotationDir(float direction)
         {
             if (_display == null || _display.IsRotating() || direction == 0.0f) return;
             
@@ -72,8 +84,12 @@ namespace PlayerControls.Inventory
 
         private void Awake()
         {
-            _textDisplay = displayCamera.GetComponentInChildren<TMP_Text>();
-            _teleType = _textDisplay.GetComponent<TeleType>();
+            _rotationEvent = new RotationEvent();
+            _rotationEvent.AddListener(SetRotationDir);
+            
+            leftButton.gameObject.SetActive(false);
+            rightButton.gameObject.SetActive(false);
+            
             foreach (var meshRenderer in displayCamera.GetComponentsInChildren<MeshRenderer>())
             {
                 if (meshRenderer.gameObject.name == "Transparent Background") _background = meshRenderer;

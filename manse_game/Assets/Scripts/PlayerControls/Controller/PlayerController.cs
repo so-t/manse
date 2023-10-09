@@ -16,12 +16,12 @@ namespace PlayerControls.Controller
         public TMP_Text textField;
         public CameraRotation camRotation;
         public AudioSource footstepAudioSource;
+        public SubtitleDisplay subtitleDisplay;
         [NonSerialized]
         public Vector3 Velocity;
 
         private Rigidbody _rigidbody;
         private Inventory.Inventory _inventory;
-        private TeleType _teleType;
 
         private void Awake()
         {
@@ -30,7 +30,6 @@ namespace PlayerControls.Controller
             camRotation = GetComponentInChildren<CameraRotation>();
             _rigidbody = GetComponent<Rigidbody>();
             _inventory = GetComponent<Inventory.Inventory>();
-            _teleType = textField.gameObject.GetComponent<TeleType>();
         }
 
         public void Pause()
@@ -88,12 +87,12 @@ namespace PlayerControls.Controller
         public void DisplayMessage(string str)
         {
             if (str == "") return;
-            StartCoroutine(_teleType.DisplayMessage(str));
+            StartCoroutine(subtitleDisplay.TeleTypeMessage(str));
         }
         
         public void ClearMessage()
         {
-            _teleType.Clear();
+            subtitleDisplay.Disable();
         }
         
         private void Update()

@@ -217,12 +217,11 @@
             }
           }
         ],
-        "currentTab": 3
+        "currentTab": 1
       }
     ],
     "direction": "horizontal",
-    "width": 200,
-    "collapsed": true
+    "width": 200
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -236,17 +235,17 @@
   },
   "active": "4c1097630a263046",
   "lastOpenFiles": [
-    "Idea Dump.md",
-    "TODO and BUGS.md",
-    "Affine Interpolation Resources.md",
     "LVhgFsm.jpg",
-    "Visuals/PSX Style Graphics.md",
+    "Idea Dump.md",
+    "Affine Interpolation Resources.md",
     "Visuals/35pwf24x.bmp",
-    "TODO",
-    "Visuals/ojbl3xmt.bmp",
     "Visuals/cuabzpot.bmp",
-    "Visuals",
+    "Visuals/ojbl3xmt.bmp",
+    "Visuals/PSX Style Graphics.md",
     "Visuals/rgz5b72y.bmp",
+    "TODO and BUGS.md",
+    "TODO",
+    "Visuals",
     "Untitled.canvas"
   ]
 }
