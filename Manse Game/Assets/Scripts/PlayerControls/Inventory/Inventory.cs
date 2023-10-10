@@ -12,9 +12,9 @@ namespace PlayerControls.Inventory
         
         [SerializeField]
         private UnityEngine.Camera displayCamera;
-        
         [SerializeField]
         private List<GameObject> itemList = new List<GameObject>();
+        
         private InventoryDisplay _display;
         private SubtitleDisplay _subtitleDisplay;
         
