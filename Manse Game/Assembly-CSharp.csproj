@@ -52,7 +52,7 @@
      <Compile Include="Assets\Scripts\Interactables\Collectable.cs" />
      <Compile Include="Assets\Scripts\PlayerControls\Controller\PlayerController.cs" />
      <Compile Include="Assets\Scripts\PlayerControls\PlayerState\PlayerState.cs" />
-     <Compile Include="Assets\Scripts\PlayerControls\Inventory\InventoryDisplay.cs" />
+     <Compile Include="Assets\Scripts\UI\InventoryDisplay.cs" />
      <Compile Include="Assets\Scripts\UI\SubtitleDisplay.cs" />
      <Compile Include="Assets\Scripts\PlayerControls\PlayerState\Playing.cs" />
      <Compile Include="Assets\Scripts\PlayerControls\PlayerState\Paused.cs" />
