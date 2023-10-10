@@ -39,7 +39,7 @@ namespace PlayerControls.Inventory
                 parentObject: displayCamera.gameObject
             );
             
-            uiUtilities.CreateTransparentBackground();
+            uiUtilities.DimBackground();
             uiUtilities.CreateInventoryControlsDisplay();
             _subtitleDisplay = uiUtilities.CreateSubtitleDisplay();
             
@@ -56,7 +56,7 @@ namespace PlayerControls.Inventory
             
             uiUtilities.DestroySubtitleDisplay();
             uiUtilities.DestroyInventoryControlsDisplay();
-            uiUtilities.DestroyTransparentBackground();
+            uiUtilities.ResetBackgroundBrightness();
         }
 
         public GameObject GetDisplayedObject() =>  itemList[_displayedItemIndex];

@@ -24,12 +24,12 @@ namespace UI
             _meshRenderer = displayCamera.GetComponentInChildren<MeshRenderer>();
         }
 
-        public void CreateTransparentBackground()
+        public void DimBackground()
         {
             _meshRenderer.materials[0].color /= 2;
         }
 
-        public void DestroyTransparentBackground()
+        public void ResetBackgroundBrightness()
         {
             _meshRenderer.materials[0].color *= 2;
         }

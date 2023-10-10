@@ -20,7 +20,7 @@ namespace PlayerControls.PlayerState
             Player = playerController;
 
             _uiUtils = playerController.UIUtils;
-            _uiUtils.CreateTransparentBackground();
+            _uiUtils.DimBackground();
         }
 
         public override void HandlePlayerInput()
@@ -28,7 +28,7 @@ namespace PlayerControls.PlayerState
             if (Input.GetKeyDown("escape"))
             {
                 //_background.enabled = false;
-                _uiUtils.DestroyTransparentBackground();
+                _uiUtils.ResetBackgroundBrightness();
                 Player.Resume();
             }
         }
