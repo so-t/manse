@@ -6,26 +6,32 @@ namespace UI
 {
     public class UIUtilities : MonoBehaviour
     {
-        public GameObject transparentBackgroundPrefab;
-        private GameObject _transparentBackground;
-        
-        public GameObject subtitleDisplayPrefab;
-        private GameObject _subtitleDisplay;
-
         public GameObject inventoryControlsPrefab;
-        private GameObject _inventoryControls;
-
+        public GameObject subtitleDisplayPrefab;
+        
+        public Camera displayCamera;
+        
         [SerializeField]
-        private GameObject _player;
+        private GameObject player;
+        
+        private GameObject _inventoryControls;
+        private GameObject _subtitleDisplay;
+        private GameObject _transparentBackground;
+        private MeshRenderer _meshRenderer;
+
+        private void Awake()
+        {
+            _meshRenderer = displayCamera.GetComponentInChildren<MeshRenderer>();
+        }
 
         public void CreateTransparentBackground()
         {
-            _transparentBackground = Instantiate(transparentBackgroundPrefab, transform, false);
+            _meshRenderer.materials[0].color /= 2;
         }
 
         public void DestroyTransparentBackground()
         {
-            Destroy(_transparentBackground);   
+            _meshRenderer.materials[0].color *= 2;
         }
 
         public SubtitleDisplay CreateSubtitleDisplay(bool enableBackground=true)
@@ -46,7 +52,7 @@ namespace UI
         {
             _inventoryControls = Instantiate(inventoryControlsPrefab, transform, false);
 
-            var inventory = _player.GetComponentInChildren<Inventory>();
+            var inventory = player.GetComponentInChildren<Inventory>();
             foreach (var button in _inventoryControls.GetComponentsInChildren<Button>())
             {
                 if (button.name.Contains("Right")) 

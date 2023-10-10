@@ -5518,9 +5518,21 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4058776615303166053, guid: a96fc1a45be1b294ebb7e99a859727a0, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 8460883520587103996}
+    - target: {fileID: 4058776615303166053, guid: a96fc1a45be1b294ebb7e99a859727a0, type: 3}
       propertyPath: _player
       value: 
       objectReference: {fileID: 8460883520587103996}
+    - target: {fileID: 4058776615303166053, guid: a96fc1a45be1b294ebb7e99a859727a0, type: 3}
+      propertyPath: DisplayCamera
+      value: 
+      objectReference: {fileID: 4351903564269351445}
+    - target: {fileID: 4058776615303166053, guid: a96fc1a45be1b294ebb7e99a859727a0, type: 3}
+      propertyPath: displayCamera
+      value: 
+      objectReference: {fileID: 4351903564269351445}
     - target: {fileID: 6252859444192840899, guid: a96fc1a45be1b294ebb7e99a859727a0, type: 3}
       propertyPath: _player
       value: 
