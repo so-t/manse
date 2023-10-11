@@ -15,11 +15,12 @@ namespace Interactables
         public Transform lookTarget;
         public string displayText = "";
         
-        protected bool Fired;
-        protected InteractableState State = InteractableState.Primed;
-        protected PlayerController PlayerController;
-        protected CameraRotation PlayerCamera;
-        protected UIUtilities uiUtilities;
+        protected bool fired;
+        protected InteractableState state = InteractableState.Primed;
+        protected PlayerController playerController;
+        protected CameraRotation playerCamera;
+        
+        private UIUtilities _uiUtilities;
 
         private TMP_Text _tmp;
         private GameObject _player;
@@ -35,19 +36,10 @@ namespace Interactables
         protected virtual void Awake()
         {
             _player = GameObject.Find("Player");
-            uiUtilities = GameObject.Find("UI").GetComponent<UIUtilities>();
+            _uiUtilities = GameObject.Find("UI").GetComponent<UIUtilities>();
             
-            PlayerController = _player.GetComponentInChildren<PlayerController>();
-            PlayerCamera = _player.GetComponentInChildren<CameraRotation>();
-
-            // if (!Application.isEditor) return;
-            //
-            // gameObject.transform.GetChild(0).localScale = 
-            //     new Vector3(
-            //         (gameObject.transform.GetChild(0).localScale.x / transform.GetChild(0).lossyScale.x) * cutoffDistance * 2, 
-            //         (gameObject.transform.GetChild(0).localScale.y / transform.GetChild(0).lossyScale.y) * cutoffDistance * 2, 
-            //         (gameObject.transform.GetChild(0).localScale.z / transform.GetChild(0).lossyScale.z) * cutoffDistance * 2
-            //     );
+            playerController = _player.GetComponentInChildren<PlayerController>();
+            playerCamera = _player.GetComponentInChildren<CameraRotation>();
         }
 
         private bool PlayerInRange(float range)
@@ -62,14 +54,14 @@ namespace Interactables
         {
             return !((requiresPlayerInRange && !PlayerInRange(cutoffDistance))
                      || (requiresInteraction && !Input.GetButtonDown("Interact"))
-                     || (requiresLineOfSight && !PlayerController.CanSeeObject(gameObject)));
+                     || (requiresLineOfSight && !playerController.CanSeeObject(gameObject)));
         }
         
         protected virtual void Action(){}
 
         protected bool MessageDisplayComplete()
         {
-            return _tmp.text == displayText;
+            return _uiUtilities.SubtitleTextMatches(displayText);
         }
 
         protected virtual bool ExitCondition() { return true; }
@@ -77,21 +69,19 @@ namespace Interactables
         protected virtual void Exit(){}
 
         protected virtual bool FireAction(){
-            if (!Fired && !PlayerCamera.hasTarget)
+            if (!fired && !playerCamera.hasTarget)
             {
                 Action();
-                var subtitleDisplay = uiUtilities.CreateSubtitleDisplay();
-                _tmp = subtitleDisplay.gameObject.GetComponentInChildren<TMP_Text>();
-                StartCoroutine(subtitleDisplay.TeleTypeMessage(displayText));
-                Fired = true;
-                Fired = true;
+                _uiUtilities.EnableSubtitleDisplay();
+                _uiUtilities.TeleTypeMessage(displayText);
+                fired = true;
             }
             else if (ExitCondition())
             {
                 Exit();
-                uiUtilities.DestroySubtitleDisplay();
-                if (lookTarget) PlayerCamera.ReturnToLookTarget();
-                Fired = false;
+                _uiUtilities.DisableSubtitleDisplay();
+                if (lookTarget) playerCamera.ReturnToLookTarget();
+                fired = false;
                 return true;
             }
 
@@ -102,21 +92,21 @@ namespace Interactables
 
         private void Update()
         {
-            switch (State)
+            switch (state)
             {
                 case InteractableState.Primed:
-                    if (StartCondition() && PlayerController.Interact(lookTarget))
-                        State = InteractableState.Triggered;
+                    if (StartCondition() && playerController.Interact(lookTarget))
+                        state = InteractableState.Triggered;
                     break;
                 case InteractableState.Triggered:
                     if (FireAction())
-                        State = InteractableState.Post;
+                        state = InteractableState.Post;
                     break;
-                case InteractableState.Post when !PlayerCamera.hasTarget:
+                case InteractableState.Post when !playerCamera.hasTarget:
                     if (FirePostAction()) 
                     {
-                        PlayerController.Resume();
-                        State = InteractableState.Finished;
+                        playerController.Resume();
+                        state = InteractableState.Finished;
                     }
                     break;
                 case InteractableState.Finished:

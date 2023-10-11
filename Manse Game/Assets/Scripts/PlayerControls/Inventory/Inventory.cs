@@ -20,8 +20,6 @@ namespace PlayerControls.Inventory
         private List<GameObject> itemList = new List<GameObject>();
         
         private class RotationEvent : UnityEvent<float> {};
-        
-        private SubtitleDisplay _subtitleDisplay;
         private RotationEvent _rotationEvent;
 
         public void Add(GameObject obj)
@@ -50,13 +48,13 @@ namespace PlayerControls.Inventory
             );
             
             uiUtilities.DimBackground();
-            uiUtilities.CreateInventoryControlsDisplay();
-            _subtitleDisplay = uiUtilities.CreateSubtitleDisplay();
+            uiUtilities.EnableInventoryControlsDisplay();
+            uiUtilities.EnableSubtitleDisplay();
             
             DisplaySelectedObjectName();
         }
 
-        public void ClearDisplayText() => _subtitleDisplay.ClearText();
+        public void ClearDisplayText() => uiUtilities.ClearSubtitleText();
 
         public void DestroyDisplay()
         {
@@ -66,8 +64,8 @@ namespace PlayerControls.Inventory
             display = null;
             displayedItemIndex = 0;
             
-            uiUtilities.DestroySubtitleDisplay();
-            uiUtilities.DestroyInventoryControlsDisplay();
+            uiUtilities.DisableSubtitleDisplay();
+            uiUtilities.DisableInventoryControlsDisplay();
             uiUtilities.ResetBackgroundBrightness();
         }
 
@@ -77,7 +75,7 @@ namespace PlayerControls.Inventory
 
         // Could move this to a UI Text field that queries the name from inventory object unless currently rotating.
         // Splits up the functionality too much? Might Keep this space cleaner.
-        public void DisplaySelectedObjectName() => _subtitleDisplay.SetText(GetDisplayedObject().name); 
+        public void DisplaySelectedObjectName() => uiUtilities.SetSubtitleText(GetDisplayedObject().name); 
 
         public void RotateDisplay(float direction)
         {

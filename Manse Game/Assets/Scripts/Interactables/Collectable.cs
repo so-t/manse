@@ -16,7 +16,7 @@ namespace Interactables
         
         protected override bool ExitCondition()
         { 
-            return Fired && !PlayerCamera.hasTarget 
+            return fired && !playerCamera.hasTarget 
                           && Input.GetButtonDown("Interact")
                           && MessageDisplayComplete(); 
         }
@@ -25,7 +25,7 @@ namespace Interactables
         {
             _mesh.enabled = false;
             _collider.enabled = false;
-            PlayerController.AddToInventory(gameObject);
+            playerController.AddToInventory(gameObject);
         }
     }
 }

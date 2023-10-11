@@ -6,67 +6,116 @@ namespace UI
 {
     public class UIUtilities : MonoBehaviour
     {
-        public GameObject inventoryControlsPrefab;
-        public GameObject subtitleDisplayPrefab;
-        
-        public Camera displayCamera;
+        private GameObject _inventoryControls;
+        private SubtitleDisplay _subtitleDisplay;
+        private MeshRenderer _transparentBackgroundMesh;
         
         [SerializeField]
         private GameObject player;
+        [SerializeField]
+        private GameObject inventoryControlsPrefab;
+        [SerializeField]
+        private GameObject subtitleDisplayPrefab;
         
-        private GameObject _inventoryControls;
-        private GameObject _subtitleDisplay;
-        private GameObject _transparentBackground;
-        private MeshRenderer _meshRenderer;
-
+        public Camera displayCamera;
+            
         private void Awake()
         {
-            _meshRenderer = displayCamera.GetComponentInChildren<MeshRenderer>();
+            _transparentBackgroundMesh = displayCamera.GetComponentInChildren<MeshRenderer>();
+            _subtitleDisplay = CreateSubtitleDisplay();
+            _inventoryControls = CreateInventoryControlsDisplay();
         }
 
         public void DimBackground()
         {
-            _meshRenderer.materials[0].color /= 2;
+            _transparentBackgroundMesh.materials[0].color /= 2;
         }
 
         public void ResetBackgroundBrightness()
         {
-            _meshRenderer.materials[0].color *= 2;
+            _transparentBackgroundMesh.materials[0].color *= 2;
         }
 
-        public SubtitleDisplay CreateSubtitleDisplay(bool enableBackground=true)
+        private SubtitleDisplay CreateSubtitleDisplay()
         {
-            _subtitleDisplay = Instantiate(subtitleDisplayPrefab, transform, false);
-            var subtitleDisplay = _subtitleDisplay.GetComponent<SubtitleDisplay>();
-            subtitleDisplay.background.SetActive(enableBackground);
+            var subtitleDisplay = Instantiate(subtitleDisplayPrefab, transform, false);
             
-            return subtitleDisplay;
+            return subtitleDisplay.GetComponent<SubtitleDisplay>();
         }
 
-        public void DestroySubtitleDisplay()
+        public void EnableSubtitleDisplay(bool enableBackground=true)
         {
-            Destroy(_subtitleDisplay);
+            _subtitleDisplay.gameObject.SetActive(true);
+            if (enableBackground) _subtitleDisplay.EnableBackground();
         }
 
-        public void CreateInventoryControlsDisplay()
+        public void DisableSubtitleDisplay()
         {
-            _inventoryControls = Instantiate(inventoryControlsPrefab, transform, false);
+            _subtitleDisplay.gameObject.SetActive(false);
+            _subtitleDisplay.DisableBackground();
+        }
+
+        public bool SubtitleTextMatches(string str)
+        {
+            return _subtitleDisplay.DisplayMessageMatches(str);
+        }
+
+        public void SetSubtitleText(string str)
+        {
+            if (!_subtitleDisplay.gameObject.activeSelf)
+                EnableSubtitleDisplay();
+            
+            _subtitleDisplay.SetText(str);
+        }
+
+        public void ClearSubtitleText()
+        {
+            if (!_subtitleDisplay.gameObject.activeSelf)
+                EnableSubtitleDisplay();
+            
+            _subtitleDisplay.ClearText();
+        }
+
+        public void TeleTypeMessage(string str)
+        {
+            if (!_subtitleDisplay.gameObject.activeSelf)
+                EnableSubtitleDisplay();
+
+            StartCoroutine(_subtitleDisplay.TeleTypeMessage(str));
+        }
+
+        private GameObject CreateInventoryControlsDisplay()
+        {
+            var inventoryControls = Instantiate(inventoryControlsPrefab, transform, false);
 
             var inventory = player.GetComponentInChildren<Inventory>();
-            foreach (var button in _inventoryControls.GetComponentsInChildren<Button>())
+            foreach (var button in inventoryControls.GetComponentsInChildren<Button>())
             {
-                if (button.name.Contains("Right")) 
-                    button.onClick.AddListener(() => 
+                if (button.name.Contains("Right"))
+                {
+                    button.onClick.AddListener(() =>
                         inventory.RotateDisplay(1));
-                else if (button.name.Contains("Left")) 
-                    button.onClick.AddListener(() => 
+                    button.gameObject.SetActive(false);
+                }
+                else if (button.name.Contains("Left"))
+                {
+                    button.onClick.AddListener(() =>
                         inventory.RotateDisplay(-1));
+                    button.gameObject.SetActive(false);
+                }
             }
+
+            return inventoryControls;
         }
 
-        public void DestroyInventoryControlsDisplay()
+        public void EnableInventoryControlsDisplay()
         {
-            Destroy(_inventoryControls);
+            _inventoryControls.SetActive(true);
+        }
+
+        public void DisableInventoryControlsDisplay()
+        {
+            _inventoryControls.SetActive(false);
         }
     }
 }

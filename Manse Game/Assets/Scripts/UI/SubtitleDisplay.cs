@@ -1,7 +1,7 @@
 using System.Collections;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace UI
 {
@@ -9,22 +9,28 @@ namespace UI
     {
         private const float Delay = 0.05f;
         
-        public TMP_Text tmp;
-        public GameObject background;
+        private TMP_Text _tmp;
+        private GameObject _backgroundObject;
 
         private void Awake()
         {
-            background.SetActive(false);
+            _tmp = gameObject.GetComponentsInChildren<TMP_Text>()[0];
+            _backgroundObject = gameObject.GetComponentsInChildren<Image>()[0].gameObject;
         }
         
-        public void SetText(string str) { tmp.text = str; }
+        public void SetText(string str) { _tmp.text = str; }
 
-        public void ClearText() { tmp.text = ""; }
+        public void ClearText() { _tmp.text = ""; }
+
+        public bool DisplayMessageMatches(string str)
+        {
+            return _tmp.text == str;
+        }
 
         public IEnumerator TeleTypeMessage(string str)
         {
             var display = "";
-            if (!background.activeInHierarchy) EnableBackground();
+            if (!_backgroundObject.gameObject.activeInHierarchy) EnableBackground();
 
             foreach (var c in str)
             {
@@ -37,12 +43,12 @@ namespace UI
 
         public void Disable()
         {
-            tmp.text = "";
+            _tmp.text = "";
             DisableBackground();
         }
         
-        private void EnableBackground() { background.SetActive(true); }
+        public void EnableBackground() { _backgroundObject.gameObject.SetActive(true); }
 
-        private void DisableBackground() { background.SetActive(false); }
+        public void DisableBackground() { _backgroundObject.gameObject.SetActive(false); }
     }
 }
