@@ -50,8 +50,6 @@ namespace UI
         
         private static List<Vector3> FindBoundaryPoints(int itemCount, float radiusLength)
         {
-            if (itemCount < 2) itemCount = 2; // TODO: Code specific case for 1
-            
             var boundaryPoints = new List<Vector3>();
             var arcBetweenPoints = 360.0f / itemCount;
         
@@ -77,8 +75,6 @@ namespace UI
             {
                 name = "Inventory Display"
             };
-            //var meshFilter = obj.AddComponent<MeshFilter>();
-            //meshFilter.mesh = mesh;
 
             // Add the game objects from _itemList as children of obj
             // Position one at each boundary point around the edge of the circle
@@ -87,24 +83,23 @@ namespace UI
                 var item = _itemList[i];
                 item.transform.rotation = Quaternion.identity;
                 item.transform.SetParent(obj.transform);
-                
-                item.transform.position = boundaryPoints[i]; 
-                
+
+                item.transform.position = boundaryPoints[i];
+
                 // The parent object's 'up' is pointing away from it's parent
                 // Rotate the display items so that they face the parent's parent
-                item.transform.RotateAround(item.transform.position, obj.transform.right, 90); 
-                
+                item.transform.RotateAround(item.transform.position, obj.transform.right, 90);
+
                 // Adjust the items scale to be uniform with other display items
                 var localScale = item.transform.localScale;
-                var maxDimension = new[] {localScale.x, localScale.y, localScale.z }.Max();
-                var ratio = 0.1f/maxDimension;
+                var maxDimension = new[] { localScale.x, localScale.y, localScale.z }.Max();
+                var ratio = 0.1f / maxDimension;
                 localScale *= ratio;
                 item.transform.localScale = localScale;
-                
+
                 // Re-enable the objects mesh renderer
                 item.GetComponent<MeshRenderer>().enabled = true;
             }
-            
             PositionObject(obj,parentObject);
             
             return obj;
@@ -132,6 +127,11 @@ namespace UI
 
         private static float GetRotationAngle(List<Vector3> boundaryPoints)
         {
+            if (boundaryPoints.Count == 1)
+            {
+                return 360;
+            }
+
             var side1 = boundaryPoints[0] - new Vector3(0.0f, 0.0f, 0.0f);
             var side2 = boundaryPoints[1] - new Vector3(0.0f, 0.0f, 0.0f);
             var angle = Vector3.Angle(side1, side2);

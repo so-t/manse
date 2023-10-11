@@ -57,10 +57,10 @@ namespace UI
             {
                 if (button.name.Contains("Right")) 
                     button.onClick.AddListener(() => 
-                        inventory.SetRotationDir(1));
+                        inventory.RotateDisplay(1));
                 else if (button.name.Contains("Left")) 
                     button.onClick.AddListener(() => 
-                        inventory.SetRotationDir(-1));
+                        inventory.RotateDisplay(-1));
             }
         }
 

@@ -1,4 +1,5 @@
 ﻿using PlayerControls.Controller;
+using PlayerControls.Inventory.InventoryState;
 using UnityEngine;
 
 namespace PlayerControls.PlayerState
@@ -7,11 +8,17 @@ namespace PlayerControls.PlayerState
     {
         private readonly Inventory.Inventory _inventory;
         
-        public ViewingInventory(PlayerController playerController, Inventory.Inventory inventory)
+        public ViewingInventory(PlayerController playerController, 
+            Inventory.Inventory inventory, bool createDisplay=true)
         {
             Player = playerController;
             _inventory = inventory;
-            _inventory.CreateDisplay();
+            
+            if (createDisplay)
+            {
+                _inventory.CreateDisplay();
+                _inventory.state = new RotatingItem(_inventory);
+            }
         }
 
         public override void HandlePlayerInput()
@@ -23,11 +30,12 @@ namespace PlayerControls.PlayerState
             }
             else if (Input.GetAxisRaw("Horizontal") != 0.0f)
             {
-                _inventory.SetRotationDir(Input.GetAxisRaw("Horizontal"));
+                _inventory.RotateDisplay(Input.GetAxisRaw("Horizontal"));
             }
             else if (Input.GetButtonDown("Interact"))
             {
-                Debug.Log(_inventory.GetDisplayedObject().name);
+                if (_inventory.InspectObject());
+                    Player.state = new InspectingItem(Player, _inventory);
             }
         }
     }

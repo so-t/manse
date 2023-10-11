@@ -9,32 +9,42 @@ namespace PlayerControls.Inventory
     public class Inventory : MonoBehaviour
     {
         public UIUtilities uiUtilities;
+        public InventoryState.InventoryState state;
+        public InventoryDisplay display;
+        
+        public int displayedItemIndex;
         
         [SerializeField]
         private UnityEngine.Camera displayCamera;
         [SerializeField]
         private List<GameObject> itemList = new List<GameObject>();
         
-        private InventoryDisplay _display;
-        private SubtitleDisplay _subtitleDisplay;
-        
-        private int _displayedItemIndex;
-
         private class RotationEvent : UnityEvent<float> {};
+        
+        private SubtitleDisplay _subtitleDisplay;
         private RotationEvent _rotationEvent;
 
-        public void Add(GameObject obj) { itemList.Add(obj); }
+        public void Add(GameObject obj)
+        {
+            itemList.Add(obj);
+            var rb = obj.AddComponent<Rigidbody>();
+            rb.useGravity = false;
+        }
 
         public bool Remove(GameObject obj) { return itemList.Remove(obj); }
 
+        public bool Exit() => state.Exit();
+
         public bool Contains(string itemName) { return itemList.Any(item => itemName == item.name); }
+
+        public int Count() => itemList.Count;
 
         public void CreateDisplay()
         {
             if (itemList.Count <= 0) return;
             DestroyDisplay();
 
-            _display = new InventoryDisplay(
+            display = new InventoryDisplay(
                 itemList,
                 parentObject: displayCamera.gameObject
             );
@@ -46,62 +56,54 @@ namespace PlayerControls.Inventory
             DisplaySelectedObjectName();
         }
 
+        public void ClearDisplayText() => _subtitleDisplay.ClearText();
+
         public void DestroyDisplay()
         {
-            if (_display == null) return;
+            if (display == null) return;
             
-            _display.Close();
-            _display = null;
-            _displayedItemIndex = 0;
+            display.Close();
+            display = null;
+            displayedItemIndex = 0;
             
             uiUtilities.DestroySubtitleDisplay();
             uiUtilities.DestroyInventoryControlsDisplay();
             uiUtilities.ResetBackgroundBrightness();
         }
 
-        public GameObject GetDisplayedObject() =>  itemList[_displayedItemIndex];
+        public GameObject GetDisplayedObject() =>  itemList[displayedItemIndex];
 
-        private void DisplaySelectedObjectName() => _subtitleDisplay.SetText(GetDisplayedObject().name); 
+        public Vector3 GetDisplayCameraPosition() => displayCamera.transform.position;
 
-        public void SetRotationDir(float direction)
+        // Could move this to a UI Text field that queries the name from inventory object unless currently rotating.
+        // Splits up the functionality too much? Might Keep this space cleaner.
+        public void DisplaySelectedObjectName() => _subtitleDisplay.SetText(GetDisplayedObject().name); 
+
+        public void RotateDisplay(float direction)
         {
-            if (_display == null || _display.IsRotating() || direction == 0.0f) return;
-            
-            _display.SetRotationDirection(direction);
-            _displayedItemIndex = (direction < 0.0f) switch
-            {
-                true => _displayedItemIndex + 1 >= itemList.Count ? 0 : _displayedItemIndex + 1,
-                false => _displayedItemIndex - 1 < 0 ? itemList.Count - 1 : _displayedItemIndex - 1
-            };
+            state.RotateDisplay(direction);
+        }
+
+        public bool InspectObject()
+        {
+            return state.InspectObject();
         }
 
         private void Awake()
         {
+            state = new InventoryState.InventoryState();
             _rotationEvent = new RotationEvent();
-            _rotationEvent.AddListener(SetRotationDir);
+            _rotationEvent.AddListener(RotateDisplay);
+        }
+
+        private void Update()
+        {
+            state.Update();
         }
 
         private void FixedUpdate()
         {
-            if (_display == null) return;
-
-            if (_display.IsRotating())
-            {
-                if (_display.HasFinishedRotating())
-                {
-                    _display.StopRotating();
-                    DisplaySelectedObjectName();
-                }
-                else
-                {
-                    _display.Rotate();
-                    _subtitleDisplay.ClearText();
-                }
-            }
-            else
-            {
-                InventoryDisplay.RotateDisplayObject(itemList[_displayedItemIndex]);
-            }
+            state.FixedUpdate();
         }
     }
 }
