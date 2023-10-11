@@ -1,8 +1,6 @@
-using PlayerControls.Controller;
-
-namespace PlayerControls.PlayerState
+namespace PlayerControls.Controller.ControllerState
 {
-    public class PlayerState
+    public class ControllerState
     {
         protected PlayerController Player;
 

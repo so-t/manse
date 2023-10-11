@@ -1,8 +1,6 @@
-using PlayerControls.Controller;
-
-namespace PlayerControls.PlayerState
+namespace PlayerControls.Controller.ControllerState
 {
-    public class Interacting : PlayerState
+    public class Interacting : ControllerState
     {
         public Interacting(PlayerController playerController)
         {

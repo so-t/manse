@@ -43,12 +43,12 @@
   <ItemGroup>
      <Compile Include="Assets\Scripts\PlayerControls\Inventory\Inventory.cs" />
      <Compile Include="Assets\Scripts\PlayerControls\Inventory\InventoryState\ReturningToDisplay.cs" />
-     <Compile Include="Assets\Scripts\PlayerControls\PlayerState\Interacting.cs" />
+     <Compile Include="Assets\Scripts\PlayerControls\Controller\ControllerState\Interacting.cs" />
      <Compile Include="Assets\Scripts\Interactables\AutomataTrigger.cs" />
      <Compile Include="Assets\Scripts\Interactables\BaseInteractable.cs" />
      <Compile Include="Assets\Scripts\PlayerControls\Inventory\InventoryState\InventoryState.cs" />
      <Compile Include="Assets\Scripts\PlayerControls\Camera\CameraRotation.cs" />
-     <Compile Include="Assets\Scripts\PlayerControls\PlayerState\ViewingInventory.cs" />
+     <Compile Include="Assets\Scripts\PlayerControls\Controller\ControllerState\ViewingInventory.cs" />
      <Compile Include="Assets\Scripts\Interactables\InspectionPoint.cs" />
      <Compile Include="Assets\Scripts\PlayerControls\Camera\CameraHeadBob.cs" />
      <Compile Include="Assets\Scripts\PlayerControls\Inventory\InventoryState\MovingToInspection.cs" />
@@ -56,13 +56,13 @@
      <Compile Include="Assets\Scripts\PlayerControls\Controller\PlayerController.cs" />
      <Compile Include="Assets\Scripts\PlayerControls\Inventory\InventoryState\InspectingItem.cs" />
      <Compile Include="Assets\Scripts\PlayerControls\Inventory\InventoryState\RotatingDisplay.cs" />
-     <Compile Include="Assets\Scripts\PlayerControls\PlayerState\InspectingItem.cs" />
-     <Compile Include="Assets\Scripts\PlayerControls\PlayerState\PlayerState.cs" />
+     <Compile Include="Assets\Scripts\PlayerControls\Controller\ControllerState\InspectingItem.cs" />
+     <Compile Include="Assets\Scripts\PlayerControls\Controller\ControllerState\ControllerState.cs" />
      <Compile Include="Assets\Scripts\UI\InventoryDisplay.cs" />
      <Compile Include="Assets\Scripts\UI\SubtitleDisplay.cs" />
      <Compile Include="Assets\Scripts\UI\UIUtilities.cs" />
-     <Compile Include="Assets\Scripts\PlayerControls\PlayerState\Playing.cs" />
-     <Compile Include="Assets\Scripts\PlayerControls\PlayerState\Paused.cs" />
+     <Compile Include="Assets\Scripts\PlayerControls\Controller\ControllerState\Playing.cs" />
+     <Compile Include="Assets\Scripts\PlayerControls\Controller\ControllerState\Paused.cs" />
      <Compile Include="Assets\Scripts\Automata\BaseAutomaton.cs" />
      <Compile Include="Assets\Scripts\PlayerControls\Controller\InspectionControls.cs" />
      <Compile Include="Assets\Scripts\PlayerControls\Inventory\InventoryState\RotatingItem.cs" />

@@ -1,14 +1,10 @@
-using System.Collections.Generic;
-using System.Linq;
-using PlayerControls.Controller;
 using UI;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace PlayerControls.PlayerState
+namespace PlayerControls.Controller.ControllerState
 {
-    public class Paused : PlayerState
+    public class Paused : ControllerState
     {
         //private readonly MeshRenderer _background;
         

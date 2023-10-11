@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 using PlayerControls.Camera;
-using PlayerControls.PlayerState;
+using PlayerControls.Controller.ControllerState;
 using UI;
 
 namespace PlayerControls.Controller
@@ -11,7 +11,7 @@ namespace PlayerControls.Controller
         public float speed = 10f;
         public float turnSpeed = 125f;
         
-        public PlayerState.PlayerState state;
+        public ControllerState.ControllerState state;
         public CameraRotation camRotation;
         public AudioSource footstepAudioSource;
         public UIUtilities UIUtils;

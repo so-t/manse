@@ -1,10 +1,9 @@
-﻿using PlayerControls.Controller;
-using PlayerControls.Inventory.InventoryState;
+﻿using PlayerControls.Inventory.InventoryState;
 using UnityEngine;
 
-namespace PlayerControls.PlayerState
+namespace PlayerControls.Controller.ControllerState
 {
-    public class ViewingInventory : PlayerState
+    public class ViewingInventory : Controller.ControllerState.ControllerState
     {
         private readonly Inventory.Inventory _inventory;
         

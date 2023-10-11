@@ -1,9 +1,8 @@
-using PlayerControls.Controller;
 using UnityEngine;
 
-namespace PlayerControls.PlayerState
+namespace PlayerControls.Controller.ControllerState
 {
-    public class Playing : PlayerState
+    public class Playing : Controller.ControllerState.ControllerState
     {
         public Playing(PlayerController playerController)
         {

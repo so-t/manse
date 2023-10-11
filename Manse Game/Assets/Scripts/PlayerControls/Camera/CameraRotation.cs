@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
-using PlayerControls.PlayerState;
 using PlayerControls.Controller;
+using PlayerControls.Controller.ControllerState;
 
 namespace  PlayerControls.Camera
 {

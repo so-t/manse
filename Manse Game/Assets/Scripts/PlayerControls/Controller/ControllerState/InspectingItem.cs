@@ -1,9 +1,8 @@
-using PlayerControls.Controller;
 using UnityEngine;
 
-namespace PlayerControls.PlayerState
+namespace PlayerControls.Controller.ControllerState
 {
-    public class InspectingItem : PlayerState
+    public class InspectingItem : ControllerState
     {
         private Inventory.Inventory _inventory;
 

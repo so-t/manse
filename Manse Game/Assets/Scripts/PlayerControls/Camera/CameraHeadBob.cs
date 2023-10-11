@@ -1,5 +1,5 @@
 using PlayerControls.Controller;
-using PlayerControls.PlayerState;
+using PlayerControls.Controller.ControllerState;
 using UnityEngine;
 
 namespace PlayerControls.Camera
