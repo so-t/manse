@@ -34,7 +34,7 @@ namespace PlayerControls.PlayerState
             }
             else if (Input.GetButtonDown("Interact"))
             {
-                if (_inventory.InspectObject());
+                if (_inventory.InspectObject())
                     Player.state = new InspectingItem(Player, _inventory);
             }
         }

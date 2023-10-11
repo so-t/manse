@@ -7,21 +7,19 @@ namespace  PlayerControls.Camera
 {
     public class CameraRotation : MonoBehaviour
     {
+        private const float EventSpeed = 90f;
+        
         private Vector2 _rotation = Vector2.zero;
+        private Quaternion _targetRotation;
+        private Transform _prevLookTarget;
 
         [Range(0f, 90f)] 
         public float rotationLimit = 88f;
-
-        public GameObject player;
-        
-	    public float userSpeed = 2f;
-        public float eventSpeed = 0.5f;
-
+        public float userSpeed = 2f;
         public bool hasTarget;
-        private Vector3 _targetPosition;
-        private Vector3 _prevLookTarget;
 
         public PlayerController playerController;
+        public GameObject player;
 
         public void Awake()
         {
@@ -30,10 +28,9 @@ namespace  PlayerControls.Camera
 
         public void ReturnToLookTarget()
         {
-            // TODO: Need to slow this down.
-            // Currently Returning to the forward before LookAt was prompted jerks the camera very fast.
+            _targetRotation = _prevLookTarget.rotation;
+            _prevLookTarget = null;
             hasTarget = true;
-            _targetPosition = _prevLookTarget;
         }
 
         public void LookAt(Transform target=null)
@@ -41,19 +38,16 @@ namespace  PlayerControls.Camera
             if (!target) return;
             
             hasTarget = true;
-            _targetPosition = target.position;
-            var transform1 = transform;
-            _prevLookTarget = transform1.position + transform1.forward;
+            _prevLookTarget = transform;
+
+            _targetRotation = Quaternion.LookRotation(target.position - _prevLookTarget.position);
         }
         
-        private void SmoothLookAt(Vector3 target)
+        private void SmoothLookAt()
         {
-            var transformCopy = transform;
-            Vector3 forward = transformCopy.forward;
-            var toRotation = Quaternion.LookRotation(target - transformCopy.position);
             transform.rotation = Quaternion.RotateTowards(
-                 transform.rotation, toRotation, eventSpeed * Time.time);
-             if(forward == transform.forward) hasTarget = false;
+                 transform.rotation, _targetRotation, EventSpeed * Time.fixedDeltaTime);
+             if(transform.rotation == _targetRotation) hasTarget = false;
         }
 
         private void Update()
@@ -71,14 +65,14 @@ namespace  PlayerControls.Camera
                 {
                     _rotation.x += 
                         Math.Abs(
-                            Mathf.Sign(_rotation.x + -Mathf.Sign(_rotation.x) * eventSpeed) 
+                            Mathf.Sign(_rotation.x + -Mathf.Sign(_rotation.x) * EventSpeed) 
                             - Mathf.Sign(_rotation.x)) < 0.5f ? 
-                                    -Mathf.Sign(_rotation.x) * eventSpeed : 0.0f;
+                                    -Mathf.Sign(_rotation.x) * EventSpeed : 0.0f;
                     _rotation.y += 
                         Math.Abs(
-                            Mathf.Sign(_rotation.y + -Mathf.Sign(_rotation.y) * eventSpeed) 
+                            Mathf.Sign(_rotation.y + -Mathf.Sign(_rotation.y) * EventSpeed) 
                                  - Mathf.Sign(_rotation.y)) < 0.5f ? 
-                                    -Mathf.Sign(_rotation.y) * eventSpeed : 0.0f;
+                                    -Mathf.Sign(_rotation.y) * EventSpeed : 0.0f;
                 }
                 var xQuaternion = Quaternion.AngleAxis(_rotation.x, Vector3.up);
                 var yQuaternion = Quaternion.AngleAxis(_rotation.y, Vector3.left);
@@ -89,7 +83,7 @@ namespace  PlayerControls.Camera
 
         private void FixedUpdate()
         {
-            if (hasTarget) SmoothLookAt(_targetPosition);
+            if (hasTarget) SmoothLookAt();
         }
     }
 }

@@ -7,18 +7,25 @@ namespace PlayerControls.Inventory.InventoryState
     {
         private readonly Inventory _inventory;
         private readonly Vector3 _originPosition;
+        private readonly Quaternion _originRotation;
+        private readonly InspectionControls _controller;
 
         public InspectingItem(Inventory inventory, Vector3 originPosition)
         {
             _inventory = inventory;
-            _inventory.GetDisplayedObject().AddComponent<InspectionControls>();
             _originPosition = originPosition;
+            
+            var displayedObject = _inventory.GetDisplayedObject();
+            _originRotation = displayedObject.transform.rotation;
+            _controller = displayedObject.AddComponent<InspectionControls>();
         }
 
         public override bool Exit()
         {
-            _inventory.GetDisplayedObject().GetComponent<InspectionControls>().Destroy();
-            _inventory.state = new ReturningToDisplay(_inventory, _originPosition);
+            if (_controller)
+                _controller.Destroy();
+            
+            _inventory.state = new ReturningToDisplay(_inventory, _originPosition, _originRotation);
             return true;
         }
     }
