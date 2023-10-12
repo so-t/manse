@@ -16,6 +16,7 @@ namespace UI
         {
             _tmp = gameObject.GetComponentsInChildren<TMP_Text>()[0];
             _backgroundObject = gameObject.GetComponentsInChildren<Image>()[0].gameObject;
+            DisableBackground();
         }
         
         public void SetText(string str) { _tmp.text = str; }
@@ -39,12 +40,6 @@ namespace UI
 
                 yield return new WaitForSeconds(Delay);
             }
-        }
-
-        public void Disable()
-        {
-            _tmp.text = "";
-            DisableBackground();
         }
         
         public void EnableBackground() { _backgroundObject.gameObject.SetActive(true); }
