@@ -92,9 +92,13 @@ namespace PlayerControls.Controller
         {
             var t = transform;
             var rotation = velocity.y * turnSpeed * Time.fixedDeltaTime;
+            var cameraForward = camRotation.gameObject.transform.forward;
+            
+            // Discard camera forward's y value to ignore camera tilt;
+            cameraForward.y = 0.0f;
             
             transform.Rotate(t.up * rotation);
-            _rigidbody.velocity = t.forward * (velocity.z * speed);
+            _rigidbody.velocity = cameraForward * (velocity.z * speed);
         }
     }
 }
