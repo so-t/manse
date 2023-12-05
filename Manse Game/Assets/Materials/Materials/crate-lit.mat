@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: crate-lit
-  m_Shader: {fileID: 4800000, guid: 12deb5e7b7d906142a9c2f652e9816a4, type: 3}
+  m_Shader: {fileID: 4800000, guid: 7edc5403bed98454ab7eefa767f2391d, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords:
   - _GLOSSYREFLECTIONS_OFF

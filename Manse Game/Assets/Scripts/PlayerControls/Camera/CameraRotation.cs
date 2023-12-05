@@ -19,7 +19,7 @@ namespace  PlayerControls.Camera
 
         [Range(0f, 90f)] 
         public float rotationLimit = 88f;
-        public float userSpeed = 2f;
+        public float userSpeed = 5f;
         public float snapBackSpeed = 2f;
         public float snapBackDelay = 5f;
         public bool hasTarget;

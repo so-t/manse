@@ -5,7 +5,7 @@ Shader "custom/lit" {
 	}
 	SubShader
 	{
-		Tags { "LightMode" = "ForwardBase" }
+		Tags { "LightMode" = "Vertex" }
 		LOD 200
 		
 		Pass
@@ -15,6 +15,7 @@ Shader "custom/lit" {
 
 			#pragma vertex vert
 			#pragma fragment frag
+			#pragma multi_compile_fwdbase
 			
             #include "UnityCG.cginc"
 
@@ -38,19 +39,15 @@ Shader "custom/lit" {
 
 				float4 snappedVertex = UnityObjectToClipPos(v.vertex);
 				o.vertex = snappedVertex;
-				o.vertex.xyz = snappedVertex.xyz / snappedVertex.w; // convert to normalised device coordinates (NDC)
+				o.vertex.xyz = snappedVertex.xyz / snappedVertex.w; // convert to normalised device coordinates
 				o.vertex.x = floor(160 * o.vertex.x) / 160; // Round x, adjusted for resolution
 				o.vertex.y = floor(120 * o.vertex.y) / 120; // Round y, adjusted for resolution
 				o.vertex.xyz *= snappedVertex.w; // convert back to projection-space
+
+				o.light = ShadeVertexLightsFull(v.vertex, v.normal, 8, true);
 				
-				float3 posWorld = mul(unity_ObjectToWorld, float4(v.vertex.xyz, 1.0));
-			    float3 normalWorld = UnityObjectToWorldNormal(v.normal);
-			    o.light = Shade4PointLights (
-			        unity_4LightPosX0, unity_4LightPosY0, unity_4LightPosZ0,
-			        unity_LightColor[0].rgb, unity_LightColor[1].rgb, unity_LightColor[2].rgb, unity_LightColor[3].rgb,
-			        unity_4LightAtten0, posWorld, normalWorld);
 				o.color = v.color;
-				o.color += UNITY_LIGHTMODEL_AMBIENT - .6;
+				o.color += UNITY_LIGHTMODEL_AMBIENT - 0.5;
 				
 				float distance = length(mul(UNITY_MATRIX_MV,v.vertex));
 	
@@ -58,10 +55,12 @@ Shader "custom/lit" {
 				o.uv *= distance + o.vertex.w * ( UNITY_LIGHTMODEL_AMBIENT.a * 8) / distance / 2;
 				o.normal = distance + o.vertex.w * (UNITY_LIGHTMODEL_AMBIENT.a * 8) / distance / 2;
 				
-				float4 fogColor = unity_FogColor;
 				float fogDensity = (unity_FogEnd - distance) / (unity_FogEnd - unity_FogStart);
+				float4 fogColor = unity_FogColor;
+				
 				o.normal.g = fogDensity;
 				o.normal.b = 1;
+				
 				o.fog = fogColor;
 				o.fog.a = clamp(fogDensity, 0, 1);
 
@@ -77,9 +76,9 @@ Shader "custom/lit" {
 
 			float4 frag(v2f IN) : COLOR
 			{
-                fixed4 color = tex2D(_MainTex, IN.uv / IN.normal.r) * IN.fog.a;
+                fixed4 color = tex2D(_MainTex, IN.uv / IN.normal.r) * IN.color * IN.fog.a;
                 fixed4 vertexLights = float4(clamp(IN.light.rgb, 0, 1), 1.0);
-                color.rgb *= vertexLights + IN.color;
+                color.rgb *= vertexLights + (IN.color * UNITY_LIGHTMODEL_AMBIENT);
 				color.rgb += IN.fog.rgb * (1 - IN.fog.a);
 				return color;
 			}
