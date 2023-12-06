@@ -5,7 +5,7 @@ Shader "custom/lit" {
 	}
 	SubShader
 	{
-		Tags { "LightMode" = "Vertex" }
+		Tags { "LightMode" = "Vertex" } // Legacy LightMode required to invoke ShadeVertexLightsFull()
 		LOD 200
 		
 		Pass
@@ -15,7 +15,6 @@ Shader "custom/lit" {
 
 			#pragma vertex vert
 			#pragma fragment frag
-			#pragma multi_compile_fwdbase
 			
             #include "UnityCG.cginc"
 
@@ -37,24 +36,30 @@ Shader "custom/lit" {
 			{
 				v2f o;
 
+				// Snap vertex positions to pixel locations
 				float4 snappedVertex = UnityObjectToClipPos(v.vertex);
 				o.vertex = snappedVertex;
-				o.vertex.xyz = snappedVertex.xyz / snappedVertex.w; // convert to normalised device coordinates
+				o.vertex.xyz = snappedVertex.xyz / snappedVertex.w; // Convert to normalised device coordinates
 				o.vertex.x = floor(160 * o.vertex.x) / 160; // Round x, adjusted for resolution
 				o.vertex.y = floor(120 * o.vertex.y) / 120; // Round y, adjusted for resolution
-				o.vertex.xyz *= snappedVertex.w; // convert back to projection-space
+				o.vertex.xyz *= snappedVertex.w; // Convert back to projection-space
 
+				// Handle vertex lighting
 				o.light = ShadeVertexLightsFull(v.vertex, v.normal, 8, true);
-				
+
+				// Adjust color with ambient light
 				o.color = v.color;
 				o.color += UNITY_LIGHTMODEL_AMBIENT - 0.5;
-				
+
+				// Transform vertex position into camera relative space
 				float distance = length(mul(UNITY_MATRIX_MV,v.vertex));
-	
+
+				// Handle affine texture mapping
 				o.uv = TRANSFORM_TEX(v.texcoord, _MainTex);
 				o.uv *= distance + o.vertex.w * ( UNITY_LIGHTMODEL_AMBIENT.a * 8) / distance / 2;
 				o.normal = distance + o.vertex.w * (UNITY_LIGHTMODEL_AMBIENT.a * 8) / distance / 2;
-				
+
+				// Handle fog
 				float fogDensity = (unity_FogEnd - distance) / (unity_FogEnd - unity_FogStart);
 				float4 fogColor = unity_FogColor;
 				
@@ -78,7 +83,7 @@ Shader "custom/lit" {
 			{
                 fixed4 color = tex2D(_MainTex, IN.uv / IN.normal.r) * IN.color * IN.fog.a;
                 fixed4 vertexLights = float4(clamp(IN.light.rgb, 0, 1), 1.0);
-                color.rgb *= vertexLights + (IN.color * UNITY_LIGHTMODEL_AMBIENT);
+                color.rgb *= vertexLights + IN.color * UNITY_LIGHTMODEL_AMBIENT;
 				color.rgb += IN.fog.rgb * (1 - IN.fog.a);
 				return color;
 			}

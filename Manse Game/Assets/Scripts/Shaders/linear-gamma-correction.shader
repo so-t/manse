@@ -31,12 +31,16 @@ Shader "custom/linear-gamma correction" {
 			v2f vert(appdata_full v)
 			{
 				v2f o;
-
+				
 				o.vertex = UnityObjectToClipPos(v.vertex);
+
+				// Adjust color upwards to account for gamma values being lost by Unity in color conversion
 				o.color = pow(v.color, 2.2);
-	
+
+				// Transform vertex position into camera relative space
 				float distance = length(mul(UNITY_MATRIX_MV,v.vertex));
-	
+				
+				// Handle affine texture mapping
 				o.uv = TRANSFORM_TEX(v.texcoord, _MainTex);
 				o.normal = distance + o.vertex.w * (UNITY_LIGHTMODEL_AMBIENT.a * 8) / distance / 2;
 

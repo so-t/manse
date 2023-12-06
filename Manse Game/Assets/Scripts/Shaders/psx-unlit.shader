@@ -35,25 +35,32 @@
 			{
 				v2f o;
 
+				// Snap vertex positions to pixel locations
 				float4 snappedVertex = UnityObjectToClipPos(v.vertex);
 				o.vertex = snappedVertex;
 				o.vertex.xyz = snappedVertex.xyz / snappedVertex.w; // convert to normalised device coordinates (NDC)
 				o.vertex.x = floor(160 * o.vertex.x) / 160; // Round x, adjusted for resolution
 				o.vertex.y = floor(120 * o.vertex.y) / 120; // Round y, adjusted for resolution
 				o.vertex.xyz *= snappedVertex.w; // convert back to projection-space
+
+				// Adjust color with ambient light
 				o.color = v.color + UNITY_LIGHTMODEL_AMBIENT;
 
+				// Transform vertex position into camera relative space
 				float distance = length(mul(UNITY_MATRIX_MV,v.vertex));
-	
+
+				// Handle affine texture mapping
 				o.uv = TRANSFORM_TEX(v.texcoord, _MainTex);
 				o.uv *= distance + o.vertex.w * (UNITY_LIGHTMODEL_AMBIENT.a * 8) / distance / 2;
 				o.normal = distance + o.vertex.w * (UNITY_LIGHTMODEL_AMBIENT.a * 8) / distance / 2;
-
 				
+				// Handle fog
 				float4 fogColor = unity_FogColor;
 				float fogDensity = (unity_FogEnd - distance) / (unity_FogEnd - unity_FogStart);
+				
 				o.normal.g = fogDensity;
 				o.normal.b = 1;
+				
 				o.fogColor = fogColor;
 				o.fogColor.a = clamp(fogDensity,0,1);
 
